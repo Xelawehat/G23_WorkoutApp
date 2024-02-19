@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AuthStyles = StyleSheet.create({
 	container:
@@ -6,24 +7,26 @@ const AuthStyles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-	},
-
-	input:
-	{
-		height: 40,
-		width: '100%',
-		borderColor: 'gray',
-		borderWidth: 0.5,
-		borderRadius: 5,
-		marginBottom: 10,
-		paddingHorizontal: 10,
-		textAlign: 'center',
+		position: 'relative',
 	},
 
 	loginButton:
 	{
+		height: 40,
+  		width: '90%',
+  		borderWidth: 1,
+ 		borderRadius: 10, 
+  		borderColor: '#5C6BC0',
+  		backgroundColor: '#5C6BC0',
+  		justifyContent: 'center',
+  		alignItems: 'center',
+  	},
 
-	},
+  	loginButtonText:
+  	{
+  		color: '#FFFFFF',
+  		fontSize: 16,
+  	},
 
 	forgotPassButton:
 	{
@@ -32,7 +35,20 @@ const AuthStyles = StyleSheet.create({
 
 	createAccountButton:
 	{
+		height: 40,
+  		width: '75%',
+  		borderWidth: 1,
+ 		borderRadius: 5, 
+  		borderColor: '#FFC107',
+  		backgroundColor: 'transparent',
+  		justifyContent: 'center',
+  		alignItems: 'center',
+	},
 
+	createAccountButtonText:
+	{
+		color: '#FFC107',
+		fontSize: 18,
 	},
 
 });
