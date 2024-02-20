@@ -1,16 +1,20 @@
 import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+/*
+	Styles for Base Components
+*/
 const BaseComponentStyle = StyleSheet.create({
+
+	
 	primaryBackground:
 	{
 		...StyleSheet.absoluteFillObject,
 	},
-
 	primaryBackgroundMask:
 	{
 		...StyleSheet.absoluteFillObject,
-		backgroundColor: 'rgba(0,0,0,0.4)',
+		backgroundColor: 'rgba(0,0,0,0.5)',
 	},
 
 	primaryTextInputContainer:
@@ -25,25 +29,23 @@ const BaseComponentStyle = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: 'rgba(0,0,0,0.5)',
 	},
-
 	primaryTextInputPlaceholder:
 	{
 		position: 'absolute',
 		left: 10,
-		fontSize: 20,
+		fontSize: 16,
 		color: '#CCCCCC',
-		transitionDuration: '0.1s',
 		justifyContent: 'center',
 		textAlign: 'left',
 	},
-
 	primaryTextInputPlaceholderShift:
 	{
+		position: 'absolute',
+		left: 10,
 		top: 5,
-		fontSize: 16,
+		fontSize: 12,
 		color: '#FFF',
 	},
-
 	primaryTextInputText:
 	{
 		fontSize: 16,
@@ -52,6 +54,8 @@ const BaseComponentStyle = StyleSheet.create({
 		justifyContent: 'center',
 		textAlign: 'left',
 	},
+
+
 });
 
 export default BaseComponentStyle;

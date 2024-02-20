@@ -21,7 +21,6 @@ const AuthStyles = StyleSheet.create({
   		justifyContent: 'center',
   		alignItems: 'center',
   	},
-
   	loginButtonText:
   	{
   		color: '#FFFFFF',
@@ -44,7 +43,6 @@ const AuthStyles = StyleSheet.create({
   		justifyContent: 'center',
   		alignItems: 'center',
 	},
-
 	createAccountButtonText:
 	{
 		color: '#FFC107',

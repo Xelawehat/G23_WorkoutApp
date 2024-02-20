@@ -3,7 +3,7 @@ import {View, TextInput, Button, Alert } from 'react-native';
 import AuthViewModel from './AuthViewModel';
 import { useNavigation } from '@react-navigation/native';
 import AuthStyles from './AuthStyles';
-import {PrimaryBackground} from '../BaseComponents/BaseComponents';
+import * as BC from '../BaseComponents/BaseComponents';
 
 const AuthSignUpView = () =>
 {
@@ -49,16 +49,16 @@ const AuthSignUpView = () =>
 	}
 
 	return (
-		<PrimaryBackground>
+		<BC.PrimaryBackground>
 		<View style={AuthStyles.container}>
 			<Button title="Back to login" onPress={returnLogin} />
-				<TextInput
+				<BC.PrimaryTextInput
 					style={AuthStyles.input}
 					placeholder="Username"
 					value={user}
 					onChangeText={setUser}
 				/>
-				<TextInput
+				<BC.PrimaryTextInput
 					style={AuthStyles.input}
 					placeholder="Password"
 					value={pass}
@@ -67,7 +67,7 @@ const AuthSignUpView = () =>
 				/>
 				<Button title="Sign Up" onPress={attemptSignUp} />
 		</View>
-		</PrimaryBackground>
+		</BC.PrimaryBackground>
 	);
 };
 

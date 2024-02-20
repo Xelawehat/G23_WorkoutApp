@@ -1,8 +1,14 @@
-import React, {useState} from 'react';
-import { TextInput, Text, View, StyleSheet } from 'react-native';
+import React, {useRef, useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import { TextInput, Text, View, StyleSheet, TextInputProps} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import BaseComponentStyle from './BaseComponentStyle'
 
+
+/*
+  Typescript requires that components have interfaces for type safety
+  and to get a better view of what props are allowed
+*/
 interface GradientBackgroundProps 
 {
   colors?: string[]; // Array of colors for the gradient
@@ -10,13 +16,21 @@ interface GradientBackgroundProps
   children?: React.ReactNode; // Optional children components
 }
 
-interface PrimaryTextInputProps
+interface PrimaryTextInputProps extends TextInputProps
 {
   placeholder?: string;
-  secureTextEntry?: boolean;
+  style?:
+  {
+    container?: ViewStyle;
+    placeholder?: TextStyle;
+    input?: TextStyle;
+  };
 }
 
-const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = ['#3F51B5','#03A9F4'], style, children }) => {
+/*
+    Component that sets the background when used
+*/
+export const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = ['#3F51B5','#03A9F4'], style, children }) => {
   return (
     <LinearGradient colors={colors} style={[BaseComponentStyle.primaryBackground, style]}>
       <View style={[BaseComponentStyle.primaryBackgroundMask]}>
@@ -26,29 +40,34 @@ const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = ['#3F51B
   );
 };
 
-const PrimaryTextInput: React.FC<{placeholder: string}> = ({placeholder, secureTextEntry = false, style}) => {
+/*
+    Custom text input component
+*/
+export const PrimaryTextInput: React.FC<{placeholder: string}> = ({placeholder, style, ...props}) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [text, setText] = useState('');
+  const [hasText, setHasText] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const handleBlur = () => {
+    setIsFocused(false);
+    setHasText(Boolean(props.value));
+  }
+
+  const containerStyle = [BaseComponentStyle.primaryTextInputContainer, {height: (isFocused || hasText) ? 60 : 50}, {borderColor: isFocused ? '#FFF' : '#333333'}, style];
+  const placeholderStyle = [BaseComponentStyle.primaryTextInputPlaceholder, (isFocused || hasText) ? BaseComponentStyle.primaryTextInputPlaceholderShift : null];
+  const inputStyle = [BaseComponentStyle.primaryTextInputText];
 
   return (
-    <View style={[BaseComponentStyle.primaryTextInputContainer, {height: isFocused || text ? 60 : 50}, {borderColor: isFocused ? '#FFF' : '#333333'}, style]}>
-      <Text style={[BaseComponentStyle.primaryTextInputPlaceholder, isFocused || text ? BaseComponentStyle.primaryTextInputPlaceholderShift : null]}>
+    <View style={containerStyle}>
+      <Text style={placeholderStyle}>
         {placeholder}
       </Text>
       <TextInput
-        style={BaseComponentStyle.primaryTextInputText}
+        style={inputStyle}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        onChangeText={setText}
-        secureTextEntry={secureTextEntry}
+        {...props}
       />
     </View>
   );
 };
-
-
-
-export {PrimaryBackground, PrimaryTextInput};
