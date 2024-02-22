@@ -6,7 +6,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 */
 const BaseComponentStyle = StyleSheet.create({
 
-	
 	primaryBackground:
 	{
 		...StyleSheet.absoluteFillObject,

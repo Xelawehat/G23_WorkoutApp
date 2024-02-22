@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import {View, TextInput, Button, Alert } from 'react-native';
-import AuthViewModel from './AuthViewModel';
+import {View, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import AuthViewModel from './AuthViewModel';
 import AuthStyles from './AuthStyles';
 import * as BC from '../BaseComponents/BaseComponents';
+import * as SUC from './SignUp/SignUpComponents';
 
 const AuthSignUpView = () =>
 {
@@ -50,23 +52,21 @@ const AuthSignUpView = () =>
 
 	return (
 		<BC.PrimaryBackground>
-		<View style={AuthStyles.container}>
-			<Button title="Back to login" onPress={returnLogin} />
-				<BC.PrimaryTextInput
-					style={AuthStyles.input}
-					placeholder="Username"
+			<View style={AuthStyles.signUpContainer}>
+				<SUC.SignUpInput
+					heading="What's your mobile number?"
+					subheading={"Enter the mobile number where you can be contacted.\nNo one will see this on your profile."}
+					placeholder="Mobile number"
 					value={user}
 					onChangeText={setUser}
+					keyboardType="phone-pad"
 				/>
-				<BC.PrimaryTextInput
-					style={AuthStyles.input}
-					placeholder="Password"
-					value={pass}
-					onChangeText={setPass}
-					secureTextEntry={true}
-				/>
-				<Button title="Sign Up" onPress={attemptSignUp} />
-		</View>
+				<TouchableOpacity onPress={returnLogin}>
+					<Icon name="arrow-back-ios" size={30} color="#FFF" style={AuthStyles.backArrow}/>
+				</TouchableOpacity>
+			<Button title="Sign Up" onPress={attemptSignUp} />
+			<Button title="Back to login" onPress={returnLogin} />
+			</View>
 		</BC.PrimaryBackground>
 	);
 };

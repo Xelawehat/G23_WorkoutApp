@@ -49,6 +49,21 @@ const AuthStyles = StyleSheet.create({
 		fontSize: 18,
 	},
 
+	signUpContainer:
+	{
+		flex: 1,
+		justifyContent: 'center',
+	},
+
+	backArrow:
+	{	
+		left: 20,
+		bottom: 10,
+		position: 'absolute',
+		justifyContent: 'center',
+  		alignItems: 'center',
+	}
+
 });
 
 export default AuthStyles;

@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import { TextInput, Text, View, StyleSheet, TextInputProps} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import BaseComponentStyle from './BaseComponentStyle'
+import BaseComponentStyle from './BaseComponentStyle';
 
 
 /*
@@ -42,6 +42,8 @@ export const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = [
 
 /*
     Custom text input component
+
+    -- Note: Must set the value in order for animation to work
 */
 export const PrimaryTextInput: React.FC<{placeholder: string}> = ({placeholder, style, ...props}) => {
   const [isFocused, setIsFocused] = useState(false);
