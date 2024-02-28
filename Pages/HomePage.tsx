@@ -3,10 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip'
 import moment from 'moment'
 
-// <Text>Beack to orignal</Text>
 const HomePage = () => {
   return (
-    <View>ff
+    <View>
       <Example/>
     </View>
   );
