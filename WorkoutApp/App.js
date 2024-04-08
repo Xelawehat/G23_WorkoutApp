@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import AuthNavigator from './UserAuthentication/AuthNavigator.js';
+
+import AuthNavigator from './Navigators/AuthNavigator.js';
 
 export default function App() {
   return (

@@ -1,29 +1,39 @@
 import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { COLOR } from './Colors';
+
 const AuthStyles = StyleSheet.create({
+
+	safeZone:
+	{
+		flex: 1,
+	},
+
 	container:
 	{
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		position: 'relative',
+		alignSelf: 'center',
+		width: '95%',
 	},
 
 	loginButton:
 	{
 		height: 40,
-  		width: '90%',
+  		width: '100%',
   		borderWidth: 1,
  		borderRadius: 10, 
-  		borderColor: '#5C6BC0',
-  		backgroundColor: '#5C6BC0',
+  		borderColor: COLOR.primaryButtonBackground,
+  		backgroundColor: COLOR.primaryButtonBackground,
   		justifyContent: 'center',
   		alignItems: 'center',
+  		margin: 5,
   	},
   	loginButtonText:
   	{
-  		color: '#FFFFFF',
+  		color: COLOR.primaryText,
   		fontSize: 16,
   	},
 
@@ -35,17 +45,17 @@ const AuthStyles = StyleSheet.create({
 	createAccountButton:
 	{
 		height: 40,
-  		width: '75%',
+  		width: '95%',
   		borderWidth: 1,
  		borderRadius: 5, 
-  		borderColor: '#FFC107',
-  		backgroundColor: 'transparent',
+  		borderColor: COLOR.secondaryButtonBackground,
+  		backgroundColor: COLOR.none,
   		justifyContent: 'center',
   		alignItems: 'center',
 	},
 	createAccountButtonText:
 	{
-		color: '#FFC107',
+		color: COLOR.secondaryText,
 		fontSize: 18,
 	},
 
@@ -59,7 +69,7 @@ const AuthStyles = StyleSheet.create({
 	{	
 		left: 20,
 		bottom: 10,
-		position: 'absolute',
+		position: 'relative',
 		justifyContent: 'center',
   		alignItems: 'center',
 	}

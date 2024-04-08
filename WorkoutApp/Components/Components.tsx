@@ -1,8 +1,9 @@
 import React, {useRef, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import { TextInput, Text, View, StyleSheet, TextInputProps} from 'react-native';
+import { TextInput, Text, View, StyleSheet, TextInputProps, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import BaseComponentStyle from './BaseComponentStyle';
+
+import ComponentStyle from '../Styles/ComponentStyles';
 
 
 /*
@@ -32,8 +33,8 @@ interface PrimaryTextInputProps extends TextInputProps
 */
 export const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = ['#3F51B5','#03A9F4'], style, children }) => {
   return (
-    <LinearGradient colors={colors} style={[BaseComponentStyle.primaryBackground, style]}>
-      <View style={[BaseComponentStyle.primaryBackgroundMask]}>
+    <LinearGradient colors={colors} style={[ComponentStyle.primaryBackground, style]}>
+      <View style={[ComponentStyle.primaryBackgroundMask]}>
       {children}
        </View>
     </LinearGradient>
@@ -55,21 +56,35 @@ export const PrimaryTextInput: React.FC<{placeholder: string}> = ({placeholder, 
     setHasText(Boolean(props.value));
   }
 
-  const containerStyle = [BaseComponentStyle.primaryTextInputContainer, {height: (isFocused || hasText) ? 60 : 50}, {borderColor: isFocused ? '#FFF' : '#333333'}, style];
-  const placeholderStyle = [BaseComponentStyle.primaryTextInputPlaceholder, (isFocused || hasText) ? BaseComponentStyle.primaryTextInputPlaceholderShift : null];
-  const inputStyle = [BaseComponentStyle.primaryTextInputText];
+  const tapOffKeyboard = () => {
+    if (isFocused)
+    {
+      Keyboard.dismiss();
+    }
+  }
+
+  const containerStyle = [ComponentStyle.primaryTextInputContainer, {height: (isFocused || hasText) ? 60 : 50}, {borderColor: isFocused ? '#FFF' : '#333333'}, style];
+  const placeholderStyle = [ComponentStyle.primaryTextInputPlaceholder, (isFocused || hasText) ? ComponentStyle.primaryTextInputPlaceholderShift : null];
+  const inputStyle = [ComponentStyle.primaryTextInputText];
 
   return (
-    <View style={containerStyle}>
-      <Text style={placeholderStyle}>
-        {placeholder}
-      </Text>
-      <TextInput
-        style={inputStyle}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        {...props}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={tapOffKeyboard}>
+      <View style={containerStyle}>
+        <Text style={placeholderStyle}>
+          {placeholder}
+        </Text>
+        <TextInput
+          style={inputStyle}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...props}
+        />
+        {isFocused && (
+          <TouchableWithoutFeedback onPress={tapOffKeyboard}>
+            <View style={ComponentStyle.primaryTextInputDynamicContainer}/>
+          </TouchableWithoutFeedback>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };

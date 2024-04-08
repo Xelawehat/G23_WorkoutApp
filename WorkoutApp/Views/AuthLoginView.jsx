@@ -1,9 +1,10 @@
 import React, { useState, useRef, forwardRef} from 'react';
 import { View, Text, TouchableOpacity, TextInput, Button, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AuthViewModel from './AuthViewModel';
-import AuthStyles from './AuthStyles';
-import * as BC from '../BaseComponents/BaseComponents';
+
+import AuthViewModel from '../UserAuthentication/AuthViewModel';
+import AuthStyles from '../Styles/AuthStyles';
+import * as Component from '../Components/Components';
 
 const AuthLoginView = () =>
 {
@@ -41,9 +42,9 @@ const AuthLoginView = () =>
 	}
 
 	return (
-		<BC.PrimaryBackground>
+		<Component.PrimaryBackground>
 			<View style={AuthStyles.container}>
-				<BC.PrimaryTextInput
+				<Component.PrimaryTextInput
 					style={AuthStyles.input}
 					placeholder="Username, email, or mobile number"
 					placeholderTextColor='#FFF'
@@ -51,7 +52,7 @@ const AuthLoginView = () =>
 					onChangeText={setUser}
 					selectionColor='#FFF'
 				/>
-				<BC.PrimaryTextInput
+				<Component.PrimaryTextInput
 					style={AuthStyles.input}
 					placeholder="Password"
 					placeholderTextColor='#FFF'
@@ -70,7 +71,7 @@ const AuthLoginView = () =>
 					<Text style={AuthStyles.createAccountButtonText}>Create new account</Text>				
 				</TouchableOpacity>
 			</View>
-		</BC.PrimaryBackground>
+		</Component.PrimaryBackground>
 	);
 };
 

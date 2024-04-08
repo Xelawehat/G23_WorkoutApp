@@ -1,13 +1,19 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
+import {COLOR} from './Colors';
+
+
+const screenDimensions = Dimensions.get('window');
 
 /*
 	Styles for Base Components
 */
-const BaseComponentStyle = StyleSheet.create({
+const ComponentStyle = StyleSheet.create({
 
 	primaryBackground:
 	{
+		flex: 1,
 		...StyleSheet.absoluteFillObject,
 	},
 	primaryBackgroundMask:
@@ -18,43 +24,62 @@ const BaseComponentStyle = StyleSheet.create({
 
 	primaryTextInputContainer:
 	{
-		width: '90%',
-		borderWidth: 0.5,
+		width: '100%',
+		borderWidth: 0.75,
 		borderRadius: 10,
-		margin: 5,
-		paddingHorizontal: 10,
+		marginVertical: 5,
 		textAlign: 'left',
-		color: '#FFFFFF',
+		color: COLOR.primaryText,
+		borderColor: COLOR.primaryText,
 		justifyContent: 'center',
 		backgroundColor: 'rgba(0,0,0,0.5)',
+		minHeight: 62,
 	},
 	primaryTextInputPlaceholder:
 	{
 		position: 'absolute',
-		left: 10,
+		left: 15,
 		fontSize: 16,
-		color: '#CCCCCC',
+		color: COLOR.thirdText,
 		justifyContent: 'center',
 		textAlign: 'left',
 	},
 	primaryTextInputPlaceholderShift:
 	{
 		position: 'absolute',
-		left: 10,
+		left: 15,
 		top: 5,
 		fontSize: 12,
-		color: '#FFF',
+		color: COLOR.primaryText,
 	},
 	primaryTextInputText:
 	{
 		fontSize: 16,
-		color: '#FFF',
+		color: COLOR.primaryText,
+		left: 15,
 		top: 5,
 		justifyContent: 'center',
 		textAlign: 'left',
 	},
+	primaryTextInputDynamicContainer:
+	{
+		position: 'absolute',
+		...screenDimensions,
+	},
+
+	container:
+	{
+		width: '100%',
+	},
+	signupHeading:
+	{
+		position: 'relative',
+		fontSize: 16,
+		color: COLOR.thirdText,
+		textAlign: 'left',
+	}
 
 
 });
 
-export default BaseComponentStyle;
+export default ComponentStyle;
