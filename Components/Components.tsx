@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import { TextInput, Text, View, StyleSheet, TextInputProps, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -22,9 +22,9 @@ interface PrimaryTextInputProps extends TextInputProps
   placeholder?: string;
   style?:
   {
-    container?: ViewStyle;
-    placeholder?: TextStyle;
-    input?: TextStyle;
+    containerStyle?: ViewStyle;
+    placeholderStyle?: TextStyle;
+    inputStyle?: TextStyle;
   };
 }
 
@@ -46,7 +46,7 @@ export const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = [
 
     -- Note: Must set the value in order for animation to work
 */
-export const PrimaryTextInput: React.FC<{placeholder: string}> = ({placeholder, style, ...props}) => {
+export const PrimaryTextInput: React.FC<PrimaryTextInputProps> = ({placeholder, style, ...props}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hasText, setHasText] = useState(false);
 
@@ -54,7 +54,7 @@ export const PrimaryTextInput: React.FC<{placeholder: string}> = ({placeholder, 
   const handleBlur = () => {
     setIsFocused(false);
     setHasText(Boolean(props.value));
-  }
+  };
 
   const tapOffKeyboard = () => {
     if (isFocused)

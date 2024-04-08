@@ -9,6 +9,7 @@ const screenDimensions = Dimensions.get('window');
 /*
 	Styles for Base Components
 */
+
 const ComponentStyle = StyleSheet.create({
 
 	primaryBackground:
