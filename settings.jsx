@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import { StyleSheet, SafeAreaView, View, ScrollView,
          Text, TouchableOpacity, Switch, Image,
+         Button,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-export default function Example() {
+export default function Example({ navigation }) {
   const [form, setForm] = useState({
     pushNotifications: false,
   });
@@ -24,9 +25,9 @@ export default function Example() {
               <View style={[styles.rowWrapper, styles.rowFirst]}>
                 <TouchableOpacity
                   onPress={() => {
-                    // handle onPress
                     alert('This will take you to an edit profile page\nthis should be similar to the page used in account creation (maybe the same page)')
-                    //Edit profile page should be laid out similar to the settings page and the welcome/login page
+                    //Edit profile page should be laid out similar to the settings page
+                    navigation.navigate('Profile')
                   }}
                   style={styles.row}>
                   <View
@@ -49,7 +50,7 @@ export default function Example() {
                       <FeatherIcon name="bell" size={20} />
                     </View>
 
-                    <Text style={styles.rowLabel}>Push Notifications</Text>
+                    <Text style={styles.rowLabel}>Notifications</Text>
 
                     <View style={styles.rowSpacer} />
 
@@ -69,7 +70,6 @@ export default function Example() {
                 <View style ={styles.rowWrapper}>
                     <TouchableOpacity
                         onPress={() => {
-                            //handle onPress
                             alert('To log, view, or plan workouts go to the calendar section')
                             //We may want to make this a whole page to show how to use the app
                         }}
@@ -90,7 +90,6 @@ export default function Example() {
                 <View style={styles.rowWrapper}>
                   <TouchableOpacity
                     onPress={() => {
-                      // handle onPress
                       alert('This application was created as a simple way to log, view, plan, and track workouts')
                     }}
                     style={styles.row}>
@@ -110,7 +109,6 @@ export default function Example() {
                 <View style ={styles.rowWrapper}>
                     <TouchableOpacity
                         onPress={() => {
-                            //handle onPress
                             alert('Created by:\nBrady, Nolan, Alex, Nick, Krystal')
                         }}
                         style={styles.row}>
