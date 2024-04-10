@@ -12,11 +12,11 @@ const SignUpStyle = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignSelf: 'center',
 		position: 'relative',
-		width: '95%',
+		width: '90%',
 	},
+
 	backArrow:
 	{
-		left: 10,
 		bottom: 20,
 		position: 'relative',
 		alignSelf: 'flex-start',
@@ -33,14 +33,14 @@ const SignUpStyle = StyleSheet.create({
 	{
 		fontSize: 28,
 		fontWeight: 'bold',
-		color: COLOR.thirdText,
+		color: COLOR.primaryText,
 		marginBottom: 10,
 	},
 	subheading:
 	{
 		marginBottom: 20,
 		fontSize: 16,
-		color: COLOR.thirdText,
+		color: COLOR.primaryText,
 	},
 
 	alreadyHaveContainer:
@@ -50,8 +50,26 @@ const SignUpStyle = StyleSheet.create({
 	alreadyHaveText:
 	{
 		textAlign: 'center',
-		color: COLOR.thirdText,
+		color: COLOR.primaryText,
 	},
+
+	nextButton:
+	{
+		height: 40,
+  		width: '100%',
+  		borderWidth: 1,
+ 		borderRadius: 10, 
+  		borderColor: COLOR.primaryButtonBackground,
+  		backgroundColor: COLOR.primaryButtonBackground,
+  		justifyContent: 'center',
+  		alignItems: 'center',
+	},
+	nextButtonText:
+	{
+		color: COLOR.primaryText,
+  		fontSize: 16,
+	},
+
 
 });
 

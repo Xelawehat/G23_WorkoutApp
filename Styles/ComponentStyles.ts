@@ -26,12 +26,12 @@ const ComponentStyle = StyleSheet.create({
 	primaryTextInputContainer:
 	{
 		width: '100%',
-		borderWidth: 0.75,
 		borderRadius: 10,
 		marginVertical: 5,
 		textAlign: 'left',
 		color: COLOR.primaryText,
 		borderColor: COLOR.primaryText,
+		borderWidth: 2,
 		justifyContent: 'center',
 		backgroundColor: 'rgba(0,0,0,0.5)',
 		minHeight: 62,
