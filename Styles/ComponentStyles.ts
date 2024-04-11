@@ -20,7 +20,7 @@ const ComponentStyle = StyleSheet.create({
 	primaryBackgroundMask:
 	{
 		...StyleSheet.absoluteFillObject,
-		backgroundColor: 'rgba(0,0,0,0.5)',
+		backgroundColor: 'rgba(0,0,0,0.3)',
 	},
 
 	primaryTextInputContainer:

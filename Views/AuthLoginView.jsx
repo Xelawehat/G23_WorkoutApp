@@ -33,7 +33,7 @@ const AuthLoginView = () =>
 
 	const sendToSignUp = () => 
 	{
-		navigation.navigate('SignUp')
+		navigation.navigate('SignUpStack')
 	}
 
 	const forgotPass = () =>
@@ -67,8 +67,10 @@ const AuthLoginView = () =>
 					<Text style={AuthStyles.loginButtonText}>Login</Text>				
 				</TouchableOpacity>
 				<Button title="Forgot Password?" onPress={forgotPass}/>
+			</View>
+			<View style={AuthStyles.createAccountContainer}>
 				<TouchableOpacity onPress={sendToSignUp} style={AuthStyles.createAccountButton}>
-					<Text style={AuthStyles.createAccountButtonText}>Create new account</Text>				
+						<Text style={AuthStyles.createAccountButtonText}>Create new account</Text>				
 				</TouchableOpacity>
 			</View>
 		</Component.PrimaryBackground>

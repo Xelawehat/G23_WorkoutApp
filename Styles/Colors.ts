@@ -8,6 +8,11 @@
 export interface Colors {
 	none: string;
 
+	gradientColorOne: string;
+	gradientColorTwo: string;
+
+	gradientColors: string[];
+
 	primaryText: string;
 	secondaryText: string;
 	thirdText: string;
@@ -19,6 +24,11 @@ export interface Colors {
 export const COLOR: Colors  = {
 
 	none: 'transparent',
+
+	gradientColors: ['#3F51B5','#03A9F4', '#FFFFFF'],
+
+	gradientColorOne: '#3F51B5',
+	gradientColorTwo: '#03A9F4',
 
 	primaryText: '#FFFFFF',
 	secondaryText: '#FFC107',

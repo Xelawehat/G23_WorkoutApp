@@ -6,46 +6,31 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Component from '../../Components/Components';
 import * as SignUpComponent from '../../Components/SignUpComponents';
 import AuthViewModel from '../../UserAuthentication/AuthViewModel';
-import { isValidEmail } from '../../Utils/DataVerify';
+import { isValidPassword } from '../../Utils/DataVerify';
 
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 
-const EmailView = () =>
+const PasswordView = () =>
 {
 	const navigation = useNavigation();
-	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-	const returnLoginArrow = () => {
-		Alert.alert(
-			'Do you want to stop creating your account?',
-			'If you stop now, you\'ll lose any progress you\'ve made.',
-			[
-				{
-					text: 'Stop creating account',
-					onPress: () => {
-						navigation.navigate('Login');
-						console.log('Stopped account creation going back to login');
-					}
-				},
-				{
-					text: 'Continue creating account',
-					onPress: () => console.log('Continued account creation')
-				}
-			]
-		)
-
+	const backArrow = () => {
+		navigation.navigate('UsernameView');
 	};
 
+	// Checks that password is valid if not shows user why not
 	const nextButton = () =>
 	{
-		if (isValidEmail(email))
+		let isPasswordValid = isValidPassword(password)
+		if (isPasswordValid.isValid)
 		{
-			navigation.navigate('UsernameView');
+			//navigation.navigate('AgeView')
 		}
 		else
 		{
-			Alert.alert('Email is invalid or missing');
+			Alert.alert(`${isPasswordValid.reason}`);
 		}
 	};
 
@@ -53,15 +38,15 @@ const EmailView = () =>
 		<Component.PrimaryBackground>
 			<SafeAreaView style={Styles.safeZone}>
 				<View style={SignUpStyle.container}>
-					<TouchableOpacity onPress={returnLoginArrow}>
+					<TouchableOpacity onPress={backArrow}>
 						<Icon name="arrow-back-ios" color="#FFF" style={SignUpStyle.backArrow}/>
 					</TouchableOpacity>
 					<SignUpComponent.SignUpInput
-						heading="What's your email?"
-						subheading={"Enter the email where you can be contacted.\nNo one will see this on your profile."}
-						placeholder="Email"
-						value={email}
-						onChangeText={setEmail}
+						heading="Good Password?"
+						subheading={"Try and pick something secure...\nyour data matters."}
+						placeholder="Password"
+						value={password}
+						onChangeText={setPassword}
 						style={{
 							container: SignUpStyle.input,
 							heading: SignUpStyle.heading,
@@ -77,4 +62,4 @@ const EmailView = () =>
 	);
 };
 
-export default EmailView;
+export default PasswordView;

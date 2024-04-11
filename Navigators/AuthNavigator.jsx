@@ -1,7 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
 import AuthLoginView from '../Views/AuthLoginView';
-import EmailView from '../Views/SignUpViews/EmailView';
+import SignUpStack from './SignUpStack';
+
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,7 @@ const AuthNavigator = () =>
 			screenOptions={{headerShown: false}}
 		>
 			<Stack.Screen name="Login" component={AuthLoginView}/>
-			<Stack.Screen name="SignUp" component={EmailView}/>
+			<Stack.Screen name="SignUpStack" component={SignUpStack}/>
 		</Stack.Navigator>
 	);
 };

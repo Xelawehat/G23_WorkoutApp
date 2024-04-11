@@ -12,7 +12,7 @@ const SignUpStyle = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignSelf: 'center',
 		position: 'relative',
-		width: '90%',
+		width: '92%',
 	},
 
 	backArrow:

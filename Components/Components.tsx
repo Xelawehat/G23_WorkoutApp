@@ -4,6 +4,7 @@ import { TextInput, Text, View, StyleSheet, TextInputProps, TouchableWithoutFeed
 import {LinearGradient} from 'expo-linear-gradient';
 
 import ComponentStyle from '../Styles/ComponentStyles';
+import { COLOR } from '../Styles/Colors';
 
 
 /*
@@ -31,7 +32,7 @@ interface PrimaryTextInputProps extends TextInputProps
 /*
     Component that sets the background when used
 */
-export const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = ['#3F51B5','#03A9F4'], style, children }) => {
+export const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = COLOR.gradientColors, style, children }) => {
   return (
     <LinearGradient colors={colors} style={[ComponentStyle.primaryBackground, style]}>
       <View style={[ComponentStyle.primaryBackgroundMask]}>

@@ -17,7 +17,15 @@ const AuthStyles = StyleSheet.create({
 		alignSelf: 'center',
 		alignItems: 'center',
 		alignSelf: 'center',
-		width: '95%',
+		width: '92%',
+	},
+
+	createAccountContainer:
+	{
+		width: '92%',
+		alignItems: 'center',
+		alignSelf: 'center',
+		marginBottom: 75,
 	},
 
 	loginButton:
@@ -46,7 +54,7 @@ const AuthStyles = StyleSheet.create({
 	createAccountButton:
 	{
 		height: 40,
-  		width: '95%',
+  		width: '100%',
   		borderWidth: 1,
  		borderRadius: 5, 
   		borderColor: COLOR.secondaryButtonBackground,

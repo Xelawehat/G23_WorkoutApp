@@ -6,46 +6,29 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Component from '../../Components/Components';
 import * as SignUpComponent from '../../Components/SignUpComponents';
 import AuthViewModel from '../../UserAuthentication/AuthViewModel';
-import { isValidEmail } from '../../Utils/DataVerify';
+import { isValidUsername } from '../../Utils/DataVerify';
 
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 
-const EmailView = () =>
+const UsernameView = () =>
 {
 	const navigation = useNavigation();
-	const [email, setEmail] = useState('');
+	const [username, setUsername] = useState('');
 
-	const returnLoginArrow = () => {
-		Alert.alert(
-			'Do you want to stop creating your account?',
-			'If you stop now, you\'ll lose any progress you\'ve made.',
-			[
-				{
-					text: 'Stop creating account',
-					onPress: () => {
-						navigation.navigate('Login');
-						console.log('Stopped account creation going back to login');
-					}
-				},
-				{
-					text: 'Continue creating account',
-					onPress: () => console.log('Continued account creation')
-				}
-			]
-		)
-
+	const backArrow = () => {
+		navigation.navigate('EmailView');
 	};
 
 	const nextButton = () =>
 	{
-		if (isValidEmail(email))
+		if (isValidUsername(username))
 		{
-			navigation.navigate('UsernameView');
+			navigation.navigate('PasswordView')
 		}
 		else
 		{
-			Alert.alert('Email is invalid or missing');
+			Alert.alert('Username is taken or missing');
 		}
 	};
 
@@ -53,15 +36,15 @@ const EmailView = () =>
 		<Component.PrimaryBackground>
 			<SafeAreaView style={Styles.safeZone}>
 				<View style={SignUpStyle.container}>
-					<TouchableOpacity onPress={returnLoginArrow}>
+					<TouchableOpacity onPress={backArrow}>
 						<Icon name="arrow-back-ios" color="#FFF" style={SignUpStyle.backArrow}/>
 					</TouchableOpacity>
 					<SignUpComponent.SignUpInput
-						heading="What's your email?"
-						subheading={"Enter the email where you can be contacted.\nNo one will see this on your profile."}
-						placeholder="Email"
-						value={email}
-						onChangeText={setEmail}
+						heading="What's your username?"
+						subheading={"Don't worry you can change this, and this is unique to you"}
+						placeholder="Username"
+						value={username}
+						onChangeText={setUsername}
 						style={{
 							container: SignUpStyle.input,
 							heading: SignUpStyle.heading,
@@ -77,4 +60,4 @@ const EmailView = () =>
 	);
 };
 
-export default EmailView;
+export default UsernameView;
