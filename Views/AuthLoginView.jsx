@@ -20,6 +20,7 @@ const AuthLoginView = () =>
 		if (attempt)
 		{
 			Alert.alert('Login successful');
+			navigation.navigate(`Home`);
 			console.log('Logging in');
 			console.log('User', user);
 			console.log('Pass', pass);

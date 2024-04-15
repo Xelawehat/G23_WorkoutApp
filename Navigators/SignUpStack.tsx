@@ -4,6 +4,8 @@ import EmailView from '../Views/SignUpViews/EmailView';
 import UsernameView from '../Views/SignUpViews/UsernameView';
 import PasswordView from '../Views/SignUpViews/PasswordView';
 
+import AuthNavigator from './AuthNavigator';
+
 const Stack = createStackNavigator();
 
 const SignUpStack = () => {

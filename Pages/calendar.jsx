@@ -165,7 +165,7 @@ const CalendarPage = ({ navigation }) => {
         style={{ height: 350, paddingTop: 25, paddingBottom: 25 }}
         calendarColor={'white'}
         calendarHeaderStyle={{ color: 'black', fontSize: 22 }}
-        dateNumberStyle={{ color: 'black', fontSize: 20 }}
+        ateNumberStyle={{ color: 'black', fontSize: 20 }}
         dateNameStyle={{ color: 'black', fontSize: 12 }}
         disabledDateNameStyle={{ color: 'grey' }}
         disabledDateNumberStyle={{ color: 'grey' }}

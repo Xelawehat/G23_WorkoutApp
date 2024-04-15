@@ -41,7 +41,7 @@ const EmailView = () =>
 	{
 		if (isValidEmail(email))
 		{
-			navigation.navigate('UsernameView');
+			navigation.navigate('UsernameView', { email });
 		}
 		else
 		{

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import exercisesData from './exercises.json';
+import axios from 'axios';
+
+//  Put your id address:
+let currentIpAddress = '__here__:5000';
 
 const CreateWorkoutScreen = () => {
   // State variables
@@ -31,20 +35,65 @@ const CreateWorkoutScreen = () => {
   };
 
   // Function to handle saving the workout
-  const saveWorkout = () => {
+  const saveWorkout = async () => {
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
         alert('Must enter a workout name.');
         return;
     }
-    if (selectedExercises.length === 0) {
-        alert('Must add at least one exercise to the workout.');
-        return;
-    }
+    //  TODO: Uncomment this when icons are scrollable
+    // if (selectedExercises.length === 0) {
+    //     alert('Must add at least one exercise to the workout.');
+    //     return;
+    // }
   
+    //  BACKEND CONNECTION
     // If all validations pass, proceed with saving the workout
     // Implement saving logic here, can involve sending data to a server, storing in local storage, etc.
-    console.log('Workout saved:', { workoutName, selectedExercises });
+
+    //Dummy Data
+    const workoutData = {
+      "name": "Cardio Blast",
+      "time": "2024-04-14T06:30:00.000Z",
+      "difficulty": 3,
+      "favorite": true,
+      "color": "#FF6347",
+      "timesCompleted": 3,
+      "date": "2024-04-14T06:30:00.000Z",
+      "exercises": [
+        {
+          "name": "Treadmill Running",
+          "muscleGroup": "Legs",
+          "sets": 1,
+          "reps": 1,  // Represents 30 minutes of continuous running
+          "weight": 0,
+          "difficulty": 3,
+          "personalBest": 5, // Represents best time or distance covered
+          "favorite": false
+        }
+      ]
+    }    
+    
+
+    //  Try to add a workout after the button is clicked here - send to db
+    try {
+	  
+      //  TODO: a user already in the db is currnetly hardcoded to test if this works.
+              //  find out how to replace it with the current user
+			const response = await axios({
+			  method: 'post',
+			  url: `http://${currentIpAddress}/users/661d0c98e9bf155e020def5e/workouts`,
+        headers: {
+          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+        },
+			  data:workoutData
+			});
+	  
+			console.log('Response:', response.data);
+      console.log('Workout saved:', { workoutData, selectedExercises });
+		  } catch (error) {
+			console.error('Error adding workout:', error.response.data);
+		  }
   };
 
   return (

@@ -11,22 +11,49 @@ import { isValidPassword } from '../../Utils/DataVerify';
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 
-const PasswordView = () =>
+const PasswordView = ({ route }) =>
 {
 	const navigation = useNavigation();
 	const [password, setPassword] = useState('');
+	const { email, username } = route.params;
 
 	const backArrow = () => {
 		navigation.navigate('UsernameView');
 	};
 
 	// Checks that password is valid if not shows user why not
-	const nextButton = () =>
+	const nextButton = async () =>
 	{
 		let isPasswordValid = isValidPassword(password)
+
+		//	TEST if variables persist
+		// console.log(email);
+		// console.log(username);
+		// console.log(password);
 		if (isPasswordValid.isValid)
 		{
 			//navigation.navigate('AgeView')
+			//	Attempt the login
+			const signup = await AuthViewModel.createUser(email, username, password);
+
+			//	If successful
+			if (signup)
+				{
+					Alert.alert(`Welcome ${username}`);
+					console.log('Logging in');
+					console.log('Email', email);
+					console.log('User', username);
+					console.log('Pass', password);
+					navigation.navigate(`Home`);
+				}
+				else
+				{
+					Alert.alert('Login Failed');
+				}
+
+			Alert.alert(`Account creation successful.`);
+			navigation.navigate(`Home`);
+			
 		}
 		else
 		{

@@ -8,9 +8,9 @@ class AuthViewModel
 		return await AuthModel.loginUser(user, pass)
 	}
 
-	static async createUser(user, pass)
+	static async createUser(email, user, pass)
 	{
-		return await AuthModel.createUser(user, pass)
+		return await AuthModel.createUser(email, user, pass)
 	}
 }
 
