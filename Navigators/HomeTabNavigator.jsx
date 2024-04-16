@@ -9,6 +9,8 @@ import SettingsPage from '../Pages/settings';
 import CalendarPage from '../Pages/calendar'
 import CreatedWorkout from '../Pages/createWorkoutScreen'
 import WorkoutDetailsPage from '../Pages/workoutDetails'
+import EditWorkoutScreen from '../Pages/editWorkoutScreen';
+import ProfilePage from '../Pages/profile'
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -23,8 +25,26 @@ const CalendarStack = () => (
     <Stack.Screen name="Calendar" component={CalendarPage} />
     <Stack.Screen name="CreateWorkout" component={CreatedWorkout} />
     <Stack.Screen name="WorkoutDetails" component={WorkoutDetailsPage} />
+    <Stack.Screen name="EditWorkout" component={EditWorkoutScreen} />
   </Stack.Navigator>
 );
+
+function SettingsNavigator() {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name='Settings' component={SettingsPage} />
+      <Stack.Screen name='Profile' component={ProfilePage} />
+    </Stack.Navigator>
+  )
+}
+
+function HomeNavigator() {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name='Home' component={HomePage} />
+    </Stack.Navigator>
+  )
+}
 
 export default function HomeTabNavigator() {
   return (
@@ -36,13 +56,13 @@ export default function HomeTabNavigator() {
                 <MaterialCommunityIcons name="calendar-month" color={"black"} size={26}/>
             ),
         }}/>
-      <Tab.Screen name="Home" component={HomePage}            //Home Screen
+      <Tab.Screen name="Home" component={HomeNavigator}            //Home Screen
       options={{
         tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={"black"} size={26}/>
         ),
     }}/>
-      <Tab.Screen name="Settings" component={SettingsPage}      // Settings Screen
+      <Tab.Screen name="Settings" component={SettingsNavigator}      // Settings Screen
       options={{
         tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account-settings" color={"black"} size={26}/>

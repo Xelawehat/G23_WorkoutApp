@@ -1,28 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Flatlist, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import exercisesData from './exercises.json';
+import React, { useRef } from 'react';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, ScrollView } from 'react-native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 const WorkoutDetailsPage = ({ route }) => {
   // State variables
+  const navigation = useNavigation();
   const { workout } = route.params; // Extract workout details from navigation params
-  // Render the workout details UI here
+  const scrollViewRef = useRef(null);
+
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    if (offsetY <= -50) { // Arbitrary threshold for detecting pull-down
+      console.log('pulled up')
+      navigation.navigate('EditWorkoutScreen', { workout }); // Navigate to EditWorkoutScreen
+      
+      console.log('This is route', route)
+      //route.navigation.navigate('EditWorkout', { workout });
+    }
+  };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+      ref={scrollViewRef}
+      onScroll={handleScroll}
+      scrollEventThrottle={16} // Adjust as needed for performance
+      >
       <View style={styles.header}>
-        <Text style={styles.workoutName}>{workout.Name}</Text>
-        <Text style={styles.workoutTime}>Time: {workout.Time} minutes</Text>
-        <Text style={styles.workoutDate}>Date: {workout.Date}</Text>
-        <Text style={styles.workoutDate}>
-            Testing the test:
-            {workout.Exercises ? (workout.Exercises.map((exercise, index) => (
-            <Text key={index}>
-                Exercise Name: {exercise.Name}, Sets: {exercise.Sets}, Reps: {exercise.Reps}, Weight: {exercise.Weight} lbs
-            </Text>
-            ))) : (<Text>No exercises found</Text>)}
-        </Text>
+        <Text style={styles.workoutName}>{workout.name}</Text>
+        <Text style={styles.workoutTime}>Time: {workout.time} minutes</Text>
+        <Text style={styles.workoutDate}>Date: {workout.date}</Text>
+        {/* {<Text key={index}>
+                Exercise Name: {exercise.name} {"\n\t"} Sets: {exercise.sets}, Reps: {exercise.sets}, Weight: {exercise.Weight} lbs {"\n"}
+            </Text>} */}
       </View>
-    </View>
+      
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -54,17 +68,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-// Want to add under text but causing errors
-/*<Flatlist
-        data={workout.Exercises}
-        renderItem={({ item }) => (
-          <View style={styles.exerciseItem}>
-            <Text style={styles.exerciseName}>{item.Name}</Text>
-            <Text>Sets: {item.Sets}, Reps: {item.Reps}, Weight: {item.Weight} lbs</Text>
-          </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />*/
 
 export default WorkoutDetailsPage;

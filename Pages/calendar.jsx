@@ -1,119 +1,116 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Calendar } from 'react-native-calendars';
 import { FontAwesome } from '@expo/vector-icons';
 import exercisesData from './exercises.json';
+import { Workout, Exercise, Sets } from '../Models/workoutModel'
 //import createdWorkout from './Pages/createWorkoutScreen'
 
 const CalendarPage = ({ navigation }) => {
   const workoutsArray = [
     {
-      Name: "Chest Day",
-      Time: "45",
-      Difficulty: "3",
-      Favorite: true,
-      TimesCompleted: "0",
-      Date: "2024-04-10", // format "year-month-day"
-      Exercises: [
+      name: "Chest Day",
+      time: "60 minutes",
+      difficulty: 3,
+      favorite: true,
+      color: "red",
+      timesCompleted: 0,
+      date: "2024-04-10",
+      exercises: [
         {
-          "Name": "Bench Press",
-          "MuscleGroup": ["Chest","Triceps"],
-          "Sets": "0",
-          "Reps": "0",
-          "Weight": "225",
-          "Difficulty": "0",
-          "PersonalBest": "0",
-          "Favorite": false
+          name: "Bench Press",
+          favorite: false,
+          muscleGroup: ["Chest", "Triceps"],
+          sets: [
+            { reps: 10, weight: 225 },
+            { reps: 10, weight: 225 },
+            // Add more sets if needed
+          ]
         },
         {
-          "Name": "Incline Bench Press",
-          "MuscleGroup": ["Chest","Triceps"],
-          "Sets": "0",
-          "Reps": "0",
-          "Weight": "0",
-          "Difficulty": "0",
-          "PersonalBest": "0",
-          "Favorite": false
+          name: "Incline Bench Press",
+          favorite: false,
+          muscleGroup: ["Chest", "Triceps"],
+          sets: [
+            { reps: 10, weight: 185 },
+            { reps: 10, weight: 185 },
+            // Add more sets if needed
+          ]
         },
-        {
-          "Name": "Dumbbell Chest Press",
-          "MuscleGroup": ["Chest", "Triceps"],
-          "Sets": "0",
-          "Reps": "0",
-          "Weight": "0",
-          "Difficulty": "0",
-          "PersonalBest": "0",
-          "Favorite": false
-        }
+        // Add more exercises if needed
       ]
     },
-    // Add more workouts here
     {
-      Name: "Leg Day",
-      Time: "60",
-      Difficulty: "3",
-      Favorite: false,
-      TimesCompleted: "0",
-      Date: "2024-04-10",
-      Exercises: [
+      name: "Back Time",
+      time: "20 minutes",
+      difficulty: 2,
+      favorite: false,
+      color: "purple",
+      timesCompleted: 5,
+      date: "2024-04-10",
+      exercises: [
         {
-        "Name": "Deadlifts",
-        "MuscleGroup": ["Back","Legs"],
-        "Sets": "0",
-        "Reps": "0",
-        "Weight": "0",
-        "Difficulty": "0",
-        "PersonalBest": "0",
-        "Favorite": false
-      },
-      {
-        "Name": "Squats",
-        "MuscleGroup": ["Legs"],
-        "Sets": "0",
-        "Reps": "0",
-        "Weight": "0",
-        "Difficulty": "0",
-        "PersonalBest": "0",
-        "Favorite": false
-      }
-    ]
+          name: "Pull-ups",
+          favorite: false,
+          muscleGroup: ["Back", "Triceps"],
+          sets: [
+            { reps: 10, weight: 0 },
+            { reps: 10, weight: 0 },
+            // Add more sets if needed
+          ]
+        },
+        {
+          name: "Incline Bench Press",
+          favorite: false,
+          muscleGroup: ["Chest", "Triceps"],
+          sets: [
+            { reps: 10, weight: 185 },
+            { reps: 10, weight: 185 },
+            // Add more sets if needed
+          ]
+        },
+        // Add more exercises if needed
+      ]
     },
     {
-      Name: "Back and Bi'",
-      Time: "45",
-      Difficulty: "3",
-      Favorite: false,
-      TimesCompleted: "0",
-      Date: "2024-04-20",
-      Exercises: [
+      name: "Leg Day",
+      time: "90 minutes",
+      difficulty: 4,
+      favorite: false,
+      color: "blue",
+      timesCompleted: 0,
+      date: "2024-04-15",
+      exercises: [
         {
-        "Name": "Dumbbell Rows",
-        "MuscleGroup": ["Back", "Biceps"],
-        "Sets": "0",
-        "Reps": "0",
-        "Weight": "0",
-        "Difficulty": "0",
-        "PersonalBest": "0",
-        "Favorite": false
-      },
-      {
-        "Name": "Bent Over Rows",
-        "MuscleGroup": ["Back"],
-        "Sets": "0",
-        "Reps": "0",
-        "Weight": "0",
-        "Difficulty": "0",
-        "PersonalBest": "0",
-        "Favorite": false
-      }
-    ]
+          name: "Deadlifts",
+          favorite: false,
+          muscleGroup: ["Back", "Legs"],
+          sets: [
+            { reps: 8, weight: 135 },
+            { reps: 8, weight: 135 },
+            // Add more sets if needed
+          ]
+        },
+        {
+          name: "Squats",
+          favorite: false,
+          muscleGroup: ["Legs"],
+          sets: [
+            { reps: 10, weight: 185 },
+            { reps: 10, weight: 185 },
+            // Add more sets if needed
+          ]
+        },
+        // Add more exercises if needed
+      ]
     },
+    // Add more workout objects here
   ];
-
-  const [selected, setSelected] = useState(''); // For selected day in calendar
+  const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
   const [exercises, setExercises] = useState([]); // For json/flatlist
-  const [selectedWorkouts, setSelectedWorkouts] = useState(null); // for workouts scheduled
+  const [selectedWorkouts, setSelectedWorkouts] = useState([]); // for workouts scheduled
+  console.log(selectedWorkouts);
 
   useEffect(() => {
     setExercises(exercisesData); // Set the exercises data from the imported JSON file
@@ -121,20 +118,30 @@ const CalendarPage = ({ navigation }) => {
 
     // Marked Dates oject creation
     const markedDates = {};
+
+    // Loop to get each Dot on calendar
     workoutsArray.forEach(workout => {
-      markedDates[workout.Date] = { marked: true, dotColor: 'orange' };
+      workout.date = workout.date.split('T')[0]; // removes time
+      const { date, color } = workout;
+      console.log('Date:', date, 'Color:', color);
+      if (!markedDates[date]) {
+        markedDates[date] = { marked: true, dots: [{ color: color }] };
+      } else {
+        markedDates[date].dots.push({ color: color });
+      }
     });
+    
+    console.log('Marked Dates:', markedDates);
 
     const handleDayPress = day => {
       setSelected(day.dateString);
-      //alert('Add workout here')
-      //convertTypeAcquisitionFromJson
-      //navigation.navigate('CreateWorkout');
-      console.log('Day Selected',day);
-
+      console.log('Day Selected', day);
+      console.log('Selectedwokrouts1', selectedWorkouts);
+    
       // checks for workouts scheduled on selected day
-      const selectedWorkouts = workoutsArray.filter(workout => workout.Date === day.dateString);
-      setSelectedWorkouts(selectedWorkouts);
+      const filteredWorkouts = workoutsArray.filter(workout => workout.date === day.dateString);
+      console.log('Selected Workouts', filteredWorkouts); // Add this line for debugging
+      setSelectedWorkouts(filteredWorkouts);
     };
     
     const renderWorkoutInfo = () => {
@@ -150,9 +157,9 @@ const CalendarPage = ({ navigation }) => {
           {selectedWorkouts.map((workout, index) => (
             <TouchableOpacity key={index} style={styles.workoutItem}
             onPress={() => navigation.navigate('WorkoutDetails', { workout })}>
-              <Text style={styles.workoutName}>{workout.Name}</Text>
-              <Text style={styles.workoutTime}>~{workout.Time} minutes</Text>
-              <Text style={styles.workoutTime}>Date: {workout.Date}</Text>
+              <Text style={styles.workoutName}>{workout.name}</Text>
+              <Text style={styles.workoutTime}>~{workout.time} minutes</Text>
+              <Text style={styles.workoutTime}>Date: {workout.date}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -160,8 +167,10 @@ const CalendarPage = ({ navigation }) => {
     };
 
   return (
-    <View>
+    <SafeAreaView>
+      <ScrollView>
       <Calendar
+      markingType={'multi-dot'}
         style={{ height: 350, paddingTop: 25, paddingBottom: 25 }}
         calendarColor={'white'}
         calendarHeaderStyle={{ color: 'black', fontSize: 22 }}
@@ -175,7 +184,7 @@ const CalendarPage = ({ navigation }) => {
         onDayPress={handleDayPress}
 
         markedDates={{
-          [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
+          [selected]: { selected: true, disableTouchEvent: false, selectedDotColor: 'orange' }, // selectedcolor: 'purple'
           ...markedDates // Use the marked dates object above
         }}
       />
@@ -186,23 +195,8 @@ const CalendarPage = ({ navigation }) => {
           <FontAwesome name="plus-circle" size={36} color="blue" style={styles.addWorkoutIcon} />
         </TouchableOpacity>
       </View>
-
-      <FlatList
-        data={workoutsArray}
-        contentContainerStyle={{gap: 5}} // Gap Between each element
-        keyExtractor={(item => item.Name)}
-        renderItem={({ item }) => (
-          <View style={styles.listContainer}>
-            <Text style={styles.exerciseName}>
-              {item.Name} {item.Weight} lbs
-            </Text>
-            <Text style={styles.exerciseSubtitle}>
-              Sets: {item.Sets} Reps: {item.Reps}
-            </Text>
-          </View>
-        )}
-      />
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

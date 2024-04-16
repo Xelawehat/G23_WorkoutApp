@@ -1,45 +1,41 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import CalendarStrip from 'react-native-calendar-strip'
+import { View, SafeAreaView, Text, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import moment from 'moment'
 
-const HomePage = () => {
+const HomePage = ( { navigation }) => {
   return (
-    <View>
+    <SafeAreaView>
       <Text style={styles.welcome}>Welcome User</Text>
-      {/*if we have time change user to the users name*/}
-      <CalStrip/>
-      <Text style={styles.summary}>Summary</Text>
-      <Text style={styles.information}>Workouts Completed: 15</Text>
-      <Text style={styles.information}>Current Streak: 3</Text>
-      <Text style={styles.information}>Workouts/Week: 4.8</Text>
-      {/*This can be expanded or taken out, I couldn't remember the layout of the homepage*/}
-      {/*These are dummy values, pull the appropriate data from the database to fill in the blanks*/}
-      <Ionicons style={{paddingLeft: '25%'}}
-      name="barbell-outline" size={200}/>
-    </View>
+      <ScrollView>
+        <View style={ styles.button }>
+        <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('CreateWorkout')
+            }}
+            style={styles.logButton}>
+            <Text style={styles.buttonTitle}>Log a Workout</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={ styles.button }>
+        <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Calendar')
+            }}
+            style={styles.viewButton}>
+            <Text style={styles.buttonTitle}>View Todays Workouts</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.summary}>Summary</Text>
+        <Text style={styles.information}>Workouts Completed: 15</Text>
+        <Text style={styles.information}>Current Streak: 3</Text>
+        <Text style={styles.information}>Average Time: 45 minutes</Text>
+        {/*These are dummy values, pull the appropriate data from the database to fill in the blanks*/}
+        <Ionicons style={ styles.logo }
+        name="barbell-outline" size={200}/>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
-
-// Pre-built calendar prop
-const CalStrip = () => (
-  <View style={styles.calendar}>
-    <CalendarStrip
-      scrollable
-      style={{height: 200, paddingTop: 25, paddingBottom: 25}}
-      calendarColor={'white'}
-      calendarHeaderStyle={{color: 'black', fontSize: 22}}
-      dateNumberStyle={{color: 'black', fontSize: 20}}
-      dateNameStyle={{color: 'black', fontSize: 12}}
-      disabledDateNameStyle={{color: 'grey'}}
-      disabledDateNumberStyle={{color: 'grey'}}
-      highlightDateNumberStyle={{color: 'blue'}}
-      highlightDateNameStyle={{color: 'blue'}}
-      iconContainer={{flex: 0.1}}
-    />
-  </View>
-);
 
 const styles = StyleSheet.create({
   container: {
@@ -47,27 +43,59 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  calendar: {
-    flex: 1,
-    paddingTop: '8%',
+  button: {
+    paddingTop: '2.5%',
+    paddingBottom: '5%',
+    alignItems: 'center'
+  },
+  buttonTitle: {
+    fontSize: 20,
+  },
+  logButton: {
+    height: 50,
+    width: 150,
+    borderColor: 'black',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    paddingTop: '2.5%', 
+    paddingBottom: '2.5%'
+  },
+  viewButton: {
+    height: 50,
+    width: 250,
+    borderColor: 'black',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    paddingTop: '2.5%', 
+    paddingBottom: '2.5%'
   },
   welcome: {
-    paddingTop: '20%', 
+    paddingTop: '2.5%', 
     fontSize: 32, 
-    fontWeight: 'bold',
-    paddingLeft: '5%'
+    fontWeight: '700',
+    paddingLeft: '5%',
+    paddingBottom: '5%'
   },
   summary: {
-    paddingTop: '60%',
+    paddingTop: '2.5%',
     fontSize: 25,
     paddingLeft: '5%',
-    fontWeight: 'semibold',
-    color: 'black'
+    fontWeight: '600',
+    color: 'black',
+    paddingBottom: '5%',
   },
   information : {
-    paddingTop: '3%', 
+    paddingTop: '2.5%', 
     paddingLeft: '15%', 
-    fontSize: 18
+    fontSize: 20,
+    backgroundColor: 'white',
+    paddingBottom: '2.5%'
+  },
+  logo: {
+    paddingLeft: '25%',
+    paddingTop: '5%'
   }
 });
 

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import exercisesData from './exercises.json';
-import axios from 'axios';
 
-//  Put your id address:
-let currentIpAddress = '__here__:5000';
-
-const CreateWorkoutScreen = () => {
+const EditWorkoutScreen = ({ route }) => {
   // State variables
+  const { workout } = route.params; // Extract workout details from navigation params
   const [workoutName, setWorkoutName] = useState('');
   const [selectedExercises, setSelectedExercises] = useState([]);
   const [availableExercises, setAvailableExercises] = useState([]);
@@ -76,30 +72,11 @@ const CreateWorkoutScreen = () => {
     
 
     //  Try to add a workout after the button is clicked here - send to db
-    try {
-	  
-      //  TODO: a user already in the db is currnetly hardcoded to test if this works.
-              //  find out how to replace it with the current user
-			const response = await axios({
-			  method: 'post',
-			  url: `http://${currentIpAddress}/users/661d0c98e9bf155e020def5e/workouts`,
-        headers: {
-          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-        },
-			  data:workoutData
-			});
-	  
-			console.log('Response:', response.data);
-      console.log('Workout saved:', { workoutData, selectedExercises });
-      alert('Workout Saved');
-		  } catch (error) {
-			console.error('Error adding workout:', error.response.data);
-		  }
+   
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
       <Text style={styles.heading}>Create Custom Workout</Text>
       <TextInput
         style={styles.input}
@@ -139,7 +116,6 @@ const CreateWorkoutScreen = () => {
       <TouchableOpacity style={styles.saveButton} onPress={saveWorkout}>
         <Text style={styles.buttonText}>Save Workout</Text>
       </TouchableOpacity>
-      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -167,7 +143,6 @@ const styles = StyleSheet.create({
   picker: {
     height: 40,
     marginBottom: 10,
-    paddingBottom:  '60%',
   },
   addButton: {
     backgroundColor: 'lightgreen',
@@ -197,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateWorkoutScreen;
+export default EditWorkoutScreen;

@@ -53,8 +53,15 @@ class AuthModel
 			});
 	  
 			console.log('Data sent successfully:', response.data);
-			return true;	//	Maybe turn into a variable for better readability
-		  } catch (error) {
+
+			if(response.data.localeCompare("success") == 0){
+				return true;
+			}
+			else{
+				return false;
+			}
+			}
+		   catch (error) {
 			console.error('Error sending data:', error);
 		  }
 	}

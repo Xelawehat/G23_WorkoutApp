@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import { StyleSheet, SafeAreaView, View, ScrollView,
          Text, TouchableOpacity, Switch, Image,
+         Button,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import { useNavigation  } from '@react-navigation/native';
 
-export default function Example() {
+export default function Settings() {
   const [form, setForm] = useState({
     pushNotifications: false,
-  });
+  }); 
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={{ flex: 1}}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Settings</Text>
-        </View>
-
+      <View>
         <ScrollView>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Account</Text>
@@ -24,9 +23,7 @@ export default function Example() {
               <View style={[styles.rowWrapper, styles.rowFirst]}>
                 <TouchableOpacity
                   onPress={() => {
-                    // handle onPress
-                    alert('This will take you to an edit profile page\nthis should be similar to the page used in account creation (maybe the same page)')
-                    //Edit profile page should be laid out similar to the settings page and the welcome/login page
+                    navigation.navigate('Profile')
                   }}
                   style={styles.row}>
                   <View
@@ -49,7 +46,7 @@ export default function Example() {
                       <FeatherIcon name="bell" size={20} />
                     </View>
 
-                    <Text style={styles.rowLabel}>Push Notifications</Text>
+                    <Text style={styles.rowLabel}>Notifications</Text>
 
                     <View style={styles.rowSpacer} />
 
@@ -69,7 +66,6 @@ export default function Example() {
                 <View style ={styles.rowWrapper}>
                     <TouchableOpacity
                         onPress={() => {
-                            //handle onPress
                             alert('To log, view, or plan workouts go to the calendar section')
                             //We may want to make this a whole page to show how to use the app
                         }}
@@ -90,7 +86,6 @@ export default function Example() {
                 <View style={styles.rowWrapper}>
                   <TouchableOpacity
                     onPress={() => {
-                      // handle onPress
                       alert('This application was created as a simple way to log, view, plan, and track workouts')
                     }}
                     style={styles.row}>
@@ -110,7 +105,6 @@ export default function Example() {
                 <View style ={styles.rowWrapper}>
                     <TouchableOpacity
                         onPress={() => {
-                            //handle onPress
                             alert('Created by:\nBrady, Nolan, Alex, Nick, Krystal')
                         }}
                         style={styles.row}>
@@ -127,6 +121,16 @@ export default function Example() {
                     </TouchableOpacity>
                 </View>
               </View>
+              <View style={ styles.logout }>
+                <Button 
+                  title="Log Out"
+                  onPress={() => {
+                    alert("Logging out")
+                  }}
+                  color='red'
+                >
+                </Button>
+                </View>
             </View>
           </View>
         </ScrollView>
@@ -136,19 +140,6 @@ export default function Example() {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingVertical: 24, paddingHorizontal: 0, flexGrow: 1, flexShrink: 1, flexBasis: 0,},
-  header: { paddingLeft: 24, paddingRight: 24, marginBottom: 12,},
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#1d1d1d',
-    marginBottom: 6,
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#929292',
-  },
   /** Section */
   section: {
     paddingTop: 12,
@@ -208,4 +199,7 @@ const styles = StyleSheet.create({
     color: '#8B8B8B',
     marginRight: 4,
   },
+  logout: {
+    paddingTop: '25%',
+  }
 });
