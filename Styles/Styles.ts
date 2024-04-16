@@ -9,6 +9,16 @@ const Styles = StyleSheet.create({
 		flex: 1,
 	},
 
+	ScrollView:
+	{
+		flex: 1,
+	},
+
+	TouchableWithoutFeedback:
+	{
+		flex: 1,
+	},
+
 });
 
 export default Styles;

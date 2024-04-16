@@ -10,6 +10,11 @@ const AuthStyles = StyleSheet.create({
 		flex: 1,
 	},
 
+	ScrollView:
+	{
+		flex: 1,
+	},
+
 	container:
 	{
 		flex: 1,

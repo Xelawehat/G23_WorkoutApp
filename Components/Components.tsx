@@ -57,35 +57,21 @@ export const PrimaryTextInput: React.FC<PrimaryTextInputProps> = ({placeholder, 
     setHasText(Boolean(props.value));
   };
 
-  const tapOffKeyboard = () => {
-    if (isFocused)
-    {
-      Keyboard.dismiss();
-    }
-  }
-
   const containerStyle = [ComponentStyle.primaryTextInputContainer, {height: (isFocused || hasText) ? 60 : 50}, {borderColor: isFocused ? '#FFF' : '#333333'}, style];
   const placeholderStyle = [ComponentStyle.primaryTextInputPlaceholder, (isFocused || hasText) ? ComponentStyle.primaryTextInputPlaceholderShift : null];
   const inputStyle = [ComponentStyle.primaryTextInputText];
 
   return (
-    <TouchableWithoutFeedback onPress={tapOffKeyboard}>
-      <View style={containerStyle}>
-        <Text style={placeholderStyle}>
-          {placeholder}
-        </Text>
-        <TextInput
-          style={inputStyle}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          {...props}
-        />
-        {isFocused && (
-          <TouchableWithoutFeedback onPress={tapOffKeyboard}>
-            <View style={ComponentStyle.primaryTextInputDynamicContainer}/>
-          </TouchableWithoutFeedback>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+    <View style={containerStyle}>
+      <Text style={placeholderStyle}>
+        {placeholder}
+      </Text>
+      <TextInput
+        style={inputStyle}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        {...props}
+      />
+    </View>
   );
 };

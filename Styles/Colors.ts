@@ -19,6 +19,8 @@ export interface Colors {
 
 	primaryButtonBackground: string;
 	secondaryButtonBackground: string;
+
+	opaqueColor: (color: string, opacity: number) => string;
 }
 
 export const COLOR: Colors  = {
@@ -36,4 +38,17 @@ export const COLOR: Colors  = {
 
 	primaryButtonBackground: '#5C6BC0',
 	secondaryButtonBackground: '#FFC107',
+
+	opaqueColor: (color: string, opacity: number): string => {
+		const validOpacity = Math.max(0, Math.min(1, opacity));
+    const hexToRgb = (hex: string): string => {
+        const bigint = parseInt(hex.replace('#', ''), 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return `${r}, ${g}, ${b}`;
+    };
+
+    return `rgba(${hexToRgb(color)}, ${validOpacity})`;
+	}
 };

@@ -20,7 +20,7 @@ const ComponentStyle = StyleSheet.create({
 	primaryBackgroundMask:
 	{
 		...StyleSheet.absoluteFillObject,
-		backgroundColor: 'rgba(0,0,0,0.3)',
+		backgroundColor: 'rgba(0,0,0,0.1)',
 	},
 
 	primaryTextInputContainer:
@@ -33,7 +33,7 @@ const ComponentStyle = StyleSheet.create({
 		borderColor: COLOR.primaryText,
 		borderWidth: 2,
 		justifyContent: 'center',
-		backgroundColor: 'rgba(0,0,0,0.5)',
+		backgroundColor: COLOR.opaqueColor('#4c956c',0.5),
 		minHeight: 62,
 	},
 	primaryTextInputPlaceholder:
@@ -64,8 +64,12 @@ const ComponentStyle = StyleSheet.create({
 	},
 	primaryTextInputDynamicContainer:
 	{
+		flex: 1,
+		backgroundColor: 'red',
 		position: 'absolute',
 		...screenDimensions,
+		margin: 0,
+		padding: 0,
 	},
 
 	container:

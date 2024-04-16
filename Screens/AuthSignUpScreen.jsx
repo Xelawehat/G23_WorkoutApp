@@ -10,7 +10,7 @@ import AuthViewModel from '../UserAuthentication/AuthViewModel';
 import AuthStyles from '../Styles/AuthStyles';
 import SignUpStyle from '../Styles/SignUpStyle';
 
-const AuthSignUpView = () =>
+const AuthSignUpScreen = () =>
 {
 	const navigation = useNavigation();
 
@@ -103,4 +103,4 @@ const AuthSignUpView = () =>
 	);
 };
 
-export default AuthSignUpView;
+export default AuthSignUpScreen;
