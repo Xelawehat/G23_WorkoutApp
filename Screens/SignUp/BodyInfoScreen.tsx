@@ -15,9 +15,9 @@ import ComponentStyle from '../../Styles/ComponentStyles';
 import { COLOR } from '../../Styles/Colors';
 
 
-const BodyInfoScreen = ({ SignUpData }) =>
+const BodyInfoScreen = ({ navigation, route }) =>
 {
-	const navigation = useNavigation();
+	const { SignUpData } = route.params;
 
 	const [isRulerVisible, setRulerVisibility] = useState(false);
 	const [isWeightFocused, setWeightFocus] = useState(false);
@@ -77,10 +77,8 @@ const BodyInfoScreen = ({ SignUpData }) =>
 		let isWeightValid = isValidWeight(weight);
 		if (rulerVal && isValidWeight(weight) && gender)
 		{	
-			SignUpData.height = rulerVal;
-			SignUpData.weight = weight;
-			SignUpData.gender = gender;
-			navigation.navigate('GoalScreen', SignUpData);
+			const updatedSignUpData = { ...SignUpData, heightInches: rulerVal, weight, gender };
+			navigation.navigate('GoalScreen', { SignUpData: updatedSignUpData });
 		}
 		else
 		{

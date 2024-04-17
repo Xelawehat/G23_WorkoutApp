@@ -11,9 +11,9 @@ import { isValidUsername } from '../../Utils/DataVerify';
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 
-const UsernameScreen = ({ email }) =>
-{
-	const navigation = useNavigation();
+const UsernameScreen = ({navigation, route }) => {
+	const { SignUpData } = route.params;
+
 	const [username, setUsername] = useState('');
 
 	const backArrow = () => {
@@ -24,7 +24,8 @@ const UsernameScreen = ({ email }) =>
 	{
 		if (isValidUsername(username))
 		{
-			navigation.navigate('PasswordScreen', { email, username });
+			const updatedSignUpData = { ...SignUpData, username };
+			navigation.navigate('PasswordScreen', { SignUpData: updatedSignUpData });
 		}
 		else
 		{

@@ -11,9 +11,10 @@ import { isValidPassword } from '../../Utils/DataVerify';
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 
-const PasswordScreen = ({ SignUpData }) =>
+const PasswordScreen = ({ navigation, route }) =>
 {
-	const navigation = useNavigation();
+	const { SignUpData } = route.params;
+
 	const [password, setPassword] = useState('');
 
 	const backArrow = () => {
@@ -26,8 +27,8 @@ const PasswordScreen = ({ SignUpData }) =>
 		let isPasswordValid = isValidPassword(password)
 		if (isPasswordValid.isValid)
 		{	
-			SignUpData.password = password;
-			navigation.navigate('AgeScreen', { SignUpData });
+			const updatedSignUpData = { ...SignUpData, password };
+			navigation.navigate('AgeScreen', { SignUpData: updatedSignUpData });
 		}
 		else
 		{
@@ -49,6 +50,7 @@ const PasswordScreen = ({ SignUpData }) =>
 							placeholder="Password"
 							value={password}
 							onChangeText={setPassword}
+							secureTextEntry={true}
 							style={{
 								container: SignUpStyle.input,
 								heading: SignUpStyle.heading,

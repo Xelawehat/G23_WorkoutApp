@@ -13,12 +13,11 @@ import ComponentStyle from '../../Styles/ComponentStyles';
 import { COLOR } from '../../Styles/Colors';
 
 
-const GoalScreen = ({ SignUpData }) =>
+const GoalScreen = ({ navigation, route }) =>
 {
-	const navigation = useNavigation();
+	const { SignUpData } = route.params;
 
 	const [goal, setGoal] = useState('');
-
 
 	// These are used to better show the users their height
 	const [feet, setFeet] = useState(0);
@@ -33,7 +32,9 @@ const GoalScreen = ({ SignUpData }) =>
 	};
 
 	const createAccountButton = () => {
-		console.log(SignUpData);
+
+		const updatedSignUpData = { ...SignUpData, goal };
+		console.log(updatedSignUpData);
 	};
 
 	return (

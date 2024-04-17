@@ -14,9 +14,10 @@ import ComponentStyle from '../../Styles/ComponentStyles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 import { COLOR } from '../../Styles/Colors';
 
-const AgeScreen = ({ SignUpData }) =>
+const AgeScreen = ({ navigation, route }) =>
 {
-	const navigation = useNavigation();
+	const { SignUpData } = route.params;
+	
 	const [birthday, setBirthday] = useState(null);
 	const [isPickerVisible, setPickerVisibility] = useState(false);
 	const today = new Date();
@@ -56,9 +57,9 @@ const AgeScreen = ({ SignUpData }) =>
 	{
 		if (isValidDate(birthday))
 		{
+			const updatedSignUpData = { ...SignUpData, birthday };
 			setPickerVisibility(false);
-			SignUpData.birthday = birthday;
-			navigation.navigate('BodyInfoScreen', { SignUpData });
+			navigation.navigate('BodyInfoScreen', { SignUpData: updatedSignUpData });
 		}
 		else
 		{

@@ -16,7 +16,7 @@ interface SignUpData {
 	username: string;
 	password: string;
 	birthday: Date;
-	height: number;
+	heightInches: number;
 	weight: number;
 	gender: string;
 	goal: string;
@@ -25,18 +25,18 @@ interface SignUpData {
 const EmailScreen = () =>
 {
 	const navigation = useNavigation();
-	const [SignUpData] = useState<SignUpData>({
+
+	const [email, setEmail] = useState('');
+	const [SignUpData, setSignUpData] = useState<SignUpData>({
 		email: '',
 		username: '',
 		password: '',
 		birthday: '',
-		height: '',
-		weight: '',
+		heightInches: 0,
+		weight: 0,
 		gender: '',
 		goal: '',
 	});
-
-	const [email, setEmail] = useState('');
 
 	const returnLoginArrow = () => {
 		Alert.alert(
@@ -56,15 +56,14 @@ const EmailScreen = () =>
 				}
 			]
 		)
-
 	};
 
 	const nextButton = () =>
 	{
 		if (isValidEmail(email))
 		{
-			SignUpData.email = email;
-			navigation.navigate('UsernameScreen', { SignUpData });
+			setSignUpData((prevSignUpData) => ({ ...prevSignUpData, email }));
+			navigation.navigate('UsernameScreen',{ SignUpData });
 		}
 		else
 		{
