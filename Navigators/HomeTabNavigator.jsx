@@ -9,7 +9,7 @@ import SettingsPage from '../Pages/settings';
 import CalendarPage from '../Pages/calendar'
 import CreatedWorkout from '../Pages/createWorkoutScreen'
 import WorkoutDetailsPage from '../Pages/workoutDetails'
-import EditWorkoutScreen from '../Pages/editWorkoutScreen';
+import EditWorkoutScreen from '../Pages/editWorkoutScreen'
 import ProfilePage from '../Pages/profile'
 
 const Tab = createMaterialBottomTabNavigator();
@@ -23,24 +23,24 @@ const CalendarStack = () => (
     >
 
     <Stack.Screen name="Calendar" component={CalendarPage} />
-    <Stack.Screen name="CreateWorkout" component={CreatedWorkout} />
-    <Stack.Screen name="WorkoutDetails" component={WorkoutDetailsPage} />
-    <Stack.Screen name="EditWorkout" component={EditWorkoutScreen} />
+    <Stack.Screen name="CreateWorkout" component={CreatedWorkout} options={{ headerShown: true }} />
+    <Stack.Screen name="WorkoutDetails" component={WorkoutDetailsPage} options={{ headerShown: true }} />
+    <Stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} options={{ headerShown: true }} />
   </Stack.Navigator>
 );
 
 function SettingsNavigator() {
   return(
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name='Settings' component={SettingsPage} />
-      <Stack.Screen name='Profile' component={ProfilePage} />
+      <Stack.Screen name='Profile' component={ProfilePage} options={{ headerShown: true }} />
     </Stack.Navigator>
   )
 }
 
 function HomeNavigator() {
   return(
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown: false}} >
       <Stack.Screen name='Home' component={HomePage} />
     </Stack.Navigator>
   )

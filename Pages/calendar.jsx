@@ -156,6 +156,7 @@ const CalendarPage = ({ navigation }) => {
         <View>
           {selectedWorkouts.map((workout, index) => (
             <TouchableOpacity key={index} style={styles.workoutItem}
+            //onPress={() => navigation.navigate('WorkoutDetails', { workout }, {selected})}>
             onPress={() => navigation.navigate('WorkoutDetails', { workout })}>
               <Text style={styles.workoutName}>{workout.name}</Text>
               <Text style={styles.workoutTime}>~{workout.time} minutes</Text>
@@ -191,7 +192,7 @@ const CalendarPage = ({ navigation }) => {
 
       <View style={styles.workoutInfoContainer}>
         {renderWorkoutInfo()}
-        <TouchableOpacity onPress={() => navigation.navigate('CreateWorkout')}>
+        <TouchableOpacity onPress={() => navigation.navigate('CreateWorkout', {selected})}>
           <FontAwesome name="plus-circle" size={36} color="blue" style={styles.addWorkoutIcon} />
         </TouchableOpacity>
       </View>

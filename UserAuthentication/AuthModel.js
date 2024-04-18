@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //	Put your IP Address:
-let currentIpAddress = '__here__:5000';
+let currentIpAddress = '10.32.46.99:5000';
 
 // Handles business logic of user authentication
 class AuthModel

@@ -2,28 +2,106 @@ import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import exercisesData from './exercises.json';
+import exampleData from './examples.json';
+//import { Workout, Exercise, Sets } from '../Models/workoutModel'
 import axios from 'axios';
 
 //  Put your id address:
-let currentIpAddress = '__here__:5000';
+let currentIpAddress = '10.32.46.99:5000';
 
-const CreateWorkoutScreen = () => {
+const CreateWorkoutScreen = ({ route }) => {
+
+  const [workout, setWorkout] = useState({
+    name: "",
+    time: "",
+    difficulty: 1,
+    favorite: false,
+    color: "",
+    timesCompleted: 0,
+    date: <route className="params"></route>,
+    exercises: []
+  });
+
+    const [exercise, setExercise] = useState({
+      name: "",
+      favorite: false,
+      muscleGroup: [""],
+      bodyweight: false,
+      sets: [
+        { reps: 0, weight: 0 },
+      ]
+    });
+
+    //Stores temporary exercise objects each time Add Exercise button is pressed
+    const exerciseObj = {
+      name: "",
+      sets: 0,
+      reps: 0,
+      weight: 0
+    };
+    //Stores the workout object when Save Workout button is pressed
+    const workoutObj = {
+      name: "",
+      exercises: [],
+      date: ""  //still need to figure out how to get date into here
+    };
+
   // State variables
+  const [sets, setSets] = useState('');
+  const [reps, setReps] = useState('');
+  const [weight, setWeight] = useState('');
   const [workoutName, setWorkoutName] = useState('');
   const [selectedExercises, setSelectedExercises] = useState([]);
   const [availableExercises, setAvailableExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState('');
+  const [selectedColor, setSelectedColor] = useState(workout.color);
+
+  // Array of color options
+  const colorOptions = ['#FF6347', '#4682B4', '#32CD32', '#FFD700'];
+
+  // Function to handle color selection
+  const handleColorSelection = (color) => {
+    setSelectedColor(color);
+  };
+  
 
   useEffect(() => {
     // Set the available exercises from the imported JSON file
-    setAvailableExercises(exercisesData);
+    //setAvailableExercises(exercisesData); old json data file
+    setAvailableExercises(exampleData);
   }, []);
 
   // Function to add exercise to the selected exercises list
   const addExercise = () => {
+    if (!workoutName.trim()) {
+      alert('Must enter a workout name.');
+      return;
+    }
+    if (!selectedExercise){
+      alert("Must select an exercise");
+      return;
+    }
+    if (sets <= 0 || sets > 15){
+      alert("Sets must be between 1 and 15");
+      return;
+    }
+    if (reps <= 0 || reps > 30){
+      alert("Reps must be between 1 and 30");
+      return;
+    }
+    if (weight <= 0 || weight > 585){
+      alert("Weight must be between 1 and 585");
+      return;
+    }
     if (selectedExercise) {
-        const exerciseToAdd = availableExercises.find(exercise => exercise.Name === selectedExercise);
-        setSelectedExercises([...selectedExercises, exerciseToAdd]);
+        workoutObj.name = workoutName;
+        const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
+        exerciseObj.name = exerciseToAdd.name;
+        exerciseObj.weight = weight;
+        exerciseObj.reps = reps;
+        exerciseObj.sets = sets;
+        console.log(exerciseObj);
+        setSelectedExercises([...selectedExercises, exerciseObj]);
     }
   };
 
@@ -36,49 +114,78 @@ const CreateWorkoutScreen = () => {
 
   // Function to handle saving the workout
   const saveWorkout = async () => {
+    
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
         alert('Must enter a workout name.');
         return;
     }
+    // Check if a color is selected
+    if (!selectedColor) {
+      alert('Must select a color.');
+      return;
+    }
+    // Check if thre is an exercise added
+    if (selectedExercises.length === 0) {
+        alert('Must add at least one exercise to the workout.');
+        return;
+    }
+
+    // update workout Object
+    workoutObj.name = workoutName;
+    workoutObj.exercises = selectedExercises;
+    workoutObj.color = selectedColor;
+    //workoutObj.date = ...
+    //need to add the date here (should be pulled from the calendar day that the plus was selected)
+    console.log(workoutObj);
+    
     //  TODO: Uncomment this when icons are scrollable
-    // if (selectedExercises.length === 0) {
-    //     alert('Must add at least one exercise to the workout.');
-    //     return;
-    // }
-  
+    
     //  BACKEND CONNECTION
     // If all validations pass, proceed with saving the workout
     // Implement saving logic here, can involve sending data to a server, storing in local storage, etc.
 
     //Dummy Data
     const workoutData = {
-      "name": "Cardio Blast",
-      "time": "2024-04-14T06:30:00.000Z",
-      "difficulty": 3,
-      "favorite": true,
-      "color": "#FF6347",
-      "timesCompleted": 3,
-      "date": "2024-04-14T06:30:00.000Z",
-      "exercises": [
-        {
-          "name": "Treadmill Running",
-          "muscleGroup": "Legs",
-          "sets": 1,
-          "reps": 1,  // Represents 30 minutes of continuous running
-          "weight": 0,
-          "difficulty": 3,
-          "personalBest": 5, // Represents best time or distance covered
-          "favorite": false
-        }
+      name: "Chest Day",
+      time: "60 minutes",
+      difficulty: 3,
+      favorite: true,
+      color: "red",
+      timesCompleted: 0,
+      date: "2024-04-10",
+      exercises: [
+          {
+              name: "Bench Press",
+              favorite: false,
+              muscleGroup: ["Chest", "Triceps"],
+              bodyweight: false,
+              sets: [
+                  { reps: 10, weight: 225 },
+                  { reps: 10, weight: 225 },
+                  // Add more sets if needed
+              ]
+          },
+          {
+              name: "Incline Bench Press",
+              favorite: false,
+              muscleGroup: ["Chest", "Triceps"],
+              bodyweight: false,
+              sets: [
+                  { reps: 10, weight: 185 },
+                  { reps: 10, weight: 185 },
+                  // Add more sets if needed
+              ]
+          },
+          // Add more exercises if needed
       ]
-    }    
+  }; 
     
 
     //  Try to add a workout after the button is clicked here - send to db
     try {
 	  
-      //  TODO: a user already in the db is currnetly hardcoded to test if this works.
+      //  TODO: a user already in the db is currently hardcoded to test if this works.
               //  find out how to replace it with the current user
 			const response = await axios({
 			  method: 'post',
@@ -106,7 +213,19 @@ const CreateWorkoutScreen = () => {
         placeholder="Enter workout name"
         value={workoutName}
         onChangeText={text => setWorkoutName(text)}
+        //onChangeText={text => setWorkout({...workout, name: text})}
       />
+
+      {/* Render color dots for color selection */}
+      <View style={styles.colorSelector}>
+          {colorOptions.map((color, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.colorDot, { backgroundColor: color, borderColor: selectedColor === color ? 'black' : 'transparent' }]}
+              onPress={() => handleColorSelection(color)}
+            />
+          ))}
+        </View>
 
       <Picker
         selectedValue={selectedExercise}
@@ -115,9 +234,39 @@ const CreateWorkoutScreen = () => {
       >
         <Picker.Item label="Select exercise" value="" />
         {availableExercises.map((exercise, index) => (
-          <Picker.Item key={index} label={exercise.Name} value={exercise.Name} />
+          <Picker.Item key={index} label={exercise.name} value={exercise.name} />
         ))}
       </Picker>
+      
+      <View>
+          <View style={styles.row}>
+          <TextInput // For Sets
+            style={styles.subInput}
+            placeholder="Enter Sets"
+            value={sets}
+            onChangeText={text => setSets(text)}
+            keyboardType='numeric'
+          />
+          <View style={styles.rowSpacer} />
+          <TextInput
+            style={styles.subInput}
+            placeholder="Enter Reps"
+            value={reps}
+            onChangeText={text => setReps(text)}
+            keyboardType='numeric'
+          />
+          <View style={styles.rowSpacer} />
+          <TextInput
+            style={styles.subInput}
+            placeholder="Enter Weight"
+            value={weight}
+            onChangeText={text => setWeight(text)}
+            keyboardType='numeric'
+          />
+
+          <View style={styles.rowSpacer} />
+          </View>
+        </View>
 
       <TouchableOpacity style={styles.addButton} onPress={addExercise}>
         <Text style={styles.buttonText}>Add Exercise</Text>
@@ -131,7 +280,10 @@ const CreateWorkoutScreen = () => {
             style={styles.exerciseItem}
             onPress={() => removeExercise(index)}
           >
-            <Text>{exercise.Name}</Text>
+            <Text>{exercise.name}{'\n\t'}
+            {'Sets: '}{exercise.sets}{'\t'}
+            {'Reps: '}{exercise.reps}{'\t'}
+            {exercise.weight}{' lbs'}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -164,10 +316,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
   },
+  colorSelector: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  colorDot: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 2,
+    marginHorizontal: 5,
+  },
   picker: {
     height: 40,
     marginBottom: 10,
-    paddingBottom:  '60%',
+    paddingBottom:  '55%',
   },
   addButton: {
     backgroundColor: 'lightgreen',
@@ -194,6 +358,26 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+  },
+  subInput: {
+    height: 40,
+    width: 120,
+    borderColor: 'grey',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: '2.5%',
+    height: 50,
+  },
+  rowSpacer: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 const WorkoutDetailsPage = ({ route }) => {
@@ -7,34 +7,44 @@ const WorkoutDetailsPage = ({ route }) => {
   const navigation = useNavigation();
   const { workout } = route.params; // Extract workout details from navigation params
   const scrollViewRef = useRef(null);
+  //const [showEditIndicator, setShowEditIndicator] = useState('false'); causes an error
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     if (offsetY <= -50) { // Arbitrary threshold for detecting pull-down
       console.log('pulled up')
       navigation.navigate('EditWorkoutScreen', { workout }); // Navigate to EditWorkoutScreen
-      
-      console.log('This is route', route)
-      //route.navigation.navigate('EditWorkout', { workout });
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-      ref={scrollViewRef}
-      onScroll={handleScroll}
-      scrollEventThrottle={16} // Adjust as needed for performance
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        scrollEventThrottle={16} // Adjust as needed for performance
       >
-      <View style={styles.header}>
-        <Text style={styles.workoutName}>{workout.name}</Text>
-        <Text style={styles.workoutTime}>Time: {workout.time} minutes</Text>
-        <Text style={styles.workoutDate}>Date: {workout.date}</Text>
-        {/* {<Text key={index}>
-                Exercise Name: {exercise.name} {"\n\t"} Sets: {exercise.sets}, Reps: {exercise.sets}, Weight: {exercise.Weight} lbs {"\n"}
-            </Text>} */}
-      </View>
-      
+        <View style={styles.header}>
+          <Text style={styles.workoutName}>{workout.name}</Text>
+          <Text style={styles.workoutTime}>Time: {workout.time} minutes</Text>
+          <Text style={styles.workoutDate}>Date: {workout.date}</Text>
+        </View>
+        <View>
+          <Text style={styles.sectionHeading}>Exercises:</Text>
+          {workout.exercises.map((exercise, index) => (
+            <View key={index} style={styles.exerciseItem}>
+              <Text style={styles.exerciseName}>{exercise.name}</Text>
+              {exercise.sets.map((set, setIndex) => (
+                <View key={setIndex}>
+                  <Text>Set {setIndex + 1}:</Text>
+                  <Text>Reps: {set.reps}</Text>
+                  <Text>Weight: {set.weight} lbs</Text>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
+        <Text style={styles.goTo}>|Scroll up to edit workout|</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -60,12 +70,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
+  sectionHeading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   exerciseItem: {
     marginBottom: 10,
   },
   exerciseName: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  goTo: {
+    fontSize: 13,
+    alignContent: 'center',
+    justifyContent: 'center'
   },
 });
 

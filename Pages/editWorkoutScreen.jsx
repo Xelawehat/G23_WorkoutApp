@@ -1,24 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import exampleData from './examples.json';
 
 const EditWorkoutScreen = ({ route }) => {
-  // State variables
-  const { workout } = route.params; // Extract workout details from navigation params
-  const [workoutName, setWorkoutName] = useState('');
-  const [selectedExercises, setSelectedExercises] = useState([]);
-  const [availableExercises, setAvailableExercises] = useState([]);
-  const [selectedExercise, setSelectedExercise] = useState('');
 
-  useEffect(() => {
-    // Set the available exercises from the imported JSON file
-    setAvailableExercises(exercisesData);
-  }, []);
+    const { workout } = route.params;
+
+    const [exercise, setExercise] = useState({
+      name: "",
+      favorite: false,
+      muscleGroup: [""],
+      bodyweight: false,
+      sets: [
+        { reps: 0, weight: 0 },
+      ]
+    });
+
+    //Stores temporary exercise objects each time Add Exercise button is pressed
+    const exerciseObj = {
+      name: "",
+      sets: 0,
+      reps: 0,
+      weight: 0
+    };
+    //Stores the workout object when Save Workout button is pressed
+    const workoutObj = {
+      name: "",
+      exercises: [],
+      date: ""  //still need to figure out how to get date into here
+    };
+  // State variables
+  const [workoutName, setWorkoutName] = useState(workout.name);
+  const [selectedExercises, setSelectedExercises] = useState(workout.exercises);
+  const [availableExercises, setAvailableExercises] = useState(exampleData);
+  const [selectedExercise, setSelectedExercise] = useState('');
+  const [sets, setSets] = useState(''); // State variable for sets
+  const [reps, setReps] = useState(''); // State variable for reps
+  const [weight, setWeight] = useState(''); // State variable for weight
+  const [selectedColor, setSelectedColor] = useState(workout.color);
+
+  // Array of color options
+  const colorOptions = ['#FF6347', '#4682B4', '#32CD32', '#FFD700'];
+
+  // Function to handle color selection
+  const handleColorSelection = (color) => {
+    setSelectedColor(color);
+  };
+
+//   useEffect(() => {
+//     // Set the available exercises from the imported JSON file
+//     setAvailableExercises(exampleData);
+//   }, []);
 
   // Function to add exercise to the selected exercises list
   const addExercise = () => {
     if (selectedExercise) {
-        const exerciseToAdd = availableExercises.find(exercise => exercise.Name === selectedExercise);
+        const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
         setSelectedExercises([...selectedExercises, exerciseToAdd]);
     }
   };
@@ -77,13 +115,26 @@ const EditWorkoutScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <Text style={styles.heading}>Create Custom Workout</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter workout name"
         value={workoutName}
         onChangeText={text => setWorkoutName(text)}
+        //onChangeText={text => setWorkout({...workout, name: text})}
       />
+
+      {/* Render color dots for color selection */}
+        <View style={styles.colorSelector}>
+          {colorOptions.map((color, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.colorDot, { backgroundColor: color, borderColor: selectedColor === color ? 'black' : 'transparent' }]}
+              onPress={() => handleColorSelection(color)}
+            />
+          ))}
+        </View>
 
       <Picker
         selectedValue={selectedExercise}
@@ -92,9 +143,39 @@ const EditWorkoutScreen = ({ route }) => {
       >
         <Picker.Item label="Select exercise" value="" />
         {availableExercises.map((exercise, index) => (
-          <Picker.Item key={index} label={exercise.Name} value={exercise.Name} />
+          <Picker.Item key={index} label={exercise.name} value={exercise.name} />
         ))}
       </Picker>
+      
+      <View>
+          <View style={styles.row}>
+          <TextInput // For Sets
+            style={styles.subInput}
+            placeholder="Enter Sets"
+            value={sets}
+            onChangeText={text => setSets(text)}
+            keyboardType='numeric'
+          />
+          <View style={styles.rowSpacer} />
+          <TextInput
+            style={styles.subInput}
+            placeholder="Enter Reps"
+            value={reps}
+            onChangeText={text => setReps(text)}
+            keyboardType='numeric'
+          />
+          <View style={styles.rowSpacer} />
+          <TextInput
+            style={styles.subInput}
+            placeholder="Enter Weight"
+            value={weight}
+            onChangeText={text => setWeight(text)}
+            keyboardType='numeric'
+          />
+
+          <View style={styles.rowSpacer} />
+          </View>
+        </View>
 
       <TouchableOpacity style={styles.addButton} onPress={addExercise}>
         <Text style={styles.buttonText}>Add Exercise</Text>
@@ -108,7 +189,10 @@ const EditWorkoutScreen = ({ route }) => {
             style={styles.exerciseItem}
             onPress={() => removeExercise(index)}
           >
-            <Text>{exercise.Name}</Text>
+            <Text>{exercise.name}{'\n\t'}
+            {'Sets: '}{exercise.sets.length}{'\t'}
+            {'Reps: '}{exercise.sets[0].weight}{'\t'}
+            {exercise.sets[0].weight}{' lbs'}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -116,6 +200,7 @@ const EditWorkoutScreen = ({ route }) => {
       <TouchableOpacity style={styles.saveButton} onPress={saveWorkout}>
         <Text style={styles.buttonText}>Save Workout</Text>
       </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -140,9 +225,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
   },
+  colorSelector: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  colorDot: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 2,
+    marginHorizontal: 5,
+  },
   picker: {
     height: 40,
     marginBottom: 10,
+    paddingBottom:  '55%',
   },
   addButton: {
     backgroundColor: 'lightgreen',
@@ -170,6 +268,25 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
   },
+  subInput: {
+    height: 40,
+    width: 120,
+    borderColor: 'grey',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: '2.5%',
+    height: 50,
+  },
+  rowSpacer: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
 });
-
 export default EditWorkoutScreen;
