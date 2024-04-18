@@ -26,7 +26,6 @@ const WorkoutDetailsPage = ({ route }) => {
       >
         <View style={styles.header}>
           <Text style={styles.workoutName}>{workout.name}</Text>
-          <Text style={styles.workoutTime}>Time: {workout.time} minutes</Text>
           <Text style={styles.workoutDate}>Date: {workout.date}</Text>
         </View>
         <View>
@@ -34,13 +33,10 @@ const WorkoutDetailsPage = ({ route }) => {
           {workout.exercises.map((exercise, index) => (
             <View key={index} style={styles.exerciseItem}>
               <Text style={styles.exerciseName}>{exercise.name}</Text>
-              {exercise.sets.map((set, setIndex) => (
-                <View key={setIndex}>
-                  <Text>Set {setIndex + 1}:</Text>
-                  <Text>Reps: {set.reps}</Text>
-                  <Text>Weight: {set.weight} lbs</Text>
-                </View>
-              ))}
+              
+                  <Text>Set: {exercise.sets}</Text>
+                  <Text>Reps: {exercise.reps}</Text>
+                  <Text>Weight: {exercise.weight} lbs</Text>
             </View>
           ))}
         </View>

@@ -12,26 +12,27 @@ class AuthModel
 	*/
 	static async loginUser(user, pass)
 	{
-		try {
+	// 	try {
 	  
-			//  Method 2 - Send user data to the MongoDB database
-			//	To test on your phone: should be: url: 'http://your_public_ip:5000/login'; (Windows open the cmd terminal, enter "ipconfig", use the ipv4 address)
-			//	To test on emulator: use url: 'http://10.0.2.2:5000/login' if you're using an emulator (or maybe 10.0.0.2);
-			const response = await axios({
-			  method: 'post',
-			  url: `http://${currentIpAddress}/login`,
-			  data: {
-				username: user,
-				password: pass,
-			  }
-			});
+	// 		//  Method 2 - Send user data to the MongoDB database
+	// 		//	To test on your phone: should be: url: 'http://your_public_ip:5000/login'; (Windows open the cmd terminal, enter "ipconfig", use the ipv4 address)
+	// 		//	To test on emulator: use url: 'http://10.0.2.2:5000/login' if you're using an emulator (or maybe 10.0.0.2);
+	// 		const response = await axios({
+	// 		  method: 'post',
+	// 		  url: `http://${currentIpAddress}/login`,
+	// 		  data: {
+	// 			username: user,
+	// 			password: pass,
+	// 		  }
+	// 		});
 	  
-			console.log('Data sent successfully:', response.data);
-			return true;	//	Maybe turn into a variable for better readability
-		  } catch (error) {
-			console.error('Error sending data:', error);
-		  }
-	}
+	// 		console.log('Data sent successfully:', response.data);
+	// 		return true;	//	Maybe turn into a variable for better readability
+	// 	  } catch (error) {
+	// 		console.error('Error sending data:', error);
+	// 	  }
+	return true;
+	 }
 
 	/* 
 		Creating account

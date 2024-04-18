@@ -32,18 +32,19 @@ const CreateWorkoutScreen = ({ route }) => {
       ]
     });
 
-    //Stores temporary exercise objects each time Add Exercise button is pressed
-    const exerciseObj = {
-      name: "",
-      sets: 0,
-      reps: 0,
-      weight: 0
-    };
     //Stores the workout object when Save Workout button is pressed
     const workoutObj = {
       name: "",
       exercises: [],
-      date: ""  //still need to figure out how to get date into here
+      date: <route className="params"></route>  //still need to figure out how to get date into here
+    };
+
+    const exerciseObj = {
+        name: "",
+        sets: 0,
+        reps: 0,
+        weight: 0
+
     };
 
   // State variables
@@ -93,6 +94,35 @@ const CreateWorkoutScreen = ({ route }) => {
       alert("Weight must be between 1 and 585");
       return;
     }
+
+    // //Stores temporary exercise objects each time Add Exercise button is pressed
+    // const exerciseObj = {
+    //   name: "",
+    //   sets: 0,
+    //   reps: 0,
+    //   weight: 0
+    // };
+
+    //Stores temporary exercise objects each time Add Exercise button is pressed
+    // const exerciseObj = {
+    //     name: "",
+    //     favorite: false,
+    //     muscleGroup: [],
+    //     bodyweight: false,
+    //     sets: []
+    // };
+
+    // exerciseObj.sets.forEach((set, index) => {
+    //    // Define the sets object type
+    //    const setObj = {
+    //     reps: reps,
+    //     weight: weight,
+    //   };
+    //   exerciseObj.sets.push(setObj);
+    //   console.log(`Set ${index + 1}: Reps: ${set.reps}, Weight: ${set.weight}`);
+    // });
+    
+
     if (selectedExercise) {
         workoutObj.name = workoutName;
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
@@ -104,6 +134,17 @@ const CreateWorkoutScreen = ({ route }) => {
         setSelectedExercises([...selectedExercises, exerciseObj]);
     }
   };
+//   if (selectedExercise) {
+//     workoutObj.name = workoutName;
+//     const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
+//     exerciseObj.name = exerciseToAdd.name;
+//     // exerciseObj.weight = weight;
+//     // exerciseObj.reps = reps;
+//     // exerciseObj.sets = sets;
+//     console.log(exerciseObj);
+//     setSelectedExercises([...selectedExercises, exerciseObj]);
+// }
+// };
 
   // Function to remove exercise from the selected exercises list
   const removeExercise = (index) => {
@@ -114,7 +155,7 @@ const CreateWorkoutScreen = ({ route }) => {
 
   // Function to handle saving the workout
   const saveWorkout = async () => {
-    
+
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
         alert('Must enter a workout name.');
@@ -135,9 +176,10 @@ const CreateWorkoutScreen = ({ route }) => {
     workoutObj.name = workoutName;
     workoutObj.exercises = selectedExercises;
     workoutObj.color = selectedColor;
+    workoutObj.date = route.params.selectedDay;
     //workoutObj.date = ...
     //need to add the date here (should be pulled from the calendar day that the plus was selected)
-    console.log(workoutObj);
+    console.log('\n\n',workoutObj);
     
     //  TODO: Uncomment this when icons are scrollable
     
@@ -146,40 +188,41 @@ const CreateWorkoutScreen = ({ route }) => {
     // Implement saving logic here, can involve sending data to a server, storing in local storage, etc.
 
     //Dummy Data
-    const workoutData = {
-      name: "Chest Day",
-      time: "60 minutes",
-      difficulty: 3,
-      favorite: true,
-      color: "red",
-      timesCompleted: 0,
-      date: "2024-04-10",
-      exercises: [
-          {
-              name: "Bench Press",
-              favorite: false,
-              muscleGroup: ["Chest", "Triceps"],
-              bodyweight: false,
-              sets: [
-                  { reps: 10, weight: 225 },
-                  { reps: 10, weight: 225 },
-                  // Add more sets if needed
-              ]
-          },
-          {
-              name: "Incline Bench Press",
-              favorite: false,
-              muscleGroup: ["Chest", "Triceps"],
-              bodyweight: false,
-              sets: [
-                  { reps: 10, weight: 185 },
-                  { reps: 10, weight: 185 },
-                  // Add more sets if needed
-              ]
-          },
-          // Add more exercises if needed
-      ]
-  }; 
+    const workoutData = workoutObj;
+    // const workoutData = {
+    //   name: "Chest Day",
+    //   time: "60 minutes",
+    //   difficulty: 3,
+    //   favorite: true,
+    //   color: "red",
+    //   timesCompleted: 0,
+    //   date: "2024-04-10",
+    //   exercises: [
+    //       {
+    //           name: "Bench Press",
+    //           favorite: false,
+    //           muscleGroup: ["Chest", "Triceps"],
+    //           bodyweight: false,
+    //           sets: [
+    //               { reps: 10, weight: 225 },
+    //               { reps: 10, weight: 225 },
+    //               // Add more sets if needed
+    //           ]
+    //       },
+    //       {
+    //           name: "Incline Bench Press",
+    //           favorite: false,
+    //           muscleGroup: ["Chest", "Triceps"],
+    //           bodyweight: false,
+    //           sets: [
+    //               { reps: 10, weight: 185 },
+    //               { reps: 10, weight: 185 },
+    //               // Add more sets if needed
+    //           ]
+    //       },
+    //       // Add more exercises if needed
+    //   ]
+  //}; 
     
 
     //  Try to add a workout after the button is clicked here - send to db
@@ -215,7 +258,7 @@ const CreateWorkoutScreen = ({ route }) => {
         onChangeText={text => setWorkoutName(text)}
         //onChangeText={text => setWorkout({...workout, name: text})}
       />
-
+      <Text>Workoutdate:</Text>
       {/* Render color dots for color selection */}
       <View style={styles.colorSelector}>
           {colorOptions.map((color, index) => (

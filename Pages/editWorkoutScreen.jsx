@@ -7,16 +7,6 @@ const EditWorkoutScreen = ({ route }) => {
 
     const { workout } = route.params;
 
-    const [exercise, setExercise] = useState({
-      name: "",
-      favorite: false,
-      muscleGroup: [""],
-      bodyweight: false,
-      sets: [
-        { reps: 0, weight: 0 },
-      ]
-    });
-
     //Stores temporary exercise objects each time Add Exercise button is pressed
     const exerciseObj = {
       name: "",
@@ -24,12 +14,7 @@ const EditWorkoutScreen = ({ route }) => {
       reps: 0,
       weight: 0
     };
-    //Stores the workout object when Save Workout button is pressed
-    const workoutObj = {
-      name: "",
-      exercises: [],
-      date: ""  //still need to figure out how to get date into here
-    };
+
   // State variables
   const [workoutName, setWorkoutName] = useState(workout.name);
   const [selectedExercises, setSelectedExercises] = useState(workout.exercises);
@@ -54,10 +39,66 @@ const EditWorkoutScreen = ({ route }) => {
 //   }, []);
 
   // Function to add exercise to the selected exercises list
+  // Function to add exercise to the selected exercises list
   const addExercise = () => {
+    if (!workoutName.trim()) {
+      alert('Must enter a workout name.');
+      return;
+    }
+    if (!selectedExercise){
+      alert("Must select an exercise");
+      return;
+    }
+    if (sets <= 0 || sets > 15){
+      alert("Sets must be between 1 and 15");
+      return;
+    }
+    if (reps <= 0 || reps > 30){
+      alert("Reps must be between 1 and 30");
+      return;
+    }
+    if (weight <= 0 || weight > 585){
+      alert("Weight must be between 1 and 585");
+      return;
+    }
+
+    // //Stores temporary exercise objects each time Add Exercise button is pressed
+    // const exerciseObj = {
+    //   name: "",
+    //   sets: 0,
+    //   reps: 0,
+    //   weight: 0
+    // };
+
+    //Stores temporary exercise objects each time Add Exercise button is pressed
+    // const exerciseObj = {
+    //     name: "",
+    //     favorite: false,
+    //     muscleGroup: [],
+    //     bodyweight: false,
+    //     sets: []
+    // };
+
+    // exerciseObj.sets.forEach((set, index) => {
+    //    // Define the sets object type
+    //    const setObj = {
+    //     reps: reps,
+    //     weight: weight,
+    //   };
+    //   exerciseObj.sets.push(setObj);
+    //   console.log(`Set ${index + 1}: Reps: ${set.reps}, Weight: ${set.weight}`);
+    // });
+    
+
     if (selectedExercise) {
+        workout.name = workoutName;
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
-        setSelectedExercises([...selectedExercises, exerciseToAdd]);
+        exerciseObj.name = exerciseToAdd.name;
+        exerciseObj.weight = weight;
+        exerciseObj.reps = reps;
+        exerciseObj.sets = sets;
+        console.log(exerciseObj);
+        setSelectedExercises([...selectedExercises, exerciseObj]);
     }
   };
 
@@ -86,27 +127,27 @@ const EditWorkoutScreen = ({ route }) => {
     // Implement saving logic here, can involve sending data to a server, storing in local storage, etc.
 
     //Dummy Data
-    const workoutData = {
-      "name": "Cardio Blast",
-      "time": "2024-04-14T06:30:00.000Z",
-      "difficulty": 3,
-      "favorite": true,
-      "color": "#FF6347",
-      "timesCompleted": 3,
-      "date": "2024-04-14T06:30:00.000Z",
-      "exercises": [
-        {
-          "name": "Treadmill Running",
-          "muscleGroup": "Legs",
-          "sets": 1,
-          "reps": 1,  // Represents 30 minutes of continuous running
-          "weight": 0,
-          "difficulty": 3,
-          "personalBest": 5, // Represents best time or distance covered
-          "favorite": false
-        }
-      ]
-    }    
+    // const workoutData = {
+    //   "name": "Cardio Blast",
+    //   "time": "2024-04-14T06:30:00.000Z",
+    //   "difficulty": 3,
+    //   "favorite": true,
+    //   "color": "#FF6347",
+    //   "timesCompleted": 3,
+    //   "date": "2024-04-14T06:30:00.000Z",
+    //   "exercises": [
+    //     {
+    //       "name": "Treadmill Running",
+    //       "muscleGroup": "Legs",
+    //       "sets": 1,
+    //       "reps": 1,  // Represents 30 minutes of continuous running
+    //       "weight": 0,
+    //       "difficulty": 3,
+    //       "personalBest": 5, // Represents best time or distance covered
+    //       "favorite": false
+    //     }
+    //   ]
+    // }    
     
 
     //  Try to add a workout after the button is clicked here - send to db
@@ -116,7 +157,7 @@ const EditWorkoutScreen = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-      <Text style={styles.heading}>Create Custom Workout</Text>
+      <Text style={styles.heading}>Edit Workout</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter workout name"
@@ -190,9 +231,9 @@ const EditWorkoutScreen = ({ route }) => {
             onPress={() => removeExercise(index)}
           >
             <Text>{exercise.name}{'\n\t'}
-            {'Sets: '}{exercise.sets.length}{'\t'}
-            {'Reps: '}{exercise.sets[0].weight}{'\t'}
-            {exercise.sets[0].weight}{' lbs'}</Text>
+            {'Sets: '}{exercise.sets}{'\t'}
+            {'Reps: '}{exercise.reps}{'\t'}
+            {exercise.weight}{' lbs'}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>

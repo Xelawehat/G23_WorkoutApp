@@ -10,97 +10,21 @@ import { Workout, Exercise, Sets } from '../Models/workoutModel'
 const CalendarPage = ({ navigation }) => {
   const workoutsArray = [
     {
-      name: "Chest Day",
-      time: "60 minutes",
-      difficulty: 3,
-      favorite: true,
-      color: "red",
-      timesCompleted: 0,
-      date: "2024-04-10",
-      exercises: [
-        {
-          name: "Bench Press",
-          favorite: false,
-          muscleGroup: ["Chest", "Triceps"],
-          sets: [
-            { reps: 10, weight: 225 },
-            { reps: 10, weight: 225 },
-            // Add more sets if needed
-          ]
-        },
-        {
-          name: "Incline Bench Press",
-          favorite: false,
-          muscleGroup: ["Chest", "Triceps"],
-          sets: [
-            { reps: 10, weight: 185 },
-            { reps: 10, weight: 185 },
-            // Add more sets if needed
-          ]
-        },
-        // Add more exercises if needed
-      ]
-    },
-    {
-      name: "Back Time",
-      time: "20 minutes",
-      difficulty: 2,
-      favorite: false,
-      color: "purple",
-      timesCompleted: 5,
-      date: "2024-04-10",
-      exercises: [
-        {
-          name: "Pull-ups",
-          favorite: false,
-          muscleGroup: ["Back", "Triceps"],
-          sets: [
-            { reps: 10, weight: 0 },
-            { reps: 10, weight: 0 },
-            // Add more sets if needed
-          ]
-        },
-        {
-          name: "Incline Bench Press",
-          favorite: false,
-          muscleGroup: ["Chest", "Triceps"],
-          sets: [
-            { reps: 10, weight: 185 },
-            { reps: 10, weight: 185 },
-            // Add more sets if needed
-          ]
-        },
-        // Add more exercises if needed
-      ]
-    },
-    {
       name: "Leg Day",
-      time: "90 minutes",
-      difficulty: 4,
-      favorite: false,
       color: "blue",
-      timesCompleted: 0,
       date: "2024-04-15",
       exercises: [
         {
           name: "Deadlifts",
-          favorite: false,
-          muscleGroup: ["Back", "Legs"],
-          sets: [
-            { reps: 8, weight: 135 },
-            { reps: 8, weight: 135 },
-            // Add more sets if needed
-          ]
+          sets: 3,
+          reps: 5,
+          weight: 315
         },
         {
           name: "Squats",
-          favorite: false,
-          muscleGroup: ["Legs"],
-          sets: [
-            { reps: 10, weight: 185 },
-            { reps: 10, weight: 185 },
-            // Add more sets if needed
-          ]
+          sets: 3,
+          reps: 5,
+          weight: 50
         },
         // Add more exercises if needed
       ]
@@ -159,7 +83,6 @@ const CalendarPage = ({ navigation }) => {
             //onPress={() => navigation.navigate('WorkoutDetails', { workout }, {selected})}>
             onPress={() => navigation.navigate('WorkoutDetails', { workout })}>
               <Text style={styles.workoutName}>{workout.name}</Text>
-              <Text style={styles.workoutTime}>~{workout.time} minutes</Text>
               <Text style={styles.workoutTime}>Date: {workout.date}</Text>
             </TouchableOpacity>
           ))}
@@ -192,7 +115,7 @@ const CalendarPage = ({ navigation }) => {
 
       <View style={styles.workoutInfoContainer}>
         {renderWorkoutInfo()}
-        <TouchableOpacity onPress={() => navigation.navigate('CreateWorkout', {selected})}>
+        <TouchableOpacity onPress={() => navigation.navigate('CreateWorkout', { selectedDay: selected })}>
           <FontAwesome name="plus-circle" size={36} color="blue" style={styles.addWorkoutIcon} />
         </TouchableOpacity>
       </View>
