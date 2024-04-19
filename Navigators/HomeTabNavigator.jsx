@@ -67,7 +67,7 @@ export default function HomeTabNavigator() {
       <Tab.Screen name="Settings" component={SettingsNavigator}      // Settings Screen
       options={{
         tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="settings" color={"black"} size={26}/>
+            <MaterialIcons name="settings" color={"black"} size={26}/>
         ),
     }}/>
     </Tab.Navigator>

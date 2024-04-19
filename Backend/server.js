@@ -60,13 +60,13 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   //  Exercise schema
 const exerciseSchema = new Schema({
     name: {type: String, required: true},
-    muscleGroup: {type: String, required: true},
+    muscleGroup: {type: String, required: false},
     sets: {type: Number, required: true},
     reps: {type: Number, required: true},
     weight: {type: Number, required: true},
-    difficulty: {type: Number, required: true},
-    personalBest: {type: Number, required: true},
-    favorite: {type: Boolean, required: true},
+    difficulty: {type: Number, required: false},
+    personalBest: {type: Number, required: false},
+    favorite: {type: Boolean, required: false},
   });
 
 
@@ -124,7 +124,12 @@ app.post('/register', async (req, res) => {
 
   
       // Send a successful response back
-      res.status(201).send('User registered successfully.');
+      // res.status(201).send('User registered successfully.');
+      res.send({
+        message: "success",
+        userId: newUser._id,  // Send user ID back to client
+        isValid: true
+    });
     } catch (error) {
       console.error('Error during user registration:', error);
       console.log(error.message);
@@ -164,7 +169,12 @@ app.post('/login', async (req, res) => {
     console.log('Logged In:',isLoggedIn)
     */
       
-      res.send('Login successful.');
+      // res.send('Login successful.');
+      res.send({
+        message: "success",
+        userId: user._id,  // Send user ID back to client
+        isValid: true
+    });
     } catch (error) {
       console.error('An error occurred during the login process:', error);
       res.status(500).send('An error occurred during the login process.');

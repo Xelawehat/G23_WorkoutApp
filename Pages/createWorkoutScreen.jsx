@@ -3,11 +3,13 @@ import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, Scro
 import { Picker } from '@react-native-picker/picker';
 import exercisesData from './exercises.json';
 import exampleData from './examples.json';
+import dataArray from './dataArray';
 import * as Notif from 'expo-notifications';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //  Put your id address:
-let currentIpAddress = '10.32.46.99:5000';
+let currentIpAddress = '10.182.159:5000';
 
 const CreateWorkoutScreen = ({ route, navigation }) => {
 
@@ -22,15 +24,15 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     exercises: []
   });
 
-    const [exercise, setExercise] = useState({
-      name: "",
-      favorite: false,
-      muscleGroup: [""],
-      bodyweight: false,
-      sets: [
-        { reps: 0, weight: 0 },
-      ]
-    });
+    // const [exercise, setExercise] = useState({
+    //   name: "",
+    //   favorite: false,
+    //   muscleGroup: [""],
+    //   bodyweight: false,
+    //   sets: [
+    //     { reps: 0, weight: 0 },
+    //   ]
+    // });
 
     //Stores the workout object when Save Workout button is pressed
     const workoutObj = {
@@ -47,7 +49,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
       {
         return;
       }
-      const trigger = new Date(Date.parse(workoutObj.date));
+      const trigger = new Date(Date.parse(workoutObj.time));
       trigger.setHours(6);
       trigger.setMinutes(0);
       trigger.setSeconds(0);
@@ -134,6 +136,9 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
   // Function to handle saving the workout
   const saveWorkout = async () => {
 
+    // Database
+    const userId = await AsyncStorage.getItem('userId');
+
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
         alert('Must enter a workout name.');
@@ -165,6 +170,8 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
     //Dummy Data
     const workoutData = workoutObj;
+    // update locally stored dataArray[]
+    dataArray.push(workoutObj);
     // const workoutData = {
     //   name: "Chest Day",
     //   time: "60 minutes",
@@ -203,30 +210,30 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     
 
     //  Try to add a workout after the button is clicked here - send to db
-    // try {
+    try {
 	  
-    //   //  TODO: a user already in the db is currently hardcoded to test if this works.
-    //           //  find out how to replace it with the current user
-    //           alert('Seconf');
-		// 	const response = await axios({
-		// 	  method: 'post',
-		// 	  url: `http://${currentIpAddress}/users/661d0c98e9bf155e020def5e/workouts`,
-    //     headers: {
-    //       'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-    //     },
-		// 	  data:workoutData
-		// 	});
+      //  TODO: a user already in the db is currently hardcoded to test if this works.
+              //  find out how to replace it with the current user
+              alert('Seconf');
+			const response = await axios({
+			  method: 'post',
+			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
+        headers: {
+          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+        },
+			  data:workoutData
+			});
 	  
-		// 	console.log('Response:', response.data);
-    //   console.log('Workout saved:', { workoutData, selectedExercises });
-    //   alert('Workout Saved');
-		//   } catch (error) {
-		// 	console.error('Error adding workout:', error.response.data);
-		//   }
-
-    //scheduleWorkoutNotif();
+			console.log('Response:', response.data);
+      console.log('Workout saved:', { workoutData, selectedExercises });
       alert('Workout Saved');
-      navigation.navigate('Calendar');
+		  } catch (error) {
+			console.error('Error adding workout:', error.response.data);
+		  }
+
+    scheduleWorkoutNotif();
+      alert('Workout Saved');
+      navigation.navigate('ListOfWorkouts', { selectedDay: workoutObj.date });
   };
 
   return (

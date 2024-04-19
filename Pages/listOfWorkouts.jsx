@@ -1,40 +1,117 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import dataArray from './dataArray';
+import * as Notif from 'expo-notifications';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const ListOfWorkouts = ({ route, navigation }) => {
 
-  const date = route.params.selectedDay;
+    const selectedDay = route.params.selectedDay;
+
+    const [selectedTime, setSelectedTime] = useState('');
+    const theBigOne = new Date(selectedTime);
+
+    // Notification Scheduler
+    const scheduleWorkoutNotif = (workout) => {
+        //const notifbody = RandomNotifText[Math.floor(Math.random() * 3)];
+    
+        //if (user.allowNotifs == false)
+        // {
+        //   return;
+        // }
+        const trigger = new Date(Date.parse(route.params.selectedDay));
+        trigger.setTime(theBigOne.getTime());
+    
+        console.log('This thing is:', trigger);
+        const notifbody = ("Workout today: ").concat(' ', workout.name);
+        Notif.scheduleNotificationAsync({
+          content: {
+            title: "Workout App Notification",
+            body: notifbody
+          },
+          trigger,
+        });
+      };
+
+  // Navigate to createWorkoutPage
   const goToCreateWorkout = () => {
-    navigation.navigate('CreateWorkout', date);
+    navigation.navigate('CreateWorkout', selectedDay);
   };
 
-  const selectWorkout = (workoutId) => {
+  // Handles the continue button
+  const handleContinuePress = (workout) => {
+    // Logic to handle the "Continue" button press
+    console.log('Continue Pressed');
+    scheduleWorkoutNotif(workout);
+    //navigation.navigate('Calendar'); need to add a 
+  };
+
+  // Alert function
+  const showAlert = ( workout ) => {
+
+    const hour = theBigOne.getHours().toString();
+    const min = theBigOne.getMinutes().toString();
+    const together = hour.concat(':',min);
+    console.log('selectedTime',selectedTime);
+    console.log('together',together);
+    console.log('theBigOne',theBigOne);
+
+    Alert.alert(
+      ('Schedule').concat(' ',workout.name).concat('?'),
+      together.concat('\nYou may edit this later.'),
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Continue', onPress: handleContinuePress(workout) },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  // Handle Time Change
+  const handleTimeChange = (event, selected) => {
+    setSelectedTime(selected);
+  };
+
+  const selectWorkout = (workout) => {
     // Logic to select the workout with the given ID
-    console.log('Selected workout:', workoutId);
+    console.log('Selected workout:', workout);
     // Navigate to the next screen or perform any other action
+    showAlert(workout);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>List of Workouts</Text>
-      <TouchableOpacity style={styles.button} onPress={goToCreateWorkout}>
-        <Text style={styles.buttonText}>Create New Workout</Text>
-      </TouchableOpacity>
+      <Text style={styles.heading}>Pick a Time:</Text>
+      <DateTimePicker
+        value={selectedTime || new Date()}
+        mode="time"
+        is24Hour={false}
+        display="spinner"
+        onChange={handleTimeChange}
+      />
+
+    <Text style={styles.heading}>Select a workout:</Text>
+      
+
       {/* Render the list of previously created workouts */}
-      {/* Example of rendering workouts */}
-      <TouchableOpacity
-        style={styles.workoutItem}
-        onPress={() => selectWorkout('workout1')}
-      >
-        <Text>Workout 1</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.workoutItem}
-        onPress={() => selectWorkout('workout2')}
-      >
-        <Text>Workout 2</Text>
-      </TouchableOpacity>
-      {/* Add more TouchableOpacity components for each workout */}
+      {dataArray.map((workout, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.workoutItem}
+          onPress={() => selectWorkout(workout)}
+        >
+          <Text>{workout.name}</Text>
+        </TouchableOpacity>
+      ))}
+
+    <TouchableOpacity style={styles.button} onPress={goToCreateWorkout}>
+        <Text style={styles.buttonText}>Create New Workout</Text>
+    </TouchableOpacity>
+
     </View>
   );
 };

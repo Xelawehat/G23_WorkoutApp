@@ -4,39 +4,45 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Calendar } from 'react-native-calendars';
 import { FontAwesome } from '@expo/vector-icons';
 import exercisesData from './exercises.json';
-import { Workout, Exercise, Sets } from '../Models/workoutModel'
-//import createdWorkout from './Pages/createWorkoutScreen'
+import dataArray from './dataArray';
+import getterUserWorkouts from '../Backend/backendFunctions';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CalendarPage = ({ navigation }) => {
-  const workoutsArray = [
-    {
-      name: "Leg Day",
-      color: "blue",
-      date: "2024-04-15",
-      time: "example",
-      timesCompleted: 0,
-      exercises: [
-        {
-          name: "Deadlifts",
-          sets: 3,
-          reps: 5,
-          weight: 315
-        },
-        {
-          name: "Squats",
-          sets: 3,
-          reps: 5,
-          weight: 50
-        },
-        // Add more exercises if needed
-      ]
-    },
-    // Add more workout objects here
-  ];
+
+  //const workoutsArray = getterUserWorkouts();
+  console.log('the big payload', workoutsArray);
+
+  const workoutsArray = dataArray;
+  // const workoutsArray = [
+  //   {
+  //     name: "Leg Day",
+  //     color: "blue",
+  //     date: "2024-04-15",
+  //     time: "example",
+  //     timesCompleted: 0,
+  //     exercises: [
+  //       {
+  //         name: "Deadlifts",
+  //         sets: 3,
+  //         reps: 5,
+  //         weight: 315
+  //       },
+  //       {
+  //         name: "Squats",
+  //         sets: 3,
+  //         reps: 5,
+  //         weight: 50
+  //       },
+  //       // Add more exercises if needed
+  //     ]
+  //   },
+  //   // Add more workout objects here
+  // ];
   const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
   const [exercises, setExercises] = useState([]); // For json/flatlist
   const [selectedWorkouts, setSelectedWorkouts] = useState([]); // for workouts scheduled
-  console.log(selectedWorkouts);
 
   useEffect(() => {
     setExercises(exercisesData); // Set the exercises data from the imported JSON file
@@ -47,22 +53,18 @@ const CalendarPage = ({ navigation }) => {
 
     // Loop to get each Dot on calendar
     workoutsArray.forEach(workout => {
-      workout.date = workout.date.split('T')[0]; // removes time
+      //workout.date = workout.date.split('T')[0]; // removes time from date
       const { date, color } = workout;
-      console.log('Date:', date, 'Color:', color);
       if (!markedDates[date]) {
         markedDates[date] = { marked: true, dots: [{ color: color }] };
       } else {
         markedDates[date].dots.push({ color: color });
       }
     });
-    
-    console.log('Marked Dates:', markedDates);
 
     const handleDayPress = day => {
       setSelected(day.dateString);
       console.log('Day Selected', day);
-      console.log('Selectedwokrouts1', selectedWorkouts);
     
       // checks for workouts scheduled on selected day
       const filteredWorkouts = workoutsArray.filter(workout => workout.date === day.dateString);
@@ -82,7 +84,6 @@ const CalendarPage = ({ navigation }) => {
         <View>
           {selectedWorkouts.map((workout, index) => (
             <TouchableOpacity key={index} style={styles.workoutItem}
-            //onPress={() => navigation.navigate('WorkoutDetails', { workout }, {selected})}>
             onPress={() => navigation.navigate('WorkoutDetails', { workout })}>
               <Text style={styles.workoutName}>{workout.name}</Text>
               <Text style={styles.workoutTime}>Date: {workout.date}</Text>
@@ -117,7 +118,7 @@ const CalendarPage = ({ navigation }) => {
 
       <View style={styles.workoutInfoContainer}>
         {renderWorkoutInfo()}
-        <TouchableOpacity onPress={() => navigation.navigate('CreateWorkout', { selectedDay: selected })}>
+        <TouchableOpacity onPress={() => navigation.navigate('ListOfWorkouts', { selectedDay: selected })}>
           <FontAwesome name="plus-circle" size={36} color="blue" style={styles.addWorkoutIcon} />
         </TouchableOpacity>
       </View>
