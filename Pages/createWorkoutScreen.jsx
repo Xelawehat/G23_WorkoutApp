@@ -3,13 +3,13 @@ import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, Scro
 import { Picker } from '@react-native-picker/picker';
 import exercisesData from './exercises.json';
 import exampleData from './examples.json';
-//import { Workout, Exercise, Sets } from '../Models/workoutModel'
+import * as Notif from 'expo-notifications';
 import axios from 'axios';
 
 //  Put your id address:
 let currentIpAddress = '10.32.46.99:5000';
 
-const CreateWorkoutScreen = ({ route }) => {
+const CreateWorkoutScreen = ({ route, navigation }) => {
 
   const [workout, setWorkout] = useState({
     name: "",
@@ -39,13 +39,27 @@ const CreateWorkoutScreen = ({ route }) => {
       date: <route className="params"></route>  //still need to figure out how to get date into here
     };
 
-    const exerciseObj = {
-        name: "",
-        sets: 0,
-        reps: 0,
-        weight: 0
-
-    };
+    // Random time Notification
+    const scheduleWorkoutNotif = () => {
+      //const notifbody = RandomNotifText[Math.floor(Math.random() * 3)];
+  
+      if (user.allowNotifs == false)
+      {
+        return;
+      }
+      const trigger = new Date(Date.parse(workoutObj.date));
+      trigger.setHours(6);
+      trigger.setMinutes(0);
+      trigger.setSeconds(0);
+      const notifbody = ("Workout today: ").concat(' ', workoutObj.name);
+      Notif.scheduleNotificationAsync({
+        content: {
+          title: "Workout App Notification",
+          body: notifbody
+        },
+        trigger,
+      });
+    }
 
   // State variables
   const [sets, setSets] = useState('');
@@ -58,13 +72,12 @@ const CreateWorkoutScreen = ({ route }) => {
   const [selectedColor, setSelectedColor] = useState(workout.color);
 
   // Array of color options
-  const colorOptions = ['#FF6347', '#4682B4', '#32CD32', '#FFD700'];
+  const colorOptions = ['red', 'blue', 'green', 'yellow'];
 
   // Function to handle color selection
   const handleColorSelection = (color) => {
     setSelectedColor(color);
   };
-  
 
   useEffect(() => {
     // Set the available exercises from the imported JSON file
@@ -74,10 +87,6 @@ const CreateWorkoutScreen = ({ route }) => {
 
   // Function to add exercise to the selected exercises list
   const addExercise = () => {
-    if (!workoutName.trim()) {
-      alert('Must enter a workout name.');
-      return;
-    }
     if (!selectedExercise){
       alert("Must select an exercise");
       return;
@@ -96,32 +105,12 @@ const CreateWorkoutScreen = ({ route }) => {
     }
 
     // //Stores temporary exercise objects each time Add Exercise button is pressed
-    // const exerciseObj = {
-    //   name: "",
-    //   sets: 0,
-    //   reps: 0,
-    //   weight: 0
-    // };
-
-    //Stores temporary exercise objects each time Add Exercise button is pressed
-    // const exerciseObj = {
-    //     name: "",
-    //     favorite: false,
-    //     muscleGroup: [],
-    //     bodyweight: false,
-    //     sets: []
-    // };
-
-    // exerciseObj.sets.forEach((set, index) => {
-    //    // Define the sets object type
-    //    const setObj = {
-    //     reps: reps,
-    //     weight: weight,
-    //   };
-    //   exerciseObj.sets.push(setObj);
-    //   console.log(`Set ${index + 1}: Reps: ${set.reps}, Weight: ${set.weight}`);
-    // });
-    
+    const exerciseObj = {
+      name: "",
+      sets: 0,
+      reps: 0,
+      weight: 0
+    };
 
     if (selectedExercise) {
         workoutObj.name = workoutName;
@@ -130,21 +119,10 @@ const CreateWorkoutScreen = ({ route }) => {
         exerciseObj.weight = weight;
         exerciseObj.reps = reps;
         exerciseObj.sets = sets;
-        console.log(exerciseObj);
+        console.log('Added exercise:', exerciseObj);
         setSelectedExercises([...selectedExercises, exerciseObj]);
     }
   };
-//   if (selectedExercise) {
-//     workoutObj.name = workoutName;
-//     const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
-//     exerciseObj.name = exerciseToAdd.name;
-//     // exerciseObj.weight = weight;
-//     // exerciseObj.reps = reps;
-//     // exerciseObj.sets = sets;
-//     console.log(exerciseObj);
-//     setSelectedExercises([...selectedExercises, exerciseObj]);
-// }
-// };
 
   // Function to remove exercise from the selected exercises list
   const removeExercise = (index) => {
@@ -177,9 +155,7 @@ const CreateWorkoutScreen = ({ route }) => {
     workoutObj.exercises = selectedExercises;
     workoutObj.color = selectedColor;
     workoutObj.date = route.params.selectedDay;
-    //workoutObj.date = ...
-    //need to add the date here (should be pulled from the calendar day that the plus was selected)
-    console.log('\n\n',workoutObj);
+    console.log('\n\nWorkoutObj:',workoutObj);
     
     //  TODO: Uncomment this when icons are scrollable
     
@@ -222,29 +198,35 @@ const CreateWorkoutScreen = ({ route }) => {
     //       },
     //       // Add more exercises if needed
     //   ]
-  //}; 
+  //};
+  
     
 
     //  Try to add a workout after the button is clicked here - send to db
-    try {
+    // try {
 	  
-      //  TODO: a user already in the db is currently hardcoded to test if this works.
-              //  find out how to replace it with the current user
-			const response = await axios({
-			  method: 'post',
-			  url: `http://${currentIpAddress}/users/661d0c98e9bf155e020def5e/workouts`,
-        headers: {
-          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-        },
-			  data:workoutData
-			});
+    //   //  TODO: a user already in the db is currently hardcoded to test if this works.
+    //           //  find out how to replace it with the current user
+    //           alert('Seconf');
+		// 	const response = await axios({
+		// 	  method: 'post',
+		// 	  url: `http://${currentIpAddress}/users/661d0c98e9bf155e020def5e/workouts`,
+    //     headers: {
+    //       'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+    //     },
+		// 	  data:workoutData
+		// 	});
 	  
-			console.log('Response:', response.data);
-      console.log('Workout saved:', { workoutData, selectedExercises });
+		// 	console.log('Response:', response.data);
+    //   console.log('Workout saved:', { workoutData, selectedExercises });
+    //   alert('Workout Saved');
+		//   } catch (error) {
+		// 	console.error('Error adding workout:', error.response.data);
+		//   }
+
+    //scheduleWorkoutNotif();
       alert('Workout Saved');
-		  } catch (error) {
-			console.error('Error adding workout:', error.response.data);
-		  }
+      navigation.navigate('Calendar');
   };
 
   return (

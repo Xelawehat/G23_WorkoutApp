@@ -15,6 +15,9 @@ export default function Settings() {
   return (
     <SafeAreaView style={{ flex: 1}}>
       <View>
+      <View style={styles.header}>
+          <Text style={styles.title}>Settings</Text>
+      </View>
         <ScrollView>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Account</Text>
@@ -122,15 +125,14 @@ export default function Settings() {
                 </View>
               </View>
               <View style={ styles.logout }>
-                <Button 
-                  title="Log Out"
+                <TouchableOpacity
                   onPress={() => {
-                    alert("Logging out")
+                    alert("Logging Out...")
                   }}
-                  color='red'
-                >
-                </Button>
-                </View>
+                  style={styles.logButton}>
+                  <Text style={styles.buttonTitle}>Log Out</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -140,6 +142,17 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
+  header: { 
+    paddingLeft: 24, 
+    paddingRight: 24,
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '700',
+    color: '#1d1d1d',
+    marginBottom: 6,
+  },
   /** Section */
   section: {
     paddingTop: 12,
@@ -201,5 +214,20 @@ const styles = StyleSheet.create({
   },
   logout: {
     paddingTop: '25%',
-  }
+    paddingLeft: '30%'
+  },
+  buttonTitle: {
+    fontSize: 20,
+    color: 'red'
+  },
+  logButton: {
+    height: 50,
+    width: 150,
+    borderColor: 'red',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    paddingTop: '2.5%', 
+    paddingBottom: '2.5%'
+  },
 });

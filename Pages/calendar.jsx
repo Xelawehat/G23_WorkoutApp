@@ -13,6 +13,8 @@ const CalendarPage = ({ navigation }) => {
       name: "Leg Day",
       color: "blue",
       date: "2024-04-15",
+      time: "example",
+      timesCompleted: 0,
       exercises: [
         {
           name: "Deadlifts",

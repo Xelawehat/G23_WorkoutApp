@@ -27,6 +27,7 @@
     "expo": "^50.0.0",
     "expo-blur": "^12.9.1",
     "expo-linear-gradient": "~12.7.2",
+    "expo-notifications": "^0.27.7",
     "expo-status-bar": "~1.11.1",
     "express": "^4.19.2",
     "express-session": "^1.18.0",

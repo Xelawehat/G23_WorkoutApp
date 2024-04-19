@@ -149,6 +149,16 @@ export default function Profile({ navigation }) {
           style={ pickerSelectStyles }
         />
         {selectedExperience && <Text style={ styles.selected }>Selected: {selectedExperience}</Text>}
+
+        <View style={styles.button}>
+          <TouchableOpacity
+          onPress={() => {
+            alert("Profile saved")
+          }}
+          style={styles.saveButton}>
+            <Text style={styles.buttonText}>Save Profile</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -193,6 +203,24 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: '500',
     },
+    button: {
+      paddingTop: '25%',
+      paddingLeft: '30%'
+    },
+    saveButton: {
+      height: 50,
+      width: 150,
+      borderWidth: 2,
+      borderColor: 'green',
+      backgroundColor: 'white',
+      alignItems: 'center',
+      paddingTop: '2.5%',
+      paddingBottom: '2.5%'
+    },
+    buttonText: {
+      fontSize: 20,
+      color: 'green'
+    }
 })
 
 const pickerSelectStyles = StyleSheet.create({

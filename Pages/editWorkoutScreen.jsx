@@ -3,17 +3,17 @@ import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, Scro
 import { Picker } from '@react-native-picker/picker';
 import exampleData from './examples.json';
 
-const EditWorkoutScreen = ({ route }) => {
+const EditWorkoutScreen = ({ route, navigation }) => {
 
     const { workout } = route.params;
 
     //Stores temporary exercise objects each time Add Exercise button is pressed
-    const exerciseObj = {
-      name: "",
-      sets: 0,
-      reps: 0,
-      weight: 0
-    };
+    // const exerciseObj = {
+    //   name: "",
+    //   sets: 0,
+    //   reps: 0,
+    //   weight: 0
+    // };
 
   // State variables
   const [workoutName, setWorkoutName] = useState(workout.name);
@@ -26,25 +26,16 @@ const EditWorkoutScreen = ({ route }) => {
   const [selectedColor, setSelectedColor] = useState(workout.color);
 
   // Array of color options
-  const colorOptions = ['#FF6347', '#4682B4', '#32CD32', '#FFD700'];
+  const colorOptions = ['red', 'blue', 'green', 'yellow'];
 
   // Function to handle color selection
   const handleColorSelection = (color) => {
     setSelectedColor(color);
   };
 
-//   useEffect(() => {
-//     // Set the available exercises from the imported JSON file
-//     setAvailableExercises(exampleData);
-//   }, []);
-
   // Function to add exercise to the selected exercises list
   // Function to add exercise to the selected exercises list
   const addExercise = () => {
-    if (!workoutName.trim()) {
-      alert('Must enter a workout name.');
-      return;
-    }
     if (!selectedExercise){
       alert("Must select an exercise");
       return;
@@ -63,12 +54,12 @@ const EditWorkoutScreen = ({ route }) => {
     }
 
     // //Stores temporary exercise objects each time Add Exercise button is pressed
-    // const exerciseObj = {
-    //   name: "",
-    //   sets: 0,
-    //   reps: 0,
-    //   weight: 0
-    // };
+    const exerciseObj = {
+      name: "",
+      sets: 0,
+      reps: 0,
+      weight: 0
+    };
 
     //Stores temporary exercise objects each time Add Exercise button is pressed
     // const exerciseObj = {
@@ -79,25 +70,13 @@ const EditWorkoutScreen = ({ route }) => {
     //     sets: []
     // };
 
-    // exerciseObj.sets.forEach((set, index) => {
-    //    // Define the sets object type
-    //    const setObj = {
-    //     reps: reps,
-    //     weight: weight,
-    //   };
-    //   exerciseObj.sets.push(setObj);
-    //   console.log(`Set ${index + 1}: Reps: ${set.reps}, Weight: ${set.weight}`);
-    // });
-    
-
     if (selectedExercise) {
-        workout.name = workoutName;
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
         exerciseObj.name = exerciseToAdd.name;
         exerciseObj.weight = weight;
         exerciseObj.reps = reps;
         exerciseObj.sets = sets;
-        console.log(exerciseObj);
+        console.log('Added', exerciseObj);
         setSelectedExercises([...selectedExercises, exerciseObj]);
     }
   };
@@ -116,11 +95,21 @@ const EditWorkoutScreen = ({ route }) => {
         alert('Must enter a workout name.');
         return;
     }
+
+    // Check if thre is an exercise added
+    if (selectedExercises.length === 0) {
+        alert('Must add at least one exercise to the workout.');
+        return;
+    }
+
+    // update workout Object
+    workout.name = workoutName;
+    workout.exercises = selectedExercises;
+    workout.color = selectedColor;
+    workout.date = workout.date;
+    console.log('\n\nWorkout:',workout);
+
     //  TODO: Uncomment this when icons are scrollable
-    // if (selectedExercises.length === 0) {
-    //     alert('Must add at least one exercise to the workout.');
-    //     return;
-    // }
   
     //  BACKEND CONNECTION
     // If all validations pass, proceed with saving the workout
@@ -151,7 +140,10 @@ const EditWorkoutScreen = ({ route }) => {
     
 
     //  Try to add a workout after the button is clicked here - send to db
-   
+
+    //scheduleWorkoutNotif();
+      alert('Edit Saved');
+      navigation.navigate('WorkoutDetails', {workout});
   };
 
   return (
@@ -288,7 +280,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     alignItems: 'center',
-    marginBottom: 10,
+    marginTop: 40,
+    marginBottom: 50,
   },
   buttonText: {
     color: 'white',

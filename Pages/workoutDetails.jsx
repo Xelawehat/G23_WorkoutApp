@@ -5,6 +5,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 const WorkoutDetailsPage = ({ route }) => {
   // State variables
   const navigation = useNavigation();
+  console.log('route.paramas', route.params);
   const { workout } = route.params; // Extract workout details from navigation params
   const scrollViewRef = useRef(null);
   //const [showEditIndicator, setShowEditIndicator] = useState('false'); causes an error
@@ -28,15 +29,21 @@ const WorkoutDetailsPage = ({ route }) => {
           <Text style={styles.workoutName}>{workout.name}</Text>
           <Text style={styles.workoutDate}>Date: {workout.date}</Text>
         </View>
+
+        {/*Notifications Info*/}
+        <View>
+          <Text>Reminder: 15 min before</Text>
+        </View>
+
         <View>
           <Text style={styles.sectionHeading}>Exercises:</Text>
           {workout.exercises.map((exercise, index) => (
             <View key={index} style={styles.exerciseItem}>
               <Text style={styles.exerciseName}>{exercise.name}</Text>
               
-                  <Text>Set: {exercise.sets}</Text>
-                  <Text>Reps: {exercise.reps}</Text>
-                  <Text>Weight: {exercise.weight} lbs</Text>
+                  <Text style={styles.item}>Set: {exercise.sets}</Text>
+                  <Text style={styles.item}>Reps: {exercise.reps}</Text>
+                  <Text style={styles.item}>Weight: {exercise.weight} lbs</Text>
             </View>
           ))}
         </View>
@@ -55,24 +62,32 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   workoutName: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    paddingLeft: '5%'
   },
   workoutTime: {
     fontSize: 16,
     marginBottom: 5,
+    paddingLeft: '5%'
   },
   workoutDate: {
     fontSize: 16,
     marginBottom: 10,
+    paddingLeft: '5%'
   },
   sectionHeading: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    paddingLeft: '5%'
   },
   exerciseItem: {
     marginBottom: 10,
+    paddingLeft: '10%'
+  },
+  item: {
+    paddingLeft: '5%'
   },
   exerciseName: {
     fontSize: 18,
@@ -81,7 +96,9 @@ const styles = StyleSheet.create({
   goTo: {
     fontSize: 13,
     alignContent: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: '25%',
+    paddingLeft: '25%'
   },
 });
 

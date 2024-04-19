@@ -40,6 +40,7 @@ export interface user {
     gender: string;
     workouts: Workout[];
     goal: string;
+    allowNotifs: boolean;
 }
 
 // Example usage:
