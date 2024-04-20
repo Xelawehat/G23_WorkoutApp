@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import exampleData from './exercises.json';
+import exampleData from './examples.json';
+
+//  Added
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+let currentIpAddress = '172.20.10.14:5000';
 
 const EditWorkoutScreen = ({ route, navigation }) => {
 
@@ -60,16 +66,7 @@ const EditWorkoutScreen = ({ route, navigation }) => {
       reps: 0,
       weight: 0
     };
-
-    //Stores temporary exercise objects each time Add Exercise button is pressed
-    // const exerciseObj = {
-    //     name: "",
-    //     favorite: false,
-    //     muscleGroup: [],
-    //     bodyweight: false,
-    //     sets: []
-    // };
-
+    
     if (selectedExercise) {
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
         exerciseObj.name = exerciseToAdd.name;
@@ -103,43 +100,38 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     }
 
     // update workout Object
+    const oldName = workout.name;
+    console.log("Old name: ", oldName);
     workout.name = workoutName;
     workout.exercises = selectedExercises;
     workout.color = selectedColor;
     workout.date = workout.date;
     console.log('\n\nWorkout:',workout);
 
-    //  TODO: Uncomment this when icons are scrollable
-  
-    //  BACKEND CONNECTION
-    // If all validations pass, proceed with saving the workout
-    // Implement saving logic here, can involve sending data to a server, storing in local storage, etc.
+    //  Edit the workout in the database
+    try {
 
-    //Dummy Data
-    // const workoutData = {
-    //   "name": "Cardio Blast",
-    //   "time": "2024-04-14T06:30:00.000Z",
-    //   "difficulty": 3,
-    //   "favorite": true,
-    //   "color": "#FF6347",
-    //   "timesCompleted": 3,
-    //   "date": "2024-04-14T06:30:00.000Z",
-    //   "exercises": [
-    //     {
-    //       "name": "Treadmill Running",
-    //       "muscleGroup": "Legs",
-    //       "sets": 1,
-    //       "reps": 1,  // Represents 30 minutes of continuous running
-    //       "weight": 0,
-    //       "difficulty": 3,
-    //       "personalBest": 5, // Represents best time or distance covered
-    //       "favorite": false
-    //     }
-    //   ]
-    // }    
-    
+      const userId = await AsyncStorage.getItem('userId');
+	  
+      const workoutData = {
+        newName: oldName,
+        workoutUpdate: workout
+      };
 
-    //  Try to add a workout after the button is clicked here - send to db
+			const response = await axios({
+			  method: 'patch',
+			  url: `http://${currentIpAddress}/users/${userId}/workouts`, workoutData,
+        headers: {
+          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+        }
+			});
+	  
+			console.log('Response:', response.data);
+      // console.log('Workout saved:', { workoutData, selectedExercises });
+      alert('Workout Saved');
+		  } catch (error) {
+			console.error('Error adding workout:', error.response.data);
+		  }
 
     //scheduleWorkoutNotif();
       alert('Edit Saved');

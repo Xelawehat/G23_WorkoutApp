@@ -32,7 +32,7 @@ const WorkoutDetailsPage = ({ route }) => {
 
         {/*Notifications Info*/}
         <View>
-          <Text style={styles.reminder}>Reminder: 15 min before</Text>
+          <Text>Reminder: 15 min before</Text>
         </View>
 
         <View>

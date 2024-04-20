@@ -9,7 +9,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //  Put your id address:
-let currentIpAddress = '10.182.159:5000';
+let currentIpAddress = '172.20.10.14:5000';
 
 const CreateWorkoutScreen = ({ route, navigation }) => {
 
@@ -24,16 +24,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     exercises: []
   });
 
-    // const [exercise, setExercise] = useState({
-    //   name: "",
-    //   favorite: false,
-    //   muscleGroup: [""],
-    //   bodyweight: false,
-    //   sets: [
-    //     { reps: 0, weight: 0 },
-    //   ]
-    // });
-
+   
     //Stores the workout object when Save Workout button is pressed
     const workoutObj = {
       name: "",

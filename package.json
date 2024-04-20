@@ -11,7 +11,10 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
+<<<<<<< HEAD
     "@react-native-community/datetimepicker": "^7.7.0",
+=======
+>>>>>>> 5e453ca61bb7b7fe95e5328e3f222333eda29da3
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "^11.3.1",
     "@react-native-picker/picker": "^2.7.5",

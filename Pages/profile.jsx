@@ -3,6 +3,11 @@ import RNPickerSelect from 'react-native-picker-select';
 import { NavigationContainer } from '@react-navigation/native';
 import { View, Text, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+//  Added
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+let currentIpAddress = '172.20.10.14:5000';
 
 export default function Profile({ navigation }) {
   const [selectedAge, setSelectedAge] = useState(null);
@@ -11,6 +16,14 @@ export default function Profile({ navigation }) {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [selectedExperience, setSelectedExperience] = useState(null);
+  const [profileData, setProfileData] = useState({
+    age: '',
+    height: '',
+    weight: '',
+    gender:'',
+    goals:'',
+    experience:''
+  });
 
   const age = {
     label: 'Select an option...',
@@ -86,6 +99,42 @@ export default function Profile({ navigation }) {
     {label: 'Advanced (Over 5 years)', value: 'Advanced (Over 5 years)'},
   ];
 
+  const handleSaveProfile = () =>{
+    const userProfileData = {
+      age: selectedAge,
+      height: selectedHeight,
+      weight: selectedWeight,
+      gender: selectedGender,
+      goals: selectedGoal,
+      experience: selectedExperience
+    };
+    updateUserProfile(userProfileData);
+    alert("Profile saved");
+  };
+
+  //  Function to update the user profile
+  const updateUserProfile = async (userProfileData) => {
+    try {
+      const userId = await AsyncStorage.getItem(`userId`);
+      // const response = await axios.patch(`${currentIpAddress}/users/${userId}/profile`, userProfileData);
+
+      const response = await axios({
+			  method: 'patch',
+			  url: `http://${currentIpAddress}/users/${userId}/profile`,
+        headers: {
+          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+        },
+			  data:userProfileData
+			});
+
+      console.log("Profile updated successfully: ", response.data);
+      alert("Profile updated successfully: ", response.data);
+      // return response.data;
+    }  catch (error) {
+			console.error('Failed to update profile:', error.response.data);
+		  }
+  };
+
   return (
     <View>
       <ScrollView>
@@ -152,9 +201,7 @@ export default function Profile({ navigation }) {
 
         <View style={styles.button}>
           <TouchableOpacity
-          onPress={() => {
-            alert("Profile saved")
-          }}
+          onPress={handleSaveProfile}
           style={styles.saveButton}>
             <Text style={styles.buttonText}>Save Profile</Text>
           </TouchableOpacity>

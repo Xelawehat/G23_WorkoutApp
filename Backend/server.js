@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');    //  parses JSON payloads in HTTP r
 const cors = require('cors');                 //  Cross-Origin Resource Sharing, restricts who can access the app essentially
 const bcrypt = require('bcrypt');             //  hash passwords, uses blowfish algorithm
 const session = require('express-session');   //  keeps authenticated users logged in
+const { default: getUserWorkouts } = require('./backendFunctions');
 const Schema = mongoose.Schema;
 
 
@@ -75,8 +76,12 @@ const UserSchema = new Schema({
     email: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true }, // Consider using bcrypt for hashing
-    age: Number,
-    weight: Number,
+    age: String,
+    height: String,
+    weight: String,
+    gender: String,
+    goals: String,
+    experience: String,
     workouts: [{
       name: String,
       time: { type: Date, default: Date.now }, // Changed from Timestamp to Date
@@ -224,35 +229,86 @@ app.post('/login', async (req, res) => {
     }
   });
 
-  // Get workout (display to console for now)
-  app.get('/users/:userId/workouts', async (req, res) => {
-    const { userId } = req.params;
-    const workoutName = req.query.name; // Access the workout name passed as a query parameter
 
-    /*
-    if (!req.session.user || req.session.user.toString() !== userId) {
-        return res.status(401).send('Unauthorized');
+  // Assuming you have already set up express and other middlewares
+app.get('/users/:userId/workouts', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+      const user = await User.findById(userId).populate('workouts');
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.status(200).json(user.workouts);  // Assuming 'workouts' is an array field in your User model
+  } catch (error) {
+      res.status(500).json({ message: 'Error retrieving workouts', error: error.message });
+  }
+});
+
+  // OLD - Get workout (display to console for now)
+//   app.get('/users/:userId/workouts', async (req, res) => {
+//     const { userId } = req.params;
+//     // const workoutName = req.query.name; // Access the workout name passed as a query parameter
+
+//     /*
+//     if (!req.session.user || req.session.user.toString() !== userId) {
+//         return res.status(401).send('Unauthorized');
+//     }
+//     */
+
+//     try {
+//         const user = await User.findById(userId);
+//         if (!user) {
+//             return res.status(404).send('User not found');
+//         }
+
+//         // // Find the workout by name
+//         // const workout = user.workouts.find(w => w.name === workoutName);
+//         // if (!workout) {
+//         //     return res.status(404).send('Workout not found');
+//         // }
+
+//         // console.log('Workout found:', workout); // Print the workout to the console
+//         res.status(201).json({message: "success"}); // Send the workout as a response
+//     } catch (error) {
+//         console.error('Error retrieving workouts:', error);
+//         res.status(500).send(error.message);
+//     }
+// });
+
+
+//  Route to edit the workout
+app.patch('/users/:userId/workouts', async (req, res) => {
+
+  const { userId } = req.params;
+  const {newName, workoutUpdate} = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    */
 
-    try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        // Find the workout by name
-        const workout = user.workouts.find(w => w.name === workoutName);
-        if (!workout) {
-            return res.status(404).send('Workout not found');
-        }
-
-        console.log('Workout found:', workout); // Print the workout to the console
-        res.json(workout); // Send the workout as a response
-    } catch (error) {
-        console.error('Error retrieving workout:', error);
-        res.status(500).send(error.message);
+    //  Find the workout by name
+    const workout = user.workouts.find(w => w.name === newName);
+    if(!workout) {
+      return res.status(404).json({message: "Workout Not Found"});
     }
+
+    //  Uppdate the workout
+    Object.assign(workout, workoutUpdate);
+    await user.save();
+
+    res.status(201).json({
+      message: "Workout updated successfully",
+      updatedWorkout: workout
+    });
+
+  } catch (error) {
+    res.status(500).json({message: "Error updating workout", error: error.message});
+  }
+
 });
 
 //  Delete the workout
@@ -287,6 +343,34 @@ app.delete('/users/:userId/workouts', async (req, res) => {
         res.status(500).send(error.message);
     }
   });
+
+  //  Route to edit the profile
+  app.patch('/users/:userId/profile', async (req, res) => {
+
+    const { userId } = req.params;
+    const {age, height, weight, gender, goals, experience} = req.body;
+
+    try {
+      const updatedUser = await User.findByIdAndUpdate(userId,
+      {$set: {age, height, weight, gender, goals, experience}},
+      {new: true, runValidators: true}
+    );
+
+    if(!updatedUser) {
+      return res.status(404).json({message: "User not found"});
+    }
+
+    res.status(200).json({
+      message: "success",
+      data: updatedUser
+    });
+
+    } catch (error) {
+      res.status(500).json({message: "Error updating profile", error: error.message});
+    }
+
+  });
+
 
   /*
   app.post('/logout', function(req, res) {
