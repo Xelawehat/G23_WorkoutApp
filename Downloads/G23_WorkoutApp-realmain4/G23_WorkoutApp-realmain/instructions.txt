@@ -1,0 +1,35 @@
+Modifications necessary to connect to server & add a workout (currently hard-coded, not yet user-defined/modifiable)
+  In Authmodel.js, change this:
+    let currentIpAddress = '__here__:5000'; 
+    replace __here__ with your IPV4, leave 5000 as the port#
+    
+  In createWorkoutScreen.jsx, change this:
+    let currentIpAddress = '__here__:5000';
+    replace __here__ with your IPV4
+
+
+  To get the IP address:
+    Windows:
+      Window Key + R
+      Type "cmd", press Enter
+      Type "ipconfig" in Terminal, press Enter
+      Copy the IPV4 Address and paste it in the files above
+    Mac:
+      Google it sorry, I have Windows lol
+
+Commands to start the application:
+  Main app:
+    from the main folder run "npm start" (or "npx expo start", I think, npm start works for me)
+
+  Server:
+    from the main folder, in terminal type:
+      "cd Backend", press Enter
+      "nodemon server.js"  (This keeps the server running continuously and updates any changes in the server.js file automatically)
+
+      You should see in the terminal:
+        "Server running on port 5000"
+        "MongoDB Connected" (after a few seconds)
+
+With a fresh download from github I always had to install packages. The package.json file may have all the neccessary packages,
+    or you may have to install some first (basically for all of the files when you see "import ... from '....'  at the top, you would have to run:
+      "npm install '....'
