@@ -277,30 +277,36 @@ app.get('/users/:userId/workouts', async (req, res) => {
 //     }
 // });
 
-//  Edit the workout
-//  Route to edit the profile
-app.patch('/users/:userId/workout', async (req, res) => {
+
+//  Route to edit the workout
+app.patch('/users/:userId/workouts', async (req, res) => {
 
   const { userId } = req.params;
-  const {age, height, weight, gender, goals, experience} = req.body;
+  const {newName, workoutUpdate} = req.body;
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(userId,
-    {$set: {age, height, weight, gender, goals, experience}},
-    {new: true, runValidators: true}
-  );
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-  if(!updatedUser) {
-    return res.status(404).json({message: "User not found"});
-  }
+    //  Find the workout by name
+    const workout = user.workouts.find(w => w.name === newName);
+    if(!workout) {
+      return res.status(404).json({message: "Workout Not Found"});
+    }
 
-  res.status(200).json({
-    message: "success",
-    data: updatedUser
-  });
+    //  Uppdate the workout
+    Object.assign(workout, workoutUpdate);
+    await user.save();
+
+    res.status(201).json({
+      message: "Workout updated successfully",
+      updatedWorkout: workout
+    });
 
   } catch (error) {
-    res.status(500).json({message: "Error updating profile", error: error.message});
+    res.status(500).json({message: "Error updating workout", error: error.message});
   }
 
 });

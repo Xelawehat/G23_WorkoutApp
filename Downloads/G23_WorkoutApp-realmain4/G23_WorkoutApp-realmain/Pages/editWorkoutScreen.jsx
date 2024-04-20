@@ -67,15 +67,6 @@ const EditWorkoutScreen = ({ route, navigation }) => {
       weight: 0
     };
 
-    //Stores temporary exercise objects each time Add Exercise button is pressed
-    // const exerciseObj = {
-    //     name: "",
-    //     favorite: false,
-    //     muscleGroup: [],
-    //     bodyweight: false,
-    //     sets: []
-    // };
-
     if (selectedExercise) {
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
         exerciseObj.name = exerciseToAdd.name;
@@ -110,6 +101,8 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     }
 
     // update workout Object
+    const oldName = workout.name;
+    console.log("Old name: ", oldName);
     workout.name = workoutName;
     workout.exercises = selectedExercises;
     workout.color = selectedColor;
@@ -121,13 +114,17 @@ const EditWorkoutScreen = ({ route, navigation }) => {
 
       const userId = await AsyncStorage.getItem('userId');
 	  
+      const workoutData = {
+        newName: oldName,
+        workoutUpdate: workout
+      };
+
 			const response = await axios({
 			  method: 'patch',
-			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
+			  url: `http://${currentIpAddress}/users/${userId}/workouts`, workoutData,
         headers: {
           'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-        },
-			  data:workoutData
+        }
 			});
 	  
 			console.log('Response:', response.data);
