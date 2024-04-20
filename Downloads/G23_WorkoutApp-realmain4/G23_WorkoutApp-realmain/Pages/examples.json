@@ -1,0 +1,110 @@
+[
+    {
+        "name": "Bench Press",
+        "favorite": false,
+        "muscleGroup": ["Chest", "Triceps"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 225 }
+        ]
+    },
+    {
+        "name": "Incline Bench Press",
+        "favorite": false,
+        "muscleGroup": ["Chest", "Triceps"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Dumbbell Chest Press",
+        "favorite": false,
+        "muscleGroup": ["Chest", "Triceps"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Dumbbell Flies",
+        "favorite": false,
+        "muscleGroup": ["Chest"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Tricep Extensions",
+        "favorite": false,
+        "muscleGroup": ["Triceps"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Tricep Pulldowns",
+        "favorite": false,
+        "muscleGroup": ["Triceps"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Skull Crushers",
+        "favorite": false,
+        "muscleGroup": ["Triceps"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Bodyweight Dips",
+        "favorite": false,
+        "muscleGroup": ["Chest", "Triceps"],
+        "bodyweight": true,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Cable Crossover",
+        "favorite": false,
+        "muscleGroup": ["Chest", "Shoulders"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Barbell Shrugs",
+        "favorite": false,
+        "muscleGroup": ["Traps"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Pull-Ups",
+        "favorite": false,
+        "muscleGroup": ["Back"],
+        "bodyweight": false,
+        "sets": [
+            { "reps": 0, "weight": 0 }
+        ]
+    },
+    {
+        "name": "Push-Ups",
+        "favorite": true,
+        "muscleGroup": ["Chest", "Triceps"],
+        "bodyweight": true,
+        "sets": [
+            { "reps": 0, "weight": "Bodyweight" }
+        ]
+    }
+]
