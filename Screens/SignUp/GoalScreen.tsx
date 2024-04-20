@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, View, TextInput, Alert, TouchableOpacity,Text, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import * as Component from '../../Components/Components';
 import * as SignUpComponent from '../../Components/SignUpComponents';
 import AuthViewModel from '../../UserAuthentication/AuthViewModel';
+import { updateSignUpData } from '../../StateManagement/actions';
+import { signup, login } from '../../api/Authentication';
+import { isValidGoal } from '../../Utils/DataVerify';
 
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
@@ -13,11 +17,12 @@ import ComponentStyle from '../../Styles/ComponentStyles';
 import { COLOR } from '../../Styles/Colors';
 
 
-const GoalScreen = ({ navigation, route }) =>
+const GoalScreen = ({ navigation }) =>
 {
-	const { SignUpData } = route.params;
+	const signUpData = useSelector((state) => state.signUpData);
+	const dispatch = useDispatch();
 
-	const [goal, setGoal] = useState('');
+	const [goal, setGoal] = useState(signUpData?.goal || '');
 
 	// These are used to better show the users their height
 	const [feet, setFeet] = useState(0);
@@ -25,16 +30,37 @@ const GoalScreen = ({ navigation, route }) =>
 
 	const handleGoalChange = (newGoal) => {
 		setGoal(newGoal);
+		dispatch(updateSignUpData({ goal }));
 	}
 
 	const backArrow = () => {
 		navigation.navigate('BodyInfoScreen');
 	};
 
-	const createAccountButton = () => {
+	const createAccountButton = async () => {
 
-		const updatedSignUpData = { ...SignUpData, goal };
-		console.log(updatedSignUpData);
+		if (isValidGoal(goal))
+		{
+			console.log(signUpData);
+			try
+			{
+				const signUpresponse = await signup(signUpData);
+
+				if (signUpresponse)
+				{
+					const loginResponse = await login({usernameOrEmail: signUpData.username, password: signUpData.password});
+					console.log(loginResponse);
+					if (loginResponse.success)
+					{
+						// implement navigation and redux logic 
+					}
+				}
+			}
+			catch (error)
+			{
+				console.error('Signup error:', error);
+			}
+		}
 	};
 
 	return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View,TextInput,Button,Alert,TouchableOpacity,Pressable,Text,TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -8,17 +9,19 @@ import * as Component from '../../Components/Components';
 import * as SignUpComponent from '../../Components/SignUpComponents';
 import AuthViewModel from '../../UserAuthentication/AuthViewModel';
 import { isValidDate } from '../../Utils/DataVerify';
+import { updateSignUpData } from '../../StateManagement/actions';
 
 import Styles from '../../Styles/Styles';
 import ComponentStyle from '../../Styles/ComponentStyles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 import { COLOR } from '../../Styles/Colors';
 
-const AgeScreen = ({ navigation, route }) =>
+const AgeScreen = ({ navigation }) =>
 {
-	const { SignUpData } = route.params;
+	const signUpData = useSelector((state) => state.signUpData);
+	const dispatch = useDispatch();
 	
-	const [birthday, setBirthday] = useState(null);
+	const [birthday, setBirthday] = useState(signUpData?.birthday || null);
 	const [isPickerVisible, setPickerVisibility] = useState(false);
 	const today = new Date();
 
@@ -26,7 +29,7 @@ const AgeScreen = ({ navigation, route }) =>
 		const fetchBirthday = async () => {
 			await new Promise(resolve => setTimeout(resolve, 500));
 			const initialBirthday = new Date();
-			setBirthday(initialBirthday);
+			setBirthday(signUpData?.birthday || initialBirthday);
 		};
 
 		fetchBirthday();
@@ -49,6 +52,8 @@ const AgeScreen = ({ navigation, route }) =>
 	}
 
 	const backArrow = () => {
+		dispatch(updateSignUpData({ birthday }));
+		setPickerVisibility(false);
 		navigation.navigate('PasswordScreen');
 	};
 
@@ -57,9 +62,9 @@ const AgeScreen = ({ navigation, route }) =>
 	{
 		if (isValidDate(birthday))
 		{
-			const updatedSignUpData = { ...SignUpData, birthday };
+			dispatch(updateSignUpData({ birthday }));
 			setPickerVisibility(false);
-			navigation.navigate('BodyInfoScreen', { SignUpData: updatedSignUpData });
+			navigation.navigate('BodyInfoScreen');
 		}
 		else
 		{

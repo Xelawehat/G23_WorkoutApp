@@ -2,8 +2,7 @@ import validator from 'email-validator';
 
 export function isValidEmail(email: string): boolean
 {
- 	return true;
-	//return validator.validate(email);
+	return validator.validate(email);
 }
 
 /*
@@ -19,27 +18,36 @@ export function isValidUsername(username: string): boolean
 */
 export function isValidPassword(password: string): { isValid: boolean; reason?: string }
 {
-	// if (password.length < 8) 
-	// {
-    // 	return { isValid: false, reason: "Password must be at least 8 characters long." };
-  	// }
+	if (password.length < 8) 
+	{
+    	return { isValid: false, reason: "Password must be at least 8 characters long." };
+  	}
 
-  	// // Regex pattern for complexity requirements
-  	// const pattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+  	// Regex pattern for complexity requirements
+  	const pattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
 
-  	// // Check if the password contains at least one digit, lowercase letter, uppercase letter, and special character
-	// if (!pattern.test(password)) 
-	// {
-	// 	return { isValid: false, reason: "Password must contain at least one digit, lowercase letter, uppercase letter, and special character." };
-	// }
+  	// Check if the password contains at least one digit, lowercase letter, uppercase letter, and special character
+	if (!pattern.test(password)) 
+	{
+		return { isValid: false, reason: "Password must contain at least one digit, lowercase letter, uppercase letter, and special character." };
+	}
 
 	return { isValid: true };
 };
 
-export function isValidDate(birthday: string): boolean
+export function isValidDate(birthday: Date): boolean
 {
-	return true;
-}
+	const currentDate = new Date();
+
+	let userAge = currentDate.getFullYear() - birthday.getFullYear();
+
+	if ( currentDate.getMonth() < birthday.getMonth() || (currentDate.getMonth() === birthday.getMonth() && currentDate.getDate() < birthday.getDay()))
+	{
+		userAge--;
+	}
+	
+	return userAge >= 18;
+};
 
 export function isValidWeight(weight: number): boolean
 {
@@ -48,4 +56,14 @@ export function isValidWeight(weight: number): boolean
 		return { isValid: false, reason: "Weight is an unreasonable number" };
 	}
 	return { isValid: true };
-}
+};
+
+export function isValidGoal(goal: string): boolean
+{
+	if (goal === 'cut' || goal === 'bulk' || goal === 'maintain')
+	{
+		return true;
+	}
+
+	return false;
+};

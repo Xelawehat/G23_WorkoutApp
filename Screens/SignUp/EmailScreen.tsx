@@ -1,42 +1,26 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, TextInput, Button, Alert, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import * as Component from '../../Components/Components';
 import * as SignUpComponent from '../../Components/SignUpComponents';
 import AuthViewModel from '../../UserAuthentication/AuthViewModel';
 import { isValidEmail } from '../../Utils/DataVerify';
+import { updateSignUpData, resetSignUpData } from '../../StateManagement/actions';
 
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
-
-interface SignUpData {
-	email: string;
-	username: string;
-	password: string;
-	birthday: Date;
-	heightInches: number;
-	weight: number;
-	gender: string;
-	goal: string;
-}
 
 const EmailScreen = () =>
 {
 	const navigation = useNavigation();
 
-	const [email, setEmail] = useState('');
-	const [SignUpData, setSignUpData] = useState<SignUpData>({
-		email: '',
-		username: '',
-		password: '',
-		birthday: '',
-		heightInches: 0,
-		weight: 0,
-		gender: '',
-		goal: '',
-	});
+	const signUpData = useSelector((state) => state.signUpData);
+	const dispatch = useDispatch();
+
+	const [email, setEmail] = useState(signUpData?.email || '');
 
 	const returnLoginArrow = () => {
 		Alert.alert(
@@ -46,6 +30,8 @@ const EmailScreen = () =>
 				{
 					text: 'Stop creating account',
 					onPress: () => {
+
+						dispatch(resetSignUpData());
 						navigation.navigate('Login');
 						console.log('Stopped account creation going back to login');
 					}
@@ -62,8 +48,8 @@ const EmailScreen = () =>
 	{
 		if (isValidEmail(email))
 		{
-			setSignUpData((prevSignUpData) => ({ ...prevSignUpData, email }));
-			navigation.navigate('UsernameScreen',{ SignUpData });
+			dispatch(updateSignUpData({ email }));
+			navigation.navigate('UsernameScreen');
 		}
 		else
 		{

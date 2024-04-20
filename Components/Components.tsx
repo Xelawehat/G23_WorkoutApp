@@ -27,6 +27,7 @@ interface PrimaryTextInputProps extends TextInputProps
     placeholderStyle?: TextStyle;
     inputStyle?: TextStyle;
   };
+  onChangeText?: (text: string) => void;
 }
 
 /*
@@ -47,15 +48,16 @@ export const PrimaryBackground: React.FC<GradientBackgroundProps> = ({colors = C
 
     -- Note: Must set the value in order for animation to work
 */
-export const PrimaryTextInput: React.FC<PrimaryTextInputProps> = ({placeholder, style, ...props}) => {
+export const PrimaryTextInput: React.FC<PrimaryTextInputProps> = ({placeholder, style, value, ...props}) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [hasText, setHasText] = useState(false);
+  const [hasText, setHasText] = useState(Boolean(value));
+
+  useEffect(() => {
+    setHasText(Boolean(value));
+  }, [value]);
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => {
-    setIsFocused(false);
-    setHasText(Boolean(props.value));
-  };
+  const handleBlur = () => setIsFocused(false);
 
   const containerStyle = [ComponentStyle.primaryTextInputContainer, {height: (isFocused || hasText) ? 60 : 50}, {borderColor: isFocused ? '#FFF' : '#333333'}, style];
   const placeholderStyle = [ComponentStyle.primaryTextInputPlaceholder, (isFocused || hasText) ? ComponentStyle.primaryTextInputPlaceholderShift : null];
@@ -70,6 +72,8 @@ export const PrimaryTextInput: React.FC<PrimaryTextInputProps> = ({placeholder, 
         style={inputStyle}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onChangeText={props.onChangeText}
+        value={value}
         {...props}
       />
     </View>

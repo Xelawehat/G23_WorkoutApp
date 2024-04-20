@@ -5,27 +5,31 @@ import { useNavigation } from '@react-navigation/native';
 import AuthViewModel from '../UserAuthentication/AuthViewModel';
 import AuthStyles from '../Styles/AuthStyles';
 import * as Component from '../Components/Components';
+import { login } from '../api/Authentication';
 
 const AuthLoginScreen = () =>
 {
 	const navigation = useNavigation();
 
-	const [user, setUser] = useState('');
+	const [userOrEmail, setUserOrEmail] = useState('');
 	const [pass, setPass] = useState('');
 
 	const attemptLogin = async () =>
 	{
-		const attempt = await AuthViewModel.login(user, pass);
-
-		if (attempt)
+		const loginResponse = await login({usernameOrEmail: userOrEmail, password: pass});
+		const user = (loginResponse.user);
+		console.log(loginResponse);
+		if (loginResponse.success)
 		{
 			Alert.alert('Login successful');
 			console.log('Logging in');
 			console.log('User', user);
 			console.log('Pass', pass);
+			console.log(loginResponse);
 		}
 		else
 		{
+
 			Alert.alert('Login Failed');
 		}
 
@@ -48,10 +52,10 @@ const AuthLoginScreen = () =>
 					<View style={AuthStyles.container}>
 						<Component.PrimaryTextInput
 							style={AuthStyles.input}
-							placeholder="Username, email, or mobile number"
+							placeholder="Username or Email"
 							placeholderTextColor='#FFF'
-							value={user}
-							onChangeText={setUser}
+							value={userOrEmail}
+							onChangeText={setUserOrEmail}
 							selectionColor='#FFF'
 						/>
 						<Component.PrimaryTextInput

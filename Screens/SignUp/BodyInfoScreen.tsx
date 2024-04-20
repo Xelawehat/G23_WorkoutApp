@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, View, Button, TextInput, Alert, TouchableOpacity,Text, ScrollView,TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RulerPicker } from 'react-native-ruler-picker';
 
@@ -8,6 +9,7 @@ import * as Component from '../../Components/Components';
 import * as SignUpComponent from '../../Components/SignUpComponents';
 import AuthViewModel from '../../UserAuthentication/AuthViewModel';
 import { isValidWeight } from '../../Utils/DataVerify';
+import { updateSignUpData } from '../../StateManagement/actions';
 
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
@@ -15,17 +17,18 @@ import ComponentStyle from '../../Styles/ComponentStyles';
 import { COLOR } from '../../Styles/Colors';
 
 
-const BodyInfoScreen = ({ navigation, route }) =>
+const BodyInfoScreen = ({ navigation }) =>
 {
-	const { SignUpData } = route.params;
+	const signUpData = useSelector((state) => state.signUpData);
+	const dispatch = useDispatch();
 
 	const [isRulerVisible, setRulerVisibility] = useState(false);
 	const [isWeightFocused, setWeightFocus] = useState(false);
 
 	// We only need rulerVal in final product its height in inches
-	const [rulerVal, setRulerVal] = useState('');
-	const [weight, setWeight] = useState('');
-	const [gender, setGender] = useState('');
+	const [rulerVal, setRulerVal] = useState(signUpData?.heightInches || '');
+	const [weight, setWeight] = useState(signUpData?.weight || '');
+	const [gender, setGender] = useState(signUpData?.gender || '');
 
 
 	// These are used to better show the users their height
@@ -39,6 +42,10 @@ const BodyInfoScreen = ({ navigation, route }) =>
 		setRulerVal(rulerVal);
 		setFeet(feet);
 		setInches(inches);
+	};
+
+	const getRulerVal = (): number => {
+		return parseInt(rulerVal);
 	};
 
 	const handleGenderChange = (newGender) => {
@@ -69,6 +76,7 @@ const BodyInfoScreen = ({ navigation, route }) =>
 	}
 
 	const backArrow = () => {
+		dispatch(updateSignUpData({ heightInches: rulerVal, weight, gender }));
 		navigation.navigate('AgeScreen');
 	};
 
@@ -77,8 +85,8 @@ const BodyInfoScreen = ({ navigation, route }) =>
 		let isWeightValid = isValidWeight(weight);
 		if (rulerVal && isValidWeight(weight) && gender)
 		{	
-			const updatedSignUpData = { ...SignUpData, heightInches: rulerVal, weight, gender };
-			navigation.navigate('GoalScreen', { SignUpData: updatedSignUpData });
+			dispatch(updateSignUpData({ heightInches: rulerVal, weight, gender }));
+			navigation.navigate('GoalScreen');
 		}
 		else
 		{
@@ -88,7 +96,7 @@ const BodyInfoScreen = ({ navigation, route }) =>
 
 	// Sets all default height values to equivalent of 60 inches
 	useEffect(() => {
-		rulerChange(60);
+		rulerChange(signUpData?.heightInches || 60);
 	}, []);
 
 	return (
@@ -171,7 +179,7 @@ const BodyInfoScreen = ({ navigation, route }) =>
 								  fractionDigits={0}
 								  onValueChangeEnd={(rulerVal) => rulerChange(rulerVal)}
 								  unit="in"
-								  initialValue={60}
+								  initialValue={getRulerVal()}
 								  height={150}
 								  shortStepColor={COLOR.primaryButtonBackground}
 								  longStepColor={COLOR.secondaryButtonBackground}

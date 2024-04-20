@@ -1,15 +1,10 @@
-export const setEmail = (email: string) => ({
-	type: 'SET_EMAIL',
-	payload: email,
+import { SignUpState } from './store';
+
+export const updateSignUpData = (data: Partial<SignUpState>) => ({
+	type: 'UPDATE_SIGN_UP_DATA',
+	payload: data,
 });
 
-export const setUsername = (username: string) => ({
-	type: 'SET_USERNAME',
-	payload: username,
+export const resetSignUpData = () => ({
+	type: 'RESET_SIGN_UP_DATA',
 });
-
-export const setPassword = (password: string) => ({
-	type: 'SET_PASSWORD',
-	payload: password,
-});
-

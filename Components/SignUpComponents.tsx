@@ -13,6 +13,7 @@ interface SignUpInputProps
 	heading?: string;
 	subheading?: string;
 	placeholder?: string;
+	value?: any;
 	style?:
 	{
 		container?: ViewStyle;

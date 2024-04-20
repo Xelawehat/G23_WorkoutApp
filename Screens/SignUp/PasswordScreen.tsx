@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, TextInput, Button, Alert, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import * as Component from '../../Components/Components';
 import * as SignUpComponent from '../../Components/SignUpComponents';
 import AuthViewModel from '../../UserAuthentication/AuthViewModel';
 import { isValidPassword } from '../../Utils/DataVerify';
+import { updateSignUpData } from '../../StateManagement/actions';
 
 import Styles from '../../Styles/Styles';
 import SignUpStyle from '../../Styles/SignUpStyle';
 
-const PasswordScreen = ({ navigation, route }) =>
+const PasswordScreen = ({ navigation }) =>
 {
-	const { SignUpData } = route.params;
+	const signUpData = useSelector((state) => state.signUpData);
+	const dispatch = useDispatch();
 
-	const [password, setPassword] = useState('');
+	const [password, setPassword] = useState(signUpData?.password || '');
 
 	const backArrow = () => {
+		dispatch(updateSignUpData({ password }));
 		navigation.navigate('UsernameScreen');
 	};
 
@@ -27,8 +31,8 @@ const PasswordScreen = ({ navigation, route }) =>
 		let isPasswordValid = isValidPassword(password)
 		if (isPasswordValid.isValid)
 		{	
-			const updatedSignUpData = { ...SignUpData, password };
-			navigation.navigate('AgeScreen', { SignUpData: updatedSignUpData });
+			dispatch(updateSignUpData({ password }));
+			navigation.navigate('AgeScreen');
 		}
 		else
 		{
