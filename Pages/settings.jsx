@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderWidth: 2,
-    paddingTop: '2.5%', 
-    paddingBottom: '2.5%'
+    justifyContent: 'center'
   },
 });

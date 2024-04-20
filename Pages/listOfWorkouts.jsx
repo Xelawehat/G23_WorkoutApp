@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import dataArray from './dataArray';
 import * as Notif from 'expo-notifications';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const ListOfWorkouts = ({ route, navigation }) => {
 
@@ -95,10 +96,11 @@ const ListOfWorkouts = ({ route, navigation }) => {
       />
 
     <Text style={styles.heading}>Select a workout:</Text>
-      
 
+    <ScrollView>
       {/* Render the list of previously created workouts */}
       {dataArray.map((workout, index) => (
+        
         <TouchableOpacity
           key={index}
           style={styles.workoutItem}
@@ -106,7 +108,9 @@ const ListOfWorkouts = ({ route, navigation }) => {
         >
           <Text>{workout.name}</Text>
         </TouchableOpacity>
+        
       ))}
+      </ScrollView>
 
     <TouchableOpacity style={styles.button} onPress={goToCreateWorkout}>
         <Text style={styles.buttonText}>Create New Workout</Text>

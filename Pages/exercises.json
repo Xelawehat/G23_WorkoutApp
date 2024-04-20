@@ -1,472 +1,248 @@
 [
-    {
-      "Name": "Bench Press",
-      "MuscleGroup": ["Chest","Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "225",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Incline Bench Press",
-      "MuscleGroup": ["Chest","Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Dumbbell Chest Press",
-      "MuscleGroup": ["Chest", "Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Dumbbell Flies",
-      "MuscleGroup": ["Chest"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Tricep Extensions",
-      "MuscleGroup": ["Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Tricep Pulldowns",
-      "MuscleGroup": ["Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Skull Crushers",
-      "MuscleGroup": ["Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Bodyweight Dips",
-      "MuscleGroup": ["Chest","Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Cable Crossover",
-      "MuscleGroup": ["Chest", "Shoulders"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Barbell Shrugs",
-      "MuscleGroup": ["Traps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Pull-Ups",
-      "MuscleGroup": ["Back"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Push-Ups",
-      "MuscleGroup": ["Chest", "Triceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "Bodyweight",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": true
-    },
-    {
-      "Name": "Sit-Ups",
-      "MuscleGroup": ["Abdominals"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Crunches",
-      "MuscleGroup": ["Abdominals"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Reverse Crunches",
-      "MuscleGroup": ["Abdominals"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Plank",
-      "MuscleGroup": ["Abdominals"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Russian Twists",
-      "MuscleGroup": ["Abdominals"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Flutter Kicks",
-      "MuscleGroup": ["Abdominals"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Jumping Jacks",
-      "MuscleGroup": ["Cardio"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Mountain Climbers",
-      "MuscleGroup": ["Abdominals", "Cardio"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Burpees",
-      "MuscleGroup": ["Cardio", "Chest"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "High Knees",
-      "MuscleGroup": ["Cardio"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Dumbbell Rows",
-      "MuscleGroup": ["Back", "Biceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Bent Over Rows",
-      "MuscleGroup": ["Back"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Seated Rows",
-      "MuscleGroup": ["Back"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Reverse Flyes",
-      "MuscleGroup": ["Back"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Lat Pulldowns",
-      "MuscleGroup": ["Back", "Biceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Deadlifts",
-      "MuscleGroup": ["Back","Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Squats",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Front Squats",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Hack Squats",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Leg Press",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Hip Thrusts",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Bridge",
-      "MuscleGroup": ["Abdominals", "Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Leg Extensions",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Hamstring Curls",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Lunges",
-      "MuscleGroup": ["Legs"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Calf Raises",
-      "MuscleGroup": ["Calves"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Shoulder Press",
-      "MuscleGroup": ["Shoulders"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Barbell Shoulder Press",
-      "MuscleGroup": ["Shoulders"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Lateral Raises",
-      "MuscleGroup": ["Shoulders"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Front Raises",
-      "MuscleGroup": ["Shoulders"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Bicep Curls",
-      "MuscleGroup": ["Biceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Barbell Curls",
-      "MuscleGroup": ["Biceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Preacher Curls",
-      "MuscleGroup": ["Biceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Spider Curls",
-      "MuscleGroup": ["Biceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    },
-    {
-      "Name": "Hammer Curls",
-      "MuscleGroup": ["Biceps"],
-      "Sets": "0",
-      "Reps": "0",
-      "Weight": "0",
-      "Difficulty": "0",
-      "PersonalBest": "0",
-      "Favorite": false
-    }
-  ]
+  {
+      "name": "Back Squats",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Barbell Curls",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Barbell Shoulder Press",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Barbell Shrugs",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Bench Press",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Bent Over Rows",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Bicep Curls",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Bridge",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Burpees",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Cable Crossover",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+    "name": "Chin-Ups",
+    "sets": "0",
+    "reps": "0",
+    "weight": "0"
+},
+  {
+    "name": "Close Grip Bench Press",
+    "sets": "0",
+    "reps": "0",
+    "weight": "0"
+},
+  {
+      "name": "Crunches",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Deadlifts",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+    "name": "Dips",
+    "sets": "0",
+    "reps": "0",
+    "weight": "0"
+  },
+  {
+      "name": "Dumbbell Bench Press",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+    "name": "Dumbbell Curls",
+    "sets": "0",
+    "reps": "0",
+    "weight": "0"
+},
+  {
+      "name": " Dumbbell Flies",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Dumbbell Rows",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Flutter Kicks",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Front Raises",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Front Squats",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Hammer Curls",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Hamstring Curls",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "High Knees",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Hip Thrusts",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Incline Bench Press",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Jumping Jacks",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Lateral Raises",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Lat Pulldowns",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+    "name": "Leg Curls",
+    "sets": "0",
+    "reps": "0",
+    "weight": "0"
+  },
+  {
+      "name": "Leg Extensions",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Leg Press",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Lunges",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Mountain Climbers",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Plank",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Preacher Curls",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Pull-Ups",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+      "name": "Push-Ups",
+      "sets": "0",
+      "reps": "0",
+      "weight": "0"
+  },
+  {
+    "name": "RDL",
+    "sets": "0",
+    "reps": "0",
+    "weight": "0"
+  },
+  {
+    "name": "Split Squats",
+    "sets": "0",
+    "reps": "0",
+    "weight": "0"
+  }
+]

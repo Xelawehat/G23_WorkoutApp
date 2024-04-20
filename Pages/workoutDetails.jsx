@@ -32,7 +32,7 @@ const WorkoutDetailsPage = ({ route }) => {
 
         {/*Notifications Info*/}
         <View>
-          <Text>Reminder: 15 min before</Text>
+          <Text style={styles.reminder}>Reminder: 15 min before</Text>
         </View>
 
         <View>
@@ -73,8 +73,12 @@ const styles = StyleSheet.create({
   },
   workoutDate: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: '1',
     paddingLeft: '5%'
+  },
+  reminder: {
+    paddingLeft: '2.5%', 
+    paddingBottom: '2.5%'
   },
   sectionHeading: {
     fontSize: 20,
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     paddingTop: '25%',
-    paddingLeft: '25%'
+    paddingLeft: '30%'
   },
 });
 

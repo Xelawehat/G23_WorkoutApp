@@ -83,8 +83,8 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     // Set the available exercises from the imported JSON file
-    //setAvailableExercises(exercisesData); old json data file
-    setAvailableExercises(exampleData);
+    setAvailableExercises(exercisesData); 
+    //setAvailableExercises(exampleData);
   }, []);
 
   // Function to add exercise to the selected exercises list

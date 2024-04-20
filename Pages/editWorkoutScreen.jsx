@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import exampleData from './examples.json';
+import exampleData from './exercises.json';
 
 const EditWorkoutScreen = ({ route, navigation }) => {
 

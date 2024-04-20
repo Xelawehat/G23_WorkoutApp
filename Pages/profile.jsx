@@ -214,8 +214,7 @@ const styles = StyleSheet.create({
       borderColor: 'green',
       backgroundColor: 'white',
       alignItems: 'center',
-      paddingTop: '2.5%',
-      paddingBottom: '2.5%'
+      justifyContent: 'center'
     },
     buttonText: {
       fontSize: 20,

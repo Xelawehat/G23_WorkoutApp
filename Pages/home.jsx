@@ -58,8 +58,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderWidth: 2,
-    paddingTop: '2.5%', 
-    paddingBottom: '2.5%'
+    justifyContent: 'center'
   },
   viewButton: {
     height: 50,
@@ -68,8 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderWidth: 2,
-    paddingTop: '2.5%', 
-    paddingBottom: '2.5%'
+    justifyContent: 'center'
   },
   welcome: {
     paddingTop: '2.5%', 
