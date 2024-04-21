@@ -10,7 +10,8 @@ const HomePage = ( { navigation }) => {
         <View style={ styles.button }>
         <TouchableOpacity
             onPress={() => {
-              navigation.navigate('CreateWorkout')
+              const theBigOne = new Date();
+              navigation.navigate('CreateWorkout', {day: theBigOne.getDate(), time: theBigOne.getTime()})
             }}
             style={styles.logButton}>
             <Text style={styles.buttonTitle}>Log a Workout</Text>

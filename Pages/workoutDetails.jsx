@@ -12,7 +12,7 @@ const WorkoutDetailsPage = ({ route }) => {
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
-    if (offsetY <= -50) { // Arbitrary threshold for detecting pull-down
+    if (offsetY <= -58) { // Arbitrary threshold for detecting pull-down
       console.log('pulled up')
       navigation.navigate('EditWorkoutScreen', { workout }); // Navigate to EditWorkoutScreen
     }
@@ -32,7 +32,7 @@ const WorkoutDetailsPage = ({ route }) => {
 
         {/*Notifications Info*/}
         <View>
-          <Text>Reminder: 15 min before</Text>
+          <Text>Reminder: 30 min before</Text>
         </View>
 
         <View>

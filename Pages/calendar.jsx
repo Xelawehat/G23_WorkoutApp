@@ -13,34 +13,7 @@ const CalendarPage = ({ navigation }) => {
 
   //const workoutsArray = getterUserWorkouts();
   console.log('the big payload', workoutsArray);
-
   const workoutsArray = dataArray;
-  // const workoutsArray = [
-  //   {
-  //     name: "Leg Day",
-  //     color: "blue",
-  //     date: "2024-04-15",
-  //     time: "example",
-  //     timesCompleted: 0,
-  //     exercises: [
-  //       {
-  //         name: "Deadlifts",
-  //         sets: 3,
-  //         reps: 5,
-  //         weight: 315
-  //       },
-  //       {
-  //         name: "Squats",
-  //         sets: 3,
-  //         reps: 5,
-  //         weight: 50
-  //       },
-  //       // Add more exercises if needed
-  //     ]
-  //   },
-  //   // Add more workout objects here
-  // ];
-
 
   //  ADDED
   //const [workoutsArray, setWorkoutsArray] = useState([]); //  State to store workouts // add in for database
@@ -114,6 +87,7 @@ const CalendarPage = ({ navigation }) => {
             onPress={() => navigation.navigate('WorkoutDetails', { workout })}>
               <Text style={styles.workoutName}>{workout.name}</Text>
               <Text style={styles.workoutTime}>Date: {workout.date}</Text>
+              <Text style={styles.workoutTime}>Time: {workout.time.getTime}</Text>
             </TouchableOpacity>
           ))}
         </View>

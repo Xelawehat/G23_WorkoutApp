@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker'
 import exampleData from './examples.json';
 
 //  Added
@@ -13,14 +14,6 @@ const EditWorkoutScreen = ({ route, navigation }) => {
 
     const { workout } = route.params;
 
-    //Stores temporary exercise objects each time Add Exercise button is pressed
-    // const exerciseObj = {
-    //   name: "",
-    //   sets: 0,
-    //   reps: 0,
-    //   weight: 0
-    // };
-
   // State variables
   const [workoutName, setWorkoutName] = useState(workout.name);
   const [selectedExercises, setSelectedExercises] = useState(workout.exercises);
@@ -30,6 +23,8 @@ const EditWorkoutScreen = ({ route, navigation }) => {
   const [reps, setReps] = useState(''); // State variable for reps
   const [weight, setWeight] = useState(''); // State variable for weight
   const [selectedColor, setSelectedColor] = useState(workout.color);
+  const [selectedTime, setSelectedTime] = useState('');
+  const theBigOne = new Date(selectedTime);
 
   // Array of color options
   const colorOptions = ['red', 'blue', 'green', 'yellow'];
@@ -99,6 +94,10 @@ const EditWorkoutScreen = ({ route, navigation }) => {
         return;
     }
 
+    const hour = theBigOne.getHours().toString();
+    const min = theBigOne.getMinutes().toString();
+    const together = hour.concat(':',min);
+
     // update workout Object
     const oldName = workout.name;
     console.log("Old name: ", oldName);
@@ -106,36 +105,39 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     workout.exercises = selectedExercises;
     workout.color = selectedColor;
     workout.date = workout.date;
+    workout.time = together;
     console.log('\n\nWorkout:',workout);
 
     //  Edit the workout in the database
     try {
 
-      const userId = await AsyncStorage.getItem('userId');
+      // const userId = await AsyncStorage.getItem('userId');
 	  
-      const workoutData = {
-        newName: oldName,
-        workoutUpdate: workout
-      };
+      // const workoutData = {
+      //   newName: oldName,
+      //   workoutUpdate: workout
+      // };
 
-			const response = await axios({
-			  method: 'patch',
-			  url: `http://${currentIpAddress}/users/${userId}/workouts`, workoutData,
-        headers: {
-          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-        }
-			});
+			// const response = await axios({
+			//   method: 'patch',
+			//   url: `http://${currentIpAddress}/users/${userId}/workouts`, workoutData,
+      //   headers: {
+      //     'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+      //   }
+			// });
 	  
-			console.log('Response:', response.data);
+			// console.log('Response:', response.data);
       // console.log('Workout saved:', { workoutData, selectedExercises });
-      alert('Workout Saved');
+      alert('Edit Saved');
+      //scheduleWorkoutNotif();
+      navigation.navigate('WorkoutDetails', {workout});
 		  } catch (error) {
 			console.error('Error adding workout:', error.response.data);
 		  }
+  };
 
-    //scheduleWorkoutNotif();
-      alert('Edit Saved');
-      navigation.navigate('WorkoutDetails', {workout});
+  const handleTimeChange = (event, selected) => {
+    setSelectedTime(selected);
   };
 
   return (
@@ -150,6 +152,16 @@ const EditWorkoutScreen = ({ route, navigation }) => {
         //onChangeText={text => setWorkout({...workout, name: text})}
       />
 
+      <Text style={styles.subheading}>Edit Workout Time</Text>
+      {/* Add time scroll here */}
+      <DateTimePicker
+        value={selectedTime || new Date()}
+        mode="time"
+        is24Hour={false}
+        display="spinner"
+        onChange={handleTimeChange}
+      />
+      
       {/* Render color dots for color selection */}
         <View style={styles.colorSelector}>
           {colorOptions.map((color, index) => (
@@ -161,6 +173,7 @@ const EditWorkoutScreen = ({ route, navigation }) => {
           ))}
         </View>
 
+      <Text style={styles.subheading}>Add Exercises to Workout</Text>
       <Picker
         selectedValue={selectedExercise}
         style={styles.picker}
@@ -255,12 +268,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
+  subheading: {
+    fontSize: 20,
+    paddingLeft: '5%'
+  },
   colorDot: {
     width: 30,
     height: 30,
     borderRadius: 15,
     borderWidth: 2,
     marginHorizontal: 5,
+    marginBottom: 10
   },
   picker: {
     height: 40,
@@ -272,8 +290,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 50,
+    marginBottom: 10,
   },
   buttonText: {
     color: 'white',

@@ -9,7 +9,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //  Put your id address:
-let currentIpAddress = '172.20.10.14:5000';
+let currentIpAddress = '172.20.10.11:5000';
 
 const CreateWorkoutScreen = ({ route, navigation }) => {
 
@@ -29,7 +29,8 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     const workoutObj = {
       name: "",
       exercises: [],
-      date: <route className="params"></route>  //still need to figure out how to get date into here
+      date: <route className="params"></route>,  //still need to figure out how to get date into here
+      time: route.params.time
     };
 
     // Random time Notification
@@ -52,7 +53,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
         },
         trigger,
       });
-    }
+    };
 
   // State variables
   const [sets, setSets] = useState('');
@@ -75,7 +76,6 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
   useEffect(() => {
     // Set the available exercises from the imported JSON file
     setAvailableExercises(exercisesData); 
-    //setAvailableExercises(exampleData);
   }, []);
 
   // Function to add exercise to the selected exercises list
@@ -97,7 +97,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
       return;
     }
 
-    // //Stores temporary exercise objects each time Add Exercise button is pressed
+    // Stores temporary exercise objects each time Add Exercise button is pressed
     const exerciseObj = {
       name: "",
       sets: 0,
@@ -106,7 +106,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     };
 
     if (selectedExercise) {
-        workoutObj.name = workoutName;
+        // workoutObj.name = workoutName;
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
         exerciseObj.name = exerciseToAdd.name;
         exerciseObj.weight = weight;
@@ -150,7 +150,8 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     workoutObj.name = workoutName;
     workoutObj.exercises = selectedExercises;
     workoutObj.color = selectedColor;
-    workoutObj.date = route.params.selectedDay;
+    workoutObj.date = route.params.day;
+    workoutObj.time = route.params.time
     console.log('\n\nWorkoutObj:',workoutObj);
     
     //  TODO: Uncomment this when icons are scrollable
@@ -163,49 +164,13 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     const workoutData = workoutObj;
     // update locally stored dataArray[]
     dataArray.push(workoutObj);
-    // const workoutData = {
-    //   name: "Chest Day",
-    //   time: "60 minutes",
-    //   difficulty: 3,
-    //   favorite: true,
-    //   color: "red",
-    //   timesCompleted: 0,
-    //   date: "2024-04-10",
-    //   exercises: [
-    //       {
-    //           name: "Bench Press",
-    //           favorite: false,
-    //           muscleGroup: ["Chest", "Triceps"],
-    //           bodyweight: false,
-    //           sets: [
-    //               { reps: 10, weight: 225 },
-    //               { reps: 10, weight: 225 },
-    //               // Add more sets if needed
-    //           ]
-    //       },
-    //       {
-    //           name: "Incline Bench Press",
-    //           favorite: false,
-    //           muscleGroup: ["Chest", "Triceps"],
-    //           bodyweight: false,
-    //           sets: [
-    //               { reps: 10, weight: 185 },
-    //               { reps: 10, weight: 185 },
-    //               // Add more sets if needed
-    //           ]
-    //       },
-    //       // Add more exercises if needed
-    //   ]
-  //};
-  
-    
 
     //  Try to add a workout after the button is clicked here - send to db
     try {
+      console.log('time:', workoutObj.time)
 	  
       //  TODO: a user already in the db is currently hardcoded to test if this works.
               //  find out how to replace it with the current user
-              alert('Seconf');
 			const response = await axios({
 			  method: 'post',
 			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
@@ -218,13 +183,11 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 			console.log('Response:', response.data);
       console.log('Workout saved:', { workoutData, selectedExercises });
       alert('Workout Saved');
+      //scheduleWorkoutNotif();
+      navigation.navigate('Calendar');
 		  } catch (error) {
 			console.error('Error adding workout:', error.response.data);
 		  }
-
-    scheduleWorkoutNotif();
-      alert('Workout Saved');
-      navigation.navigate('ListOfWorkouts', { selectedDay: workoutObj.date });
   };
 
   return (

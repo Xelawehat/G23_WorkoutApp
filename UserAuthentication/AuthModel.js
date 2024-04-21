@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //	Put your IP Address:
-let currentIpAddress = '172.20.10.14:5000';
+let currentIpAddress = '172.20.10.11:5000';
 
 // Handles business logic of user authentication
 class AuthModel
