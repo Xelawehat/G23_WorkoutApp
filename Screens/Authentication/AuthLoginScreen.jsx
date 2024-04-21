@@ -2,9 +2,9 @@ import React, { useState, useRef, forwardRef} from 'react';
 import { View, Text, TouchableOpacity, TextInput, Button, Alert, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import AuthStyles from '../Styles/AuthStyles';
-import * as Component from '../Components/Components';
-import { login } from '../api/Authentication';
+import AuthStyles from '../../Styles/AuthStyles';
+import * as Component from '../../Components/Components';
+import { login } from '../../api/Authentication';
 
 const AuthLoginScreen = () =>
 {
@@ -20,11 +20,7 @@ const AuthLoginScreen = () =>
 		console.log(loginResponse);
 		if (loginResponse.success)
 		{
-			Alert.alert('Login successful');
-			console.log('Logging in');
-			console.log('User', user);
-			console.log('Pass', pass);
-			console.log(loginResponse);
+			// Implement successful login actions
 		}
 		else
 		{

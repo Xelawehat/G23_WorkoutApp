@@ -1,40 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, View, TextInput, Button, Alert, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import * as Component from '../../Components/Components';
-import * as SignUpComponent from '../../Components/SignUpComponents';
-import AuthViewModel from '../../UserAuthentication/AuthViewModel';
-import { isValidUsername } from '../../Utils/DataVerify';
-import { updateSignUpData } from '../../StateManagement/actions';
+import * as Component from '../../../Components/Components';
+import * as SignUpComponent from '../../../Components/SignUpComponents';
+import { isValidPassword } from '../../../Utils/DataVerify';
+import { updateSignUpData } from '../../../StateManagement/actions';
 
-import Styles from '../../Styles/Styles';
-import SignUpStyle from '../../Styles/SignUpStyle';
+import Styles from '../../../Styles/Styles';
+import SignUpStyle from '../../../Styles/SignUpStyle';
 
-const UsernameScreen = ({ navigation }) => {
-
+const PasswordScreen = ({ navigation }) =>
+{
 	const signUpData = useSelector((state) => state.signUpData);
 	const dispatch = useDispatch();
 
-	const [username, setUsername] = useState(signUpData?.username || '');
+	const [password, setPassword] = useState(signUpData?.password || '');
 
 	const backArrow = () => {
-		dispatch(updateSignUpData({ username }));
-		navigation.navigate('EmailScreen');
+		dispatch(updateSignUpData({ password }));
+		navigation.navigate('UsernameScreen');
 	};
 
+	// Checks that password is valid if not shows user why not
 	const nextButton = () =>
 	{
-		if (isValidUsername(username))
-		{
-			dispatch(updateSignUpData({ username }));
-			navigation.navigate('PasswordScreen');
+		let isPasswordValid = isValidPassword(password)
+		if (isPasswordValid.isValid)
+		{	
+			dispatch(updateSignUpData({ password }));
+			navigation.navigate('AgeScreen');
 		}
 		else
 		{
-			Alert.alert('Username is taken or missing');
+			Alert.alert(`${isPasswordValid.reason}`);
 		}
 	};
 
@@ -47,11 +48,12 @@ const UsernameScreen = ({ navigation }) => {
 							<Icon name="arrow-back-ios" color="#FFF" style={SignUpStyle.backArrow}/>
 						</TouchableOpacity>
 						<SignUpComponent.SignUpInput
-							heading="What's your username?"
-							subheading={"Don't worry you can change this, and this is unique to you"}
-							placeholder="Username"
-							value={username}
-							onChangeText={setUsername}
+							heading="Good Password?"
+							subheading={"Try and pick something secure...\nyour data matters."}
+							placeholder="Password"
+							value={password}
+							onChangeText={setPassword}
+							secureTextEntry={true}
 							style={{
 								container: SignUpStyle.input,
 								heading: SignUpStyle.heading,
@@ -68,4 +70,4 @@ const UsernameScreen = ({ navigation }) => {
 	);
 };
 
-export default UsernameScreen;
+export default PasswordScreen;

@@ -4,17 +4,16 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import * as Component from '../../Components/Components';
-import * as SignUpComponent from '../../Components/SignUpComponents';
-import AuthViewModel from '../../UserAuthentication/AuthViewModel';
-import { updateSignUpData } from '../../StateManagement/actions';
-import { signup, login } from '../../api/Authentication';
-import { isValidGoal } from '../../Utils/DataVerify';
+import * as Component from '../../../Components/Components';
+import * as SignUpComponent from '../../../Components/SignUpComponents';
+import { updateSignUpData } from '../../../StateManagement/actions';
+import { signup, login } from '../../../api/Authentication';
+import { isValidGoal } from '../../../Utils/DataVerify';
 
-import Styles from '../../Styles/Styles';
-import SignUpStyle from '../../Styles/SignUpStyle';
-import ComponentStyle from '../../Styles/ComponentStyles';
-import { COLOR } from '../../Styles/Colors';
+import Styles from '../../../Styles/Styles';
+import SignUpStyle from '../../../Styles/SignUpStyle';
+import ComponentStyle from '../../../Styles/ComponentStyles';
+import { COLOR } from '../../../Styles/Colors';
 
 
 const GoalScreen = ({ navigation }) =>

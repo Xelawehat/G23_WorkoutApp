@@ -4,14 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import * as Component from '../../Components/Components';
-import * as SignUpComponent from '../../Components/SignUpComponents';
-import AuthViewModel from '../../UserAuthentication/AuthViewModel';
-import { isValidEmail } from '../../Utils/DataVerify';
-import { updateSignUpData, resetSignUpData } from '../../StateManagement/actions';
+import * as Component from '../../../Components/Components';
+import * as SignUpComponent from '../../../Components/SignUpComponents';
+import { isValidEmail } from '../../../Utils/DataVerify';
+import { updateSignUpData, resetSignUpData } from '../../../StateManagement/actions';
 
-import Styles from '../../Styles/Styles';
-import SignUpStyle from '../../Styles/SignUpStyle';
+import Styles from '../../../Styles/Styles';
+import SignUpStyle from '../../../Styles/SignUpStyle';
 
 const EmailScreen = () =>
 {

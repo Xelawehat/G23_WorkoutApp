@@ -5,16 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import * as Component from '../../Components/Components';
-import * as SignUpComponent from '../../Components/SignUpComponents';
-import AuthViewModel from '../../UserAuthentication/AuthViewModel';
-import { isValidDate } from '../../Utils/DataVerify';
-import { updateSignUpData } from '../../StateManagement/actions';
+import * as Component from '../../../Components/Components';
+import * as SignUpComponent from '../../../Components/SignUpComponents';
+import { isValidDate } from '../../../Utils/DataVerify';
+import { updateSignUpData } from '../../../StateManagement/actions';
 
-import Styles from '../../Styles/Styles';
-import ComponentStyle from '../../Styles/ComponentStyles';
-import SignUpStyle from '../../Styles/SignUpStyle';
-import { COLOR } from '../../Styles/Colors';
+import Styles from '../../../Styles/Styles';
+import ComponentStyle from '../../../Styles/ComponentStyles';
+import SignUpStyle from '../../../Styles/SignUpStyle';
+import { COLOR } from '../../../Styles/Colors';
 
 const AgeScreen = ({ navigation }) =>
 {

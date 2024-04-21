@@ -5,16 +5,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RulerPicker } from 'react-native-ruler-picker';
 
-import * as Component from '../../Components/Components';
-import * as SignUpComponent from '../../Components/SignUpComponents';
-import AuthViewModel from '../../UserAuthentication/AuthViewModel';
-import { isValidWeight } from '../../Utils/DataVerify';
-import { updateSignUpData } from '../../StateManagement/actions';
+import * as Component from '../../../Components/Components';
+import * as SignUpComponent from '../../../Components/SignUpComponents';
+import { isValidWeight } from '../../../Utils/DataVerify';
+import { updateSignUpData } from '../../../StateManagement/actions';
 
-import Styles from '../../Styles/Styles';
-import SignUpStyle from '../../Styles/SignUpStyle';
-import ComponentStyle from '../../Styles/ComponentStyles';
-import { COLOR } from '../../Styles/Colors';
+import Styles from '../../../Styles/Styles';
+import SignUpStyle from '../../../Styles/SignUpStyle';
+import ComponentStyle from '../../../Styles/ComponentStyles';
+import { COLOR } from '../../../Styles/Colors';
 
 
 const BodyInfoScreen = ({ navigation }) =>
