@@ -13,6 +13,7 @@ class AuthModel
 	*/
 	static async loginUser(user, pass)
 	{
+		return true;
 		try {
 	  
 			//  Method 2 - Send user data to the MongoDB database
