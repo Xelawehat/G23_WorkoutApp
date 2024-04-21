@@ -105,35 +105,40 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     workout.exercises = selectedExercises;
     workout.color = selectedColor;
     workout.date = workout.date;
-    workout.time = together;
+    workout.time = theBigOne;
+    console.log("TYPE OF TIME: ", typeof workout.time);
+    console.log("THE ACTUAL TIME: ", workout.time);
     console.log('\n\nWorkout:',workout);
 
-    //  Edit the workout in the database
-    try {
+//  Edit the workout in the database
+try {
 
-      // const userId = await AsyncStorage.getItem('userId');
-	  
-      // const workoutData = {
-      //   newName: oldName,
-      //   workoutUpdate: workout
-      // };
+  const userId = await AsyncStorage.getItem('userId');
+  console.log("OLD NAME BEING PASSED: ", oldName);
 
-			// const response = await axios({
-			//   method: 'patch',
-			//   url: `http://${currentIpAddress}/users/${userId}/workouts`, workoutData,
-      //   headers: {
-      //     'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-      //   }
-			// });
-	  
-			// console.log('Response:', response.data);
-      // console.log('Workout saved:', { workoutData, selectedExercises });
-      alert('Edit Saved');
-      //scheduleWorkoutNotif();
-      navigation.navigate('WorkoutDetails', {workout});
-		  } catch (error) {
-			console.error('Error adding workout:', error.response.data);
-		  }
+  const workoutData = {
+    // workoutId: workout._id,
+    oldName: oldName,
+    workoutUpdate: workout
+  };
+
+  const response = await axios({
+    method: 'patch',
+    url: `http://${currentIpAddress}/users/${userId}/workouts`,
+    data:workoutData,
+    headers: {
+      'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+    }
+  });
+
+  console.log('Response:', response.data);
+  } catch (error) {
+  console.error('Error adding workout:', error.response.data);
+  }
+
+//scheduleWorkoutNotif();
+  alert('Workout Saved');
+  navigation.navigate('WorkoutDetails', {workout});
   };
 
   const handleTimeChange = (event, selected) => {

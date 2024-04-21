@@ -16,7 +16,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
 
     const selectedDay = route.params.selectedDay;
 
-    const [selectedTime, setSelectedTime] = useState('');
+    const [selectedTime, setSelectedTime] = useState(new Date());
     const theBigOne = new Date(selectedTime);
 
     // Notification Scheduler
@@ -59,7 +59,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
     workoutObj.exercises = workout.exercises;
     workoutObj.color = workout.color;
     workoutObj.date = selectedDay;
-    workoutObj.time = theBigOne.getTime();
+    workoutObj.time = theBigOne;
     console.log('\n\nWorkoutObj:',workoutObj);
 
     // Add to local storage

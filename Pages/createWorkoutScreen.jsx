@@ -9,7 +9,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //  Put your id address:
-let currentIpAddress = '172.20.10.11:5000';
+let currentIpAddress = '172.20.10.14:5000';
 
 const CreateWorkoutScreen = ({ route, navigation }) => {
 
@@ -127,8 +127,8 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
   // Function to handle saving the workout
   const saveWorkout = async () => {
 
-    // Database
-    const userId = await AsyncStorage.getItem('userId');
+        // Database
+        const userId = await AsyncStorage.getItem('userId');
 
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {

@@ -1,4 +1,3 @@
-//  TODO: The age and weight must be replaced with user entered data
 //  MODULES
 //  Import the required modules
 const express = require('express');           //  for building web servers & APIs; respond to HTTP requests, create routes for the app
@@ -6,7 +5,7 @@ const mongoose = require('mongoose');         //  connect to the MongoDB databas
 const bodyParser = require('body-parser');    //  parses JSON payloads in HTTP requests, so that we can extract data
 const cors = require('cors');                 //  Cross-Origin Resource Sharing, restricts who can access the app essentially
 const bcrypt = require('bcrypt');             //  hash passwords, uses blowfish algorithm
-const session = require('express-session');   //  keeps authenticated users logged in
+const session = require('express-session');   //  keeps authenticated users logged in, so we can perform functions as users
 const { default: getUserWorkouts } = require('./backendFunctions');
 const Schema = mongoose.Schema;
 
@@ -41,14 +40,6 @@ app.use((req, res, next) => {
   }
   }));
 
-  //    DEBUGging cookies
-  app.get(`/show-session-info`, (req,res) =>{
-    const isLoggedIn = req.session.isLoggedIn;
-
-    //  Access the session cookie
-    const sessionCookie = req.cookies['connect.sid'] || 'No session cookie';
-    res.send(`Session Cookie: ${sessionCookie}<br>Logged In: ${isLoggedIn}`);
-  })
 
   // MongoDB connection - feel free to pass it your connection String
 const uri = "mongodb+srv://groot:WE_will_Get_100.@main-cluster.qga3zp6.mongodb.net/app?retryWrites=true&w=majority&appName=Main-Cluster";
@@ -84,7 +75,7 @@ const UserSchema = new Schema({
     experience: String,
     workouts: [{
       name: String,
-      time: { type: Date, default: Date.now }, // Changed from Timestamp to Date
+      time: { type: String, default: Date.now }, // Changed from Timestamp to Date
       difficulty: Number,
       favorite: { type: Boolean, default: false },
       color: String,
@@ -94,13 +85,7 @@ const UserSchema = new Schema({
     }]
   });
   const User = mongoose.model('User', UserSchema);
-//   // Ensure workouts is always an array even if not provided
-//   UserSchema.path('workouts').default([]);   //  Extra-to ensure workouts array is initialized to empty, but not neccessary
 
-
-//  ROUTES  -    API Endpoints
-//  TODO: I have an error checking the cookie when getting the Workout name, because Insomnia automatically creates a new cookie
-//  TODO: Having an issue with the cookies - a new cookie is created each time, so cookie not stored for user - so error: Unauthorized occurs.
 
 //  Register
 app.post('/register', async (req, res) => {
@@ -129,7 +114,6 @@ app.post('/register', async (req, res) => {
 
   
       // Send a successful response back
-      // res.status(201).send('User registered successfully.');
       res.send({
         message: "success",
         userId: newUser._id,  // Send user ID back to client
@@ -164,15 +148,6 @@ app.post('/login', async (req, res) => {
       req.session.user = user._id;
       req.session.isLoggedIn = true;    //  for logout purposes & accessing workouts (the secured route)
 
-      /*
-      //    DEBUG
-      const isLoggedIn = req.session.isLoggedIn;
-      //  Access the session cookie
-      const sessionCookie = req.cookies['connect.sid'] || 'No session cookie';
-      res.send(`Session Cookie: ${sessionCookie}<br>Logged In: ${isLoggedIn}`);
-    console.log('Session Cookie:',sessionCookie);
-    console.log('Logged In:',isLoggedIn)
-    */
       
       // res.send('Login successful.');
       res.send({
@@ -191,13 +166,6 @@ app.post('/login', async (req, res) => {
 
     const {userId} = req.params;
     const workoutData = req.body;
-
-    //  TODO: Ensure this works correctly - Session checking
-    /*
-    if (!req.session.user || req.session.user !== req.params.userId) {
-      return res.status(401).send('Unauthorized');
-  }
-  */
 
     try{
 
@@ -229,60 +197,31 @@ app.post('/login', async (req, res) => {
     }
   });
 
-
-  // Assuming you have already set up express and other middlewares
+  //  Get all user workouts
 app.get('/users/:userId/workouts', async (req, res) => {
   const { userId } = req.params;
 
   try {
+    //  Find the workout
       const user = await User.findById(userId).populate('workouts');
       if (!user) {
           return res.status(404).json({ message: 'User not found' });
       }
 
-      res.status(200).json(user.workouts);  // Assuming 'workouts' is an array field in your User model
+      res.status(200).json(user.workouts);  // Assuming 'workouts' is an array field in User model
   } catch (error) {
       res.status(500).json({ message: 'Error retrieving workouts', error: error.message });
   }
 });
-
-  // OLD - Get workout (display to console for now)
-//   app.get('/users/:userId/workouts', async (req, res) => {
-//     const { userId } = req.params;
-//     // const workoutName = req.query.name; // Access the workout name passed as a query parameter
-
-//     /*
-//     if (!req.session.user || req.session.user.toString() !== userId) {
-//         return res.status(401).send('Unauthorized');
-//     }
-//     */
-
-//     try {
-//         const user = await User.findById(userId);
-//         if (!user) {
-//             return res.status(404).send('User not found');
-//         }
-
-//         // // Find the workout by name
-//         // const workout = user.workouts.find(w => w.name === workoutName);
-//         // if (!workout) {
-//         //     return res.status(404).send('Workout not found');
-//         // }
-
-//         // console.log('Workout found:', workout); // Print the workout to the console
-//         res.status(201).json({message: "success"}); // Send the workout as a response
-//     } catch (error) {
-//         console.error('Error retrieving workouts:', error);
-//         res.status(500).send(error.message);
-//     }
-// });
 
 
 //  Route to edit the workout
 app.patch('/users/:userId/workouts', async (req, res) => {
 
   const { userId } = req.params;
-  const {newName, workoutUpdate} = req.body;
+  const {oldName, workoutUpdate} = req.body;
+  
+  console.log(`Updating workout for user ${userId} with new name ${oldName}`);
 
   try {
     const user = await User.findById(userId);
@@ -291,7 +230,7 @@ app.patch('/users/:userId/workouts', async (req, res) => {
     }
 
     //  Find the workout by name
-    const workout = user.workouts.find(w => w.name === newName);
+    const workout = user.workouts.find(w => w.name === oldName);
     if(!workout) {
       return res.status(404).json({message: "Workout Not Found"});
     }
@@ -315,12 +254,6 @@ app.patch('/users/:userId/workouts', async (req, res) => {
 app.delete('/users/:userId/workouts', async (req, res) => {
     const { userId } = req.params;
     const workoutName = req.query.name;
-  
-    /*
-    if (!req.session.user || req.session.user.toString() !== userId) {
-        return res.status(401).send('Unauthorized');
-    }
-    */
   
     try {
         const user = await User.findById(userId);
@@ -373,6 +306,7 @@ app.delete('/users/:userId/workouts', async (req, res) => {
 
 
   /*
+  //  Logout the user
   app.post('/logout', function(req, res) {
     req.session.destroy(function(err) {
         if (err) {

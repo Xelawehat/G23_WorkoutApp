@@ -9,47 +9,61 @@ import getterUserWorkouts from '../Backend/backendFunctions';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+let currentIpAddress = '172.20.10.14:5000';
+
 const CalendarPage = ({ navigation }) => {
 
-  //const workoutsArray = getterUserWorkouts();
-  console.log('the big payload', workoutsArray);
-  const workoutsArray = dataArray;
+  //const workoutsArray = getterUserWorkouts();  
 
   //  ADDED
-  //const [workoutsArray, setWorkoutsArray] = useState([]); //  State to store workouts // add in for database
+  const [workoutsArray, setWorkoutsArray] = useState(dataArray); //  State to store workouts // add in for database, pass dataArray here to use initially
   const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
   const [exercises, setExercises] = useState([]); // For json/flatlist
   const [selectedWorkouts, setSelectedWorkouts] = useState([]); // for workouts scheduled
   console.log(selectedWorkouts);
 
   useEffect(() => {
+    //  Get the workouts from the database
+    const getUserWorkouts = async () => {
+      try {
+          const userId = await AsyncStorage.getItem('userId'); // Assuming the userId is stored in AsyncStorage
+          console.log(userId);
+          if (!userId) {
+              console.log('User ID is null, check AsyncStorage setup');
+              return;
+          }
+  
+          const response = await axios.get(`http://${currentIpAddress}/users/${userId}/workouts`);
+
+          //  Added
+          //  Format the data so that [Object] isn't being passed; seems to mess up the Marked dates
+          const formattedWorkouts = response.data.map(workout => ({
+            ...workout,
+            date: workout.date.split('T')[0]
+          }));
+
+          setWorkoutsArray(formattedWorkouts);
+          console.log(formattedWorkouts);
+
+      } catch (error) {
+          console.error('Error fetching workouts:', error);
+      }
+  };   
+  getUserWorkouts();
+
+  // const workoutsArray = dataArray;
+  console.log('the big payload', workoutsArray);
 
     setExercises(exercisesData); // Set the exercises data from the imported JSON file
 
-      //  ADDED
-  const getUserWorkouts = async () => {
-    try {
-        const userId = await AsyncStorage.getItem('userId'); // Assuming the userId is stored in AsyncStorage
-        console.log(userId);
-        if (!userId) {
-            console.log('User ID is null, check AsyncStorage setup');
-            return;
-        }
 
-        const response = await axios.get(`http://${currentIpAddress}/users/${userId}/workouts`);
-        console.log('Fetched Workouts:', response.data);
-        setWorkoutsArray(response.data);
-    } catch (error) {
-        console.error('Error fetching workouts:', error);
-    }
-};
-
-    getUserWorkouts();
     // setExercises(exercisesData); // Set the exercises data from the imported JSON file
   }, []);
 
     // Marked Dates oject creation
     const markedDates = {};
+    
+    console.log("Marked dates: ", markedDates);
 
     // Loop to get each Dot on calendar
     workoutsArray.forEach(workout => {

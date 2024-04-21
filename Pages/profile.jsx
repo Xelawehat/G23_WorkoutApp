@@ -7,7 +7,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let currentIpAddress = '172.20.10.14:5000';
+let currentIpAddress = '192.168.12.212:5000';
 
 export default function Profile({ navigation }) {
   const [selectedAge, setSelectedAge] = useState(null);
