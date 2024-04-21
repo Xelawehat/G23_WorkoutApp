@@ -5,12 +5,45 @@ import { StyleSheet, SafeAreaView, View, ScrollView,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useNavigation  } from '@react-navigation/native';
+import * as Notif from 'expo-notifications';
 
 export default function Settings() {
   const [form, setForm] = useState({
-    pushNotifications: false,
+    pushNotifications: true,
   }); 
   const navigation = useNavigation();
+
+  const handleNotif = () => {
+
+    if(!form.pushNotifications)
+    {
+      console.log("enable notifs");
+      Notif.setNotificationHandler({
+        handleNotification: async () => {
+          return {
+            shouldShowAlert: true,
+            shouldPlaySound: true,
+            shouldSetBadge: false
+          };
+        }
+      });
+    }
+    else
+    {
+      console.log("disable notifs");
+      Notif.setNotificationHandler({
+        handleNotification: async () => {
+          return {
+            shouldShowAlert: false,
+            shouldPlaySound: false,
+            shouldSetBadge: false
+          };
+        }
+      });
+      Notif.cancelAllScheduledNotificationsAsync();
+    }
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1}}>
@@ -55,7 +88,11 @@ export default function Settings() {
 
                     <Switch
                       onValueChange={pushNotifications =>
-                        setForm({ ...form, pushNotifications })
+                        {
+                          setForm({ ...form, pushNotifications });
+                          handleNotif();
+                        }
+                        
                       }
                       value={form.pushNotifications} />
                   </View>
