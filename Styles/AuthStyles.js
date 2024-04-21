@@ -14,7 +14,7 @@ const AuthStyles = StyleSheet.create({
 	{
 		flex: 1,
 	},
-
+	
 	container:
 	{
 		flex: 1,

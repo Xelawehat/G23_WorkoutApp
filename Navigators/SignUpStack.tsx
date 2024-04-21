@@ -1,11 +1,13 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+
 import EmailScreen from '../Screens/SignUp/EmailScreen';
 import UsernameScreen from '../Screens/SignUp/UsernameScreen';
 import PasswordScreen from '../Screens/SignUp/PasswordScreen';
 import AgeScreen from '../Screens/SignUp/AgeScreen';
 import BodyInfoScreen from '../Screens/SignUp/BodyInfoScreen';
 import GoalScreen from '../Screens/SignUp/GoalScreen';
+
 
 const Stack = createStackNavigator();
 

@@ -2,7 +2,6 @@ import React, { useState, useRef, forwardRef} from 'react';
 import { View, Text, TouchableOpacity, TextInput, Button, Alert, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import AuthViewModel from '../UserAuthentication/AuthViewModel';
 import AuthStyles from '../Styles/AuthStyles';
 import * as Component from '../Components/Components';
 import { login } from '../api/Authentication';

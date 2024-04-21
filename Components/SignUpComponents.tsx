@@ -23,6 +23,7 @@ interface SignUpInputProps
 	};
 }
 
+
 interface DatePreview extends TextProps
 {
   	heading?: string;
@@ -54,7 +55,6 @@ interface DatePreviewHelper extends TextProps
 
 
 export const SignUpInput: React.FC<SignUpInputProps> = ({heading, subheading, placeholder, style, onFocusChange, ...props}) => {
-
 	const containerStyle = [ComponentStyle.container, style?.container];
 	const headingStyle = [ComponentStyle.signupHeading, style?.heading];
 	const subheadingStyle = [ComponentStyle.signupSubheading, style?.subheading];

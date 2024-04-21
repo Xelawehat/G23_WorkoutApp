@@ -8,7 +8,7 @@ const Styles = StyleSheet.create({
 	{
 		flex: 1,
 	},
-
+	
 	ScrollView:
 	{
 		flex: 1,
@@ -18,7 +18,6 @@ const Styles = StyleSheet.create({
 	{
 		flex: 1,
 	},
-
 });
 
 export default Styles;

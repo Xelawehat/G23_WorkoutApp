@@ -41,14 +41,15 @@ export const COLOR: Colors  = {
 
 	opaqueColor: (color: string, opacity: number): string => {
 		const validOpacity = Math.max(0, Math.min(1, opacity));
-    const hexToRgb = (hex: string): string => {
-        const bigint = parseInt(hex.replace('#', ''), 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-        return `${r}, ${g}, ${b}`;
-    };
+		
+	    const hexToRgb = (hex: string): string => {
+	        const bigint = parseInt(hex.replace('#', ''), 16);
+	        const r = (bigint >> 16) & 255;
+	        const g = (bigint >> 8) & 255;
+	        const b = bigint & 255;
+	        return `${r}, ${g}, ${b}`;
+	    };
 
-    return `rgba(${hexToRgb(color)}, ${validOpacity})`;
+    	return `rgba(${hexToRgb(color)}, ${validOpacity})`;
 	}
 };

@@ -186,7 +186,6 @@ const SignUpStyle = StyleSheet.create({
   		fontSize: 16,
 	},
 
-
 });
 
 export default SignUpStyle;

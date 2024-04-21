@@ -21,6 +21,7 @@ const ComponentStyle = StyleSheet.create({
 	{
 		...StyleSheet.absoluteFillObject,
 		backgroundColor: 'rgba(0,0,0,0.1)',
+
 	},
 
 	primaryTextInputContainer:

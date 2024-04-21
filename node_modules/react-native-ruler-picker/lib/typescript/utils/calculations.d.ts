@@ -1,0 +1,2 @@
+export declare const calculateCurrentValue: (scrollPosition: number, stepWidth: number, gapBetweenItems: number, min: number, max: number, step: number, fractionDigits: number) => string;
+//# sourceMappingURL=calculations.d.ts.map

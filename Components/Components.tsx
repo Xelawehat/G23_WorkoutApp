@@ -28,6 +28,7 @@ interface PrimaryTextInputProps extends TextInputProps
     inputStyle?: TextStyle;
   };
   onChangeText?: (text: string) => void;
+
 }
 
 /*
