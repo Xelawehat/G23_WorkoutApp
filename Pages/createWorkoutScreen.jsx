@@ -53,6 +53,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
         },
         trigger,
       });
+      console.log('finished up');
     };
 
   // State variables
@@ -167,7 +168,6 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
     //  Try to add a workout after the button is clicked here - send to db
     try {
-      console.log('time:', workoutObj.time)
 	  
       //  TODO: a user already in the db is currently hardcoded to test if this works.
               //  find out how to replace it with the current user
@@ -183,7 +183,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 			console.log('Response:', response.data);
       console.log('Workout saved:', { workoutData, selectedExercises });
       alert('Workout Saved');
-      //scheduleWorkoutNotif();
+      //scheduleWorkoutNotif(); commented out for now
       navigation.navigate('Calendar');
 		  } catch (error) {
 			console.error('Error adding workout:', error.response.data);

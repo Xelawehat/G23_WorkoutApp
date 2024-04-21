@@ -11,7 +11,7 @@ const HomePage = ( { navigation }) => {
         <TouchableOpacity
             onPress={() => {
               const theBigOne = new Date();
-              navigation.navigate('CreateWorkout', {day: theBigOne.getDate(), time: theBigOne.getTime()})
+              navigation.navigate('CreateWorkout', {day: theBigOne.toISOString().split('T')[0].toString(), time: theBigOne})
             }}
             style={styles.logButton}>
             <Text style={styles.buttonTitle}>Log a Workout</Text>

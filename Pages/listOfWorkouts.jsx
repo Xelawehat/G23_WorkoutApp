@@ -16,19 +16,14 @@ const ListOfWorkouts = ({ route, navigation }) => {
 
     const selectedDay = route.params.selectedDay;
 
-    const [selectedTime, setSelectedTime] = useState('');
+    const [selectedTime, setSelectedTime] = useState(new Date()); // Initializes selectedTime to now
     const theBigOne = new Date(selectedTime);
 
     // Notification Scheduler
     const scheduleWorkoutNotif = (workout) => {
-        //const notifbody = RandomNotifText[Math.floor(Math.random() * 3)];
-    
-        //if (user.allowNotifs == false)
-        // {
-        //   return;
-        // }
-        const trigger = new Date(Date.parse(route.params.selectedDay));
+        const trigger = new Date(Date.parse(selectedDay));
         trigger.setTime(theBigOne.getTime());
+        trigger.setSeconds(0);
     
         console.log('This thing is:', trigger);
         const notifbody = ("Workout today: ").concat(' ', workout.name);
@@ -46,7 +41,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
     const hour = theBigOne.getHours().toString();
     const min = theBigOne.getMinutes().toString();
     const together = hour.concat(':',min);
-    navigation.navigate('CreateWorkout', {day: selectedDay, time: theBigOne.getTime()});
+    navigation.navigate('CreateWorkout', {day: selectedDay, time: theBigOne});
   };
 
   // Handles the continue button
@@ -59,7 +54,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
     workoutObj.exercises = workout.exercises;
     workoutObj.color = workout.color;
     workoutObj.date = selectedDay;
-    workoutObj.time = theBigOne.getTime();
+    workoutObj.time = theBigOne;
     console.log('\n\nWorkoutObj:',workoutObj);
 
     // Add to local storage
@@ -75,17 +70,48 @@ const ListOfWorkouts = ({ route, navigation }) => {
   // Alert function
   const showAlert = ( workout ) => {
 
-    const hour = theBigOne.getHours().toString();
-    const min = theBigOne.getMinutes().toString();
-    const together = hour.concat(':',min);
+    let min = theBigOne.getMinutes().toString();
+    if (theBigOne.getMinutes() < 10)
+    {
+      min = "0".concat('',min);
+    }
+
+    let hour = theBigOne.getHours().toString();
+    let together = hour.concat(':',min);
+
+    if(theBigOne.getHours() < 12)
+    {
+      if (theBigOne.getHours() == 0)
+      {
+        together = "12".concat(':',min).concat(' ', "AM");
+      }
+      else
+      {
+        together = hour.concat(':',min).concat(' ', "AM");
+      }
+    }
+    else
+    {
+      if (theBigOne.getHours() == 12)
+      {
+        together = hour.concat(':',min).concat(' ', "PM");
+      }
+      else
+      {
+        together = (theBigOne.getHours() - 12).toString().concat(':',min).concat(' ', "PM");
+      }
+      
+    }
+
     console.log('selectedTime',selectedTime);
     console.log('together',together);
     console.log('bigone', theBigOne);
 
+    const alerttitle = ('Schedule').concat(' ',workout.name).concat('?');
+    const alerttext = "Get reminder at:".concat(' ', together).concat('\n', "You may edit this later");
+
     Alert.alert(
-      ('Schedule').concat(' ',workout.name).concat('?'),
-      //together.concat('You may edit this later.'),
-      ('\nYou may edit this later.'),
+      alerttitle,alerttext,
       [
         {
           text: 'Cancel',
@@ -106,7 +132,6 @@ const ListOfWorkouts = ({ route, navigation }) => {
   const selectWorkout = (workout) => {
     // Logic to select the workout with the given ID
     console.log('Selected workout:', workout);
-    // Navigate to the next screen or perform any other action
     showAlert(workout);
   };
 
@@ -119,8 +144,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
 
   // Alert function
   const deleteAlert = ( workout, index ) => {
-    // I cannot get the alert to show up without all the information in it
-    //Successfully deletes the workout from dataArray if continue is pressed, but alert is messed up
+    
     const hour = theBigOne.getHours().toString();
     const min = theBigOne.getMinutes().toString();
     const together = hour.concat(':',min);

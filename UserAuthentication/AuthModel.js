@@ -43,7 +43,6 @@ class AuthModel
 			console.error('Error sending data:', error);
 			return false;
 		  }
-	// return true;
 	 }
 
 	/* 

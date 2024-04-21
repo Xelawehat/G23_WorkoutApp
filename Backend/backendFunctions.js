@@ -1,35 +1,24 @@
-// import axios from 'axios';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+const axios = require('axios');
+const AsyncStorage = require("@react-native-async-storage/async-storage");
 
-// let currentIpAddress = `192.168.12.212:5000`;
-// const getUserWorkouts = async () => {
+const getterUserWorkouts = async () => {
+    const userId = await AsyncStorage.getItem('userId');
+    let currentIpAddress = '172.20.10.11:5000';
 
-//     const userId = await AsyncStorage.getItem('userId');
+    try {
+        const response = await axios({
+            method: 'get',
+            url: `http://${currentIpAddress}/users/${userId}/workouts`,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        console.log('Response:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error getting workout:', error.response.data);
+    }
+};
 
-//     if(!userId){
-//         console.error('No user ID available');
-//         return;
-//     }
-
-//     try {
-	
-// 			const response = await axios({
-// 			  method: 'get',
-// 			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
-//         headers: {
-//           'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-//         },
-//         withCredentials:true
-// 			});
-
-// 			console.log('Workouts:', response.data);
-//             return response.data;
-
-//       // console.log('Workout saved:', { workoutData, selectedExercises });
-//     //   alert('Workout Saved');
-// 		  } catch (error) {
-// 			console.error('Error getting workout:', error.response.data);
-// 		  }
-//   }
-
-//   export default getUserWorkouts;
+module.exports = getterUserWorkouts;

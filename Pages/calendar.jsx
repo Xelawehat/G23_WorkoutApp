@@ -5,13 +5,13 @@ import { Calendar } from 'react-native-calendars';
 import { FontAwesome } from '@expo/vector-icons';
 import exercisesData from './exercises.json';
 import dataArray from './dataArray';
-import getterUserWorkouts from '../Backend/backendFunctions';
+import getUserWorkouts from '../Backend/backendFunctions';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CalendarPage = ({ navigation }) => {
 
-  //const workoutsArray = getterUserWorkouts();
+  //const workoutsArray = getUserWorkouts();
   console.log('the big payload', workoutsArray);
   const workoutsArray = dataArray;
 
@@ -87,7 +87,7 @@ const CalendarPage = ({ navigation }) => {
             onPress={() => navigation.navigate('WorkoutDetails', { workout })}>
               <Text style={styles.workoutName}>{workout.name}</Text>
               <Text style={styles.workoutTime}>Date: {workout.date}</Text>
-              <Text style={styles.workoutTime}>Time: {workout.time.getTime}</Text>
+              <Text style={styles.workoutTime}>Time: {new Date(workout.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
             </TouchableOpacity>
           ))}
         </View>
