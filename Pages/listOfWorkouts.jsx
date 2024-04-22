@@ -173,7 +173,6 @@ const ListOfWorkouts = ({ route, navigation }) => {
     //  Delete the workout
     const deleteWorkout = async ( workout ) => {
 
-      //const workoutName = "April 8";
       const workoutName = workout.name;
     
       // // Check if the workout name is provided
@@ -202,14 +201,10 @@ const ListOfWorkouts = ({ route, navigation }) => {
         alert('Failed to delete workout. Please try again.');
       }
     };
-    
-    //deleteWorkout("Workout-edit");
-
-
   /////////////////////////////////////////////////////////
 
   // Alert function
-  const deleteAlert = ( workout, index ) => {
+  const deleteAlert = ( workout ) => {
     
     const hour = theBigOne.getHours().toString();
     const min = theBigOne.getMinutes().toString();
