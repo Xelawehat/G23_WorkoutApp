@@ -12,9 +12,6 @@ import { initialWorkout, initialExercise } from '../Models/workoutModel';
 
 const ListOfWorkouts = ({ route, navigation }) => {
 
-  const userData = useSelector((state) => state.userData);
-  const userId = userData._id;
-
   const workoutsArray = dataArray();
 
   const workoutObj = { ...initialWorkout };
@@ -158,59 +155,49 @@ const ListOfWorkouts = ({ route, navigation }) => {
   // };
 
     //  Delete the workout
-    const deleteWorkout = async ( workout ) => {
+  const userData = useSelector((state) => state.userData);
+  
+  const deleteWorkout = async (workout) => {
 
-      //const workoutName = "April 8";
-      const workoutName = workout.name;
-    
-      // // Check if the workout name is provided
-      // if (!workoutName.trim()) {
-      //   alert('Must enter a workout name to delete.');
-      //   return;
-      // }
-    
-      try 
+  const workoutName = workout.name;
+  const userId = userData._id;
+
+  try {
+    console.log(workoutName, 'called here');
+    const response = await deleteWorkout(userId, workoutName);
+    console.log('Response:', response.data);
+    alert('Workout deleted successfully');
+  } catch (error) {
+    console.error('Error deleting workout:', error.response ? error.response.data : error.message);
+    alert('Failed to delete workout. Please try again.');
+  }
+};
+
+const deleteAlert = (workout, index) => {
+  Alert.alert(
+    ('Delete').concat(' ', workout.name).concat('?'),
+    ('\nYour workout will be lost.'),
+    [
       {
-        const response = await deleteWorkout(userId, workoutName);  
-        console.log('Response:', response.data);
-        alert('Workout deleted successfully');
-      } 
-      catch (error) 
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
       {
-        console.error('Error deleting workout:', error.response ? error.response.data : error.message);
-        alert('Failed to delete workout. Please try again.');
-      }
-    };
-    
-    //deleteWorkout("Workout-edit");
-
-
-  /////////////////////////////////////////////////////////
-
-  // Alert function
-  const deleteAlert = ( workout, index ) => {
-    
-    const hour = theBigOne.getHours().toString();
-    const min = theBigOne.getMinutes().toString();
-    const together = hour.concat(':',min);
-    console.log('selectedTime',selectedTime);
-    console.log('together',together);
-    console.log('theBigOne',theBigOne);
-
-    Alert.alert(
-      ('Delete').concat(' ', workout.name).concat('?'),
-      ('\nYour workout will be lost.'),
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
+        text: 'Continue',
+        onPress: async () => {
+          try {
+            await deleteWorkout(workout); // Call deleteWorkout once
+          } catch (error) {
+            console.error(error);
+            alert('Failed to delete workout. Please try again.'); // Inform user
+          }
         },
-        { text: 'Continue', onPress: () => deleteWorkout(workout) },
-      ],
-      { cancelable: false }
-    );
-  };
+      },
+    ],
+    { cancelable: false }
+  );
+};
 
   const goToDeleteWorkout = ( workout, index ) => {
     console.log("goToDeleteWorkout");

@@ -10,16 +10,17 @@ const apiClient = axios.create({
         },
 });
 
-const deleteWorkout = async (userId: number, workoutData: IWorkout) => {
+const deleteWorkout = async (userId: number, workoutName: string) => {
   try
   {
-    const response = await apiClient.delete(`/users/${userId}/workouts`, workoutData);
+    console.log(workoutName);
+    const response = await apiClient.delete(`/users/${userId}/workouts`, workoutName);
     console.log(response.data);
     return response.data;
   } 
   catch (error) 
   {
-      console.error('Error deleting workout:', error);
+      console.error('Error deleting workout:', error.response.data);
       throw error;
   }
 };

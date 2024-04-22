@@ -43,21 +43,11 @@ const GoalScreen = ({ navigation }) =>
 			console.log(signUpData);
 			try
 			{
-				const signUpresponse = await signup(signUpData);
+				const signUpResponse = await signup(signUpData);
 
-				if (signUpresponse.sucess)
+				if (signUpResponse)
 				{	
-					// after successful account creation attempts a login
-					const loginResponse = await login({usernameOrEmail: signUpData.username, password: signUpData.password});
-					console.log(loginResponse);
-					if (loginResponse.success)
-					{
-						navigation.navigate('HomeTabNavigator');
-					}
-					else 
-					{
-						// on failed login send to login screen with Alert of account creation successful but failed login try again
-					}
+					navigation.navigate('Login');
 				}
 			}
 			catch (error)
