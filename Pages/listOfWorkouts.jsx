@@ -23,11 +23,9 @@ const ListOfWorkouts = ({ route, navigation }) => {
 
     // Notification Scheduler
     const scheduleWorkoutNotif = (workout) => {
-        const trigger = new Date(Date.parse(selectedDay));
-        trigger.setTime(theBigOne.getTime());
-        trigger.setSeconds(0);
-    
-        console.log('This thing is:', trigger);
+        const trigger = new Date(Date.parse(selectedDay) + ((theBigOne.getHours() + 4) * 60 *60 * 1000) + (theBigOne.getMinutes() * 60 * 1000));
+ 
+        console.log('Scheduled for:', trigger);
         const notifbody = ("Workout today: ").concat(' ', workout.name);
         Notif.scheduleNotificationAsync({
           content: {
