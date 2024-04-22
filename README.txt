@@ -10,6 +10,7 @@ Edit this line in each of the following files:
   createWorkoutScreen.jsx		Create a workout
   editWorkoutScreen.jsx		  edit a workout
   calendar.jsx			        retrieve all user workouts/display on the calendar
+  profile.jsx                Edit the user's profile information
 
 Open 2 terminals:
 in terminal 1: (if you get an error that a few dependencies are missing just run npm install dependency_name)
