@@ -108,7 +108,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
     console.log('bigone', theBigOne);
 
     const alerttitle = ('Schedule').concat(' ',workout.name).concat('?');
-    const alerttext = "Get reminder at:".concat(' ', together).concat('\n', "You may edit this later");
+    const alerttext = "Schedule for".concat(' ', together).concat('\n', "You may edit this later");
 
     Alert.alert(
       alerttitle,alerttext,

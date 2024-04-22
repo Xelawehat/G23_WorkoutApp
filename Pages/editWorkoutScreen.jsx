@@ -8,7 +8,7 @@ import exampleData from './examples.json';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let currentIpAddress = '172.20.10.14:5000';
+let currentIpAddress = '172.20.10.11:5000';
 
 const EditWorkoutScreen = ({ route, navigation }) => {
 
@@ -23,7 +23,7 @@ const EditWorkoutScreen = ({ route, navigation }) => {
   const [reps, setReps] = useState(''); // State variable for reps
   const [weight, setWeight] = useState(''); // State variable for weight
   const [selectedColor, setSelectedColor] = useState(workout.color);
-  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedTime, setSelectedTime] = useState(new Date());
   const theBigOne = new Date(selectedTime);
 
   // Array of color options
@@ -105,35 +105,40 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     workout.exercises = selectedExercises;
     workout.color = selectedColor;
     workout.date = workout.date;
-    workout.time = together;
+    workout.time = theBigOne;
+    console.log('\n\n\ntime:', workout.time);
+    console.log("TYPE OF TIME: ", typeof workout.time);
+    console.log("THE ACTUAL TIME: ", workout.time);
     console.log('\n\nWorkout:',workout);
 
-    //  Edit the workout in the database
-    try {
+//  Edit the workout in the database
+try {
 
-      // const userId = await AsyncStorage.getItem('userId');
-	  
-      // const workoutData = {
-      //   newName: oldName,
-      //   workoutUpdate: workout
-      // };
+  const userId = await AsyncStorage.getItem('userId');
+  console.log("OLD NAME BEING PASSED: ", oldName);
 
-			// const response = await axios({
-			//   method: 'patch',
-			//   url: `http://${currentIpAddress}/users/${userId}/workouts`, workoutData,
-      //   headers: {
-      //     'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-      //   }
-			// });
-	  
-			// console.log('Response:', response.data);
-      // console.log('Workout saved:', { workoutData, selectedExercises });
-      alert('Edit Saved');
-      //scheduleWorkoutNotif();
-      navigation.navigate('WorkoutDetails', {workout});
-		  } catch (error) {
-			console.error('Error adding workout:', error.response.data);
-		  }
+  const workoutData = {
+    // workoutId: workout._id,
+    oldName: oldName,
+    workoutUpdate: workout
+  };
+
+  const response = await axios({
+    method: 'patch',
+    url: `http://${currentIpAddress}/users/${userId}/workouts`,
+    data:workoutData,
+    headers: {
+      'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+    }
+  });
+
+  console.log('Response:', response.data);
+  //scheduleWorkoutNotif();
+  alert('Workout Saved');
+  navigation.navigate('WorkoutDetails', {workout});
+  } catch (error) {
+  console.error('Error editing workout:', error.response.data);
+  }
   };
 
   const handleTimeChange = (event, selected) => {

@@ -53,7 +53,6 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
         },
         trigger,
       });
-      console.log('finished up');
     };
 
   // State variables

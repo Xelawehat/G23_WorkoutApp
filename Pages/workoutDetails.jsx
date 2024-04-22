@@ -27,6 +27,7 @@ const WorkoutDetailsPage = ({ route }) => {
       >
         <View style={styles.header}>
           <Text style={styles.workoutName}>{workout.name}</Text>
+          <Text style={styles.workoutTime}>Time: {new Date(workout.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
           <Text style={styles.workoutDate}>Date: {workout.date}</Text>
         </View>
 

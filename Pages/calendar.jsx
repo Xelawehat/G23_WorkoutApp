@@ -5,47 +5,24 @@ import { Calendar } from 'react-native-calendars';
 import { FontAwesome } from '@expo/vector-icons';
 import exercisesData from './exercises.json';
 import dataArray from './dataArray';
-import getUserWorkouts from '../Backend/backendFunctions';
+import getterUserWorkouts from '../Backend/backendFunctions';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+let currentIpAddress = '172.20.10.11:5000';
+
 const CalendarPage = ({ navigation }) => {
 
-  //const workoutsArray = getUserWorkouts();
-  console.log('the big payload', workoutsArray);
-  const workoutsArray = dataArray;
-
   //  ADDED
-  //const [workoutsArray, setWorkoutsArray] = useState([]); //  State to store workouts // add in for database
+  console.log('dataArray boiii', dataArray);
+  const workoutsArray = dataArray;
   const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
   const [exercises, setExercises] = useState([]); // For json/flatlist
   const [selectedWorkouts, setSelectedWorkouts] = useState([]); // for workouts scheduled
-  console.log(selectedWorkouts);
 
   useEffect(() => {
-
+   console.log('the big payload', workoutsArray);
     setExercises(exercisesData); // Set the exercises data from the imported JSON file
-
-      //  ADDED
-  const getUserWorkouts = async () => {
-    try {
-        const userId = await AsyncStorage.getItem('userId'); // Assuming the userId is stored in AsyncStorage
-        console.log(userId);
-        if (!userId) {
-            console.log('User ID is null, check AsyncStorage setup');
-            return;
-        }
-
-        const response = await axios.get(`http://${currentIpAddress}/users/${userId}/workouts`);
-        console.log('Fetched Workouts:', response.data);
-        setWorkoutsArray(response.data);
-    } catch (error) {
-        console.error('Error fetching workouts:', error);
-    }
-};
-
-    getUserWorkouts();
-    // setExercises(exercisesData); // Set the exercises data from the imported JSON file
   }, []);
 
     // Marked Dates oject creation
