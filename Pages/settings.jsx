@@ -6,12 +6,44 @@ import { StyleSheet, SafeAreaView, View, ScrollView,
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useNavigation  } from '@react-navigation/native';
 import * as ComponentBackground from '../Components/Components';
+import * as Notif from 'expo-notifications';
 
 export default function Settings() {
   const [form, setForm] = useState({
-    pushNotifications: false,
+    pushNotifications: true,
   }); 
   const navigation = useNavigation();
+
+  const handleNotif = () => {
+
+    if(!form.pushNotifications)
+    {
+      console.log("enable notifs");
+      Notif.setNotificationHandler({
+        handleNotification: async () => {
+          return {
+            shouldShowAlert: true,
+            shouldPlaySound: true,
+            shouldSetBadge: false
+          };
+        }
+      });
+    }
+    else
+    {
+      console.log("disable notifs");
+      Notif.setNotificationHandler({
+        handleNotification: async () => {
+          return {
+            shouldShowAlert: false,
+            shouldPlaySound: false,
+            shouldSetBadge: false
+          };
+        }
+      });
+      Notif.cancelAllScheduledNotificationsAsync();
+    }
+  }
 
   return (
     <ComponentBackground.PrimaryBackground>
@@ -57,7 +89,11 @@ export default function Settings() {
 
                     <Switch
                       onValueChange={pushNotifications =>
-                        setForm({ ...form, pushNotifications })
+                        {
+                          setForm({ ...form, pushNotifications });
+                          handleNotif();
+                        }
+                        
                       }
                       value={form.pushNotifications} />
                   </View>

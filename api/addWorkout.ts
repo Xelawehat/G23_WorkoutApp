@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { apiURL } from './APIConfig';
 
-import { IWorkout } from '../Models/workoutModels';
+import { IWorkout } from '../Models/workoutModel';
 
 const apiClient = axios.create({
 	baseURL: apiURL,

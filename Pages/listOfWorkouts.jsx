@@ -66,9 +66,9 @@ const ListOfWorkouts = ({ route, navigation }) => {
     //  Try to add a workout after the button is clicked here - send to db
    try 
    {
-      const response = await addWorkout(userId, workoutData);
+      //const response = await addWorkout(userId, workoutData);
       alert('Workout Saved');
-      //scheduleWorkoutNotif();
+      scheduleWorkoutNotif(workoutObj);
       navigation.navigate('Calendar');
     } 
    catch (error) 

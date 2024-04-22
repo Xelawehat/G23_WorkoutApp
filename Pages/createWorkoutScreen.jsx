@@ -29,19 +29,14 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     //Stores the workout object when Save Workout button is pressed
     const workoutObj = { ...initialWorkout};
 
-    // Random time Notification
-    const scheduleWorkoutNotif = () => {
-      //const notifbody = RandomNotifText[Math.floor(Math.random() * 3)];
-  
-      if (user.allowNotifs == false)
-      {
-        return;
-      }
-      const trigger = new Date(Date.parse(workoutObj.time));
-      trigger.setHours(6);
-      trigger.setMinutes(0);
+    // Notification Scheduler
+    const scheduleWorkoutNotif = (workout) => {
+      const trigger = new Date(Date.parse(workout.time));
+      trigger.setTime(workout.time.getTime());
       trigger.setSeconds(0);
-      const notifbody = ("Workout today: ").concat(' ', workoutObj.name);
+  
+      console.log('This thing is:', trigger);
+      const notifbody = ("Workout today: ").concat(' ', workout.name);
       Notif.scheduleNotificationAsync({
         content: {
           title: "Workout App Notification",
@@ -50,6 +45,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
         trigger,
       });
     };
+
 
   // State variables
   const [sets, setSets] = useState('');
@@ -160,7 +156,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
 			const response = await addWorkout(userId, workoutData);
       alert('Workout Saved');
-      //scheduleWorkoutNotif();
+      scheduleWorkoutNotif(workoutObj);
       navigation.navigate('Calendar');
 		  } 
       catch (error) 
