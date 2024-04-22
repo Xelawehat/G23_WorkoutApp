@@ -60,7 +60,8 @@
     "@babel/plugin-transform-numeric-separator": "^7.24.1",
     "@babel/plugin-transform-object-rest-spread": "^7.24.1",
     "@babel/plugin-transform-optional-catch-binding": "^7.24.1",
-    "@babel/plugin-transform-optional-chaining": "^7.24.1"
+    "@babel/plugin-transform-optional-chaining": "^7.24.1",
+    "@types/react-native": "^0.73.0"
   },
   "private": true
 }

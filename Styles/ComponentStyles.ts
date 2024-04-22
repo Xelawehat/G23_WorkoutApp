@@ -34,7 +34,7 @@ const ComponentStyle = StyleSheet.create({
 		borderColor: COLOR.primaryText,
 		borderWidth: 2,
 		justifyContent: 'center',
-		backgroundColor: COLOR.opaqueColor('#4c956c',0.5),
+		backgroundColor: COLOR.opaqueColor('#cccccc',0.3),
 		minHeight: 62,
 	},
 	primaryTextInputPlaceholder:

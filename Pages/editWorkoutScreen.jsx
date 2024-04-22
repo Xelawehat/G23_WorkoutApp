@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker'
+
 import exampleData from './examples.json';
+import { useSelector } from 'react-redux';
+import editWorkout from '../api/editWorkout';
 
-//  Added
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-let currentIpAddress = '172.20.10.11:5000';
 
 const EditWorkoutScreen = ({ route, navigation }) => {
 
-    const { workout } = route.params;
+  const { workout } = route.params;
+
+  // Redux user data
+  const userData = useSelector((state) => state.userData);
 
   // State variables
   const [workoutName, setWorkoutName] = useState(workout.name);
@@ -82,6 +83,9 @@ const EditWorkoutScreen = ({ route, navigation }) => {
 
   // Function to handle saving the workout
   const saveWorkout = async () => {
+
+    const userId = userData._id;
+
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
         alert('Must enter a workout name.');
@@ -110,33 +114,27 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     console.log("THE ACTUAL TIME: ", workout.time);
     console.log('\n\nWorkout:',workout);
 
-//  Edit the workout in the database
-try {
+  //  Edit the workout in the database
+  try 
+  {
+    console.log("OLD NAME BEING PASSED: ", oldName);
 
-  const userId = await AsyncStorage.getItem('userId');
-  console.log("OLD NAME BEING PASSED: ", oldName);
+    const workoutData = {
+      // workoutId: workout._id,
+      oldName: oldName,
+      workoutUpdate: workout
+    };
 
-  const workoutData = {
-    // workoutId: workout._id,
-    oldName: oldName,
-    workoutUpdate: workout
-  };
+    const response = await editWorkout(userId, workoutData);
 
-  const response = await axios({
-    method: 'patch',
-    url: `http://${currentIpAddress}/users/${userId}/workouts`,
-    data:workoutData,
-    headers: {
-      'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-    }
-  });
-
-  console.log('Response:', response.data);
-  } catch (error) {
-  console.error('Error adding workout:', error.response.data);
+    console.log('Response:', response.data);
+  } 
+  catch (error) 
+  {
+    console.error('Error adding workout:', error.response.data);
   }
 
-//scheduleWorkoutNotif();
+  //scheduleWorkoutNotif();
   alert('Workout Saved');
   navigation.navigate('WorkoutDetails', {workout});
   };

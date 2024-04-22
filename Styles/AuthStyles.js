@@ -62,14 +62,14 @@ const AuthStyles = StyleSheet.create({
   		width: '100%',
   		borderWidth: 1,
  		borderRadius: 5, 
-  		borderColor: COLOR.secondaryButtonBackground,
-  		backgroundColor: COLOR.none,
+  		borderColor: COLOR.primaryButtonBackground,
+  		backgroundColor: COLOR.opaqueColor(COLOR.primaryButtonBackground,0.6),
   		justifyContent: 'center',
   		alignItems: 'center',
 	},
 	createAccountButtonText:
 	{
-		color: COLOR.secondaryText,
+		color: COLOR.thirdText,
 		fontSize: 18,
 	},
 

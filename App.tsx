@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 
 import store from './StateManagement/store';
 import AuthNavigator from './Navigators/AuthNavigator';
-import getIPAddress from './networkFetcher';
 
 // Notifications handler setup
 Notif.setNotificationHandler({
@@ -66,13 +65,6 @@ const App: React.FC = () => {
       openListener.remove();
     }
   }, []);
-
-
-  //const address = NetworkInformation;
-  const address = getIPAddress().then(ip => console.log('ip:',ip));
-  console.log('\n\nString one:', NetworkInformation.toString());
-  console.log('Network info:wwww', NetworkInformation);
-
 
   return (
     <Provider store={store}>

@@ -5,6 +5,7 @@ import { StyleSheet, SafeAreaView, View, ScrollView,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { useNavigation  } from '@react-navigation/native';
+import * as ComponentBackground from '../Components/Components';
 
 export default function Settings() {
   const [form, setForm] = useState({
@@ -13,6 +14,7 @@ export default function Settings() {
   const navigation = useNavigation();
 
   return (
+    <ComponentBackground.PrimaryBackground>
     <SafeAreaView style={{ flex: 1}}>
       <View>
       <View style={styles.header}>
@@ -138,6 +140,7 @@ export default function Settings() {
         </ScrollView>
       </View>
     </SafeAreaView>
+  </ComponentBackground.PrimaryBackground>
   );
 }
 

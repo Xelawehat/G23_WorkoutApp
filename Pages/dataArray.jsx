@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-
-let currentIpAddress = '172.20.10.11:5000';
+import { useSelector } from 'react-redux';
+import retrieveWorkouts from '../api/retrieveWorkouts';
 
 const WorkoutsInformation = () => {
   const [workoutsArray, setWorkoutsArray] = useState([]);
 
+  const userData = useSelector((state) => state.userData);
+
   useEffect(() => {
+
+    const userId = userData._id;
     // Get the workouts from the database
     const getUserWorkouts = async () => {
-      try {
-        const userId = await AsyncStorage.getItem('userId');
-        console.log(userId);
-        if (!userId) {
-          console.log('User ID is null, check AsyncStorage setup');
-          return;
-        }
+    try 
+    {
+        const response = await retrieveWorkouts(userId);
 
-        const response = await axios.get(`http://${currentIpAddress}/users/${userId}/workouts`);
-
+         console.log(response.workouts);
         // Format the data so that [Object] isn't being passed; seems to mess up the Marked dates
-        const formattedWorkouts = response.data.map(workout => ({
+        const formattedWorkouts = response.workouts.map(workout => ({
           ...workout,
-          date: workout.date.split('T')[0]
+          date: workout.date && typeof workout.date === 'string' ? workout.date.split('T')[0] : workout.date
         }));
 
         setWorkoutsArray(formattedWorkouts);
         console.log('Formatted workouts:',formattedWorkouts);
 
-      } catch (error) {
+      } 
+      catch (error) 
+      {
         console.error('Error fetching workouts:', error);
       }
     };

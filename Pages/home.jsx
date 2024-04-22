@@ -2,12 +2,23 @@ import React from 'react';
 import { View, SafeAreaView, Text, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import dataArray from './dataArray';
+import * as Component from '../Components/Components';
+
 const HomePage = ( { navigation }) => {
+
+  const getNumWorkouts = () => {
+      return dataArray().length;
+  };
+
   return (
+    <Component.PrimaryBackground>
     <SafeAreaView>
-      <Text style={styles.welcome}>Welcome User</Text>
       <ScrollView>
         <View style={ styles.button }>
+        <Text style={styles.welcome}>Welcome User</Text>
+        <Ionicons style={ styles.logo }
+        name="barbell-outline" size={100}/>
         <TouchableOpacity
             onPress={() => {
               const theBigOne = new Date();
@@ -27,14 +38,13 @@ const HomePage = ( { navigation }) => {
           </TouchableOpacity>
         </View>
         <Text style={styles.summary}>Summary</Text>
-        <Text style={styles.information}>Workouts Completed: 15</Text>
+        <Text style={styles.information}>Workouts Created: {getNumWorkouts()}</Text>
         <Text style={styles.information}>Current Streak: 3</Text>
         <Text style={styles.information}>Average Time: 45 minutes</Text>
         {/*These are dummy values, pull the appropriate data from the database to fill in the blanks*/}
-        <Ionicons style={ styles.logo }
-        name="barbell-outline" size={200}/>
       </ScrollView>
     </SafeAreaView>
+    </Component.PrimaryBackground>
   );
 };
 
@@ -71,16 +81,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   welcome: {
-    paddingTop: '2.5%', 
+    paddingTop: '5%', 
     fontSize: 32, 
     fontWeight: '700',
-    paddingLeft: '5%',
-    paddingBottom: '5%'
+    paddingBottom: '5%',
+    textAlign: 'center',
   },
   summary: {
     paddingTop: '2.5%',
     fontSize: 25,
-    paddingLeft: '5%',
     fontWeight: '600',
     color: 'black',
     paddingBottom: '5%',
@@ -92,10 +101,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingBottom: '2.5%'
   },
-  logo: {
-    paddingLeft: '25%',
-    paddingTop: '5%'
-  }
 });
 
 export default HomePage;

@@ -1,17 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-<<<<<<< HEAD
 import EmailScreen from '../Screens/Authentication/SignUp/EmailScreen';
 import UsernameScreen from '../Screens/Authentication/SignUp/UsernameScreen';
 import PasswordScreen from '../Screens/Authentication/SignUp/PasswordScreen';
 import AgeScreen from '../Screens/Authentication/SignUp/AgeScreen';
 import BodyInfoScreen from '../Screens/Authentication/SignUp/BodyInfoScreen';
 import GoalScreen from '../Screens/Authentication/SignUp/GoalScreen';
-
-=======
-import AuthNavigator from './AuthNavigator';
->>>>>>> origin/evreythingButDatabase
 
 const Stack = createStackNavigator();
 

@@ -4,22 +4,20 @@ import dataArray from './dataArray';
 import * as Notif from 'expo-notifications';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from 'react-native-gesture-handler';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//  Put your id address:
-let currentIpAddress = '172.20.10.11:5000';
+import { useSelector } from 'react-redux';
+import addWorkout from '../api/addWorkout';
+import deleteWorkout from '../api/deleteWorkout';
+import { initialWorkout, initialExercise } from '../Models/workoutModel';
 
 const ListOfWorkouts = ({ route, navigation }) => {
 
+  const userData = useSelector((state) => state.userData);
+  const userId = userData._id;
+
   const workoutsArray = dataArray();
 
-  const workoutObj = {
-    name: "",
-    exercises: [],
-    date: new Date(),  //still need to figure out how to get date into here
-    time: route.params.time
-  };
+  const workoutObj = { ...initialWorkout };
 
     const selectedDay = route.params.selectedDay;
 
@@ -53,9 +51,6 @@ const ListOfWorkouts = ({ route, navigation }) => {
 
   // Handles the continue button
   const handleContinuePress = async (workout) => {
-    // Database
-    const userId = await AsyncStorage.getItem('userId');
-
     console.log('Continue Pressed');
 
     // Logic to handle the "Continue" button press
@@ -72,25 +67,17 @@ const ListOfWorkouts = ({ route, navigation }) => {
     // Add to database
     const workoutData = workoutObj;
     //  Try to add a workout after the button is clicked here - send to db
-    try {
-	  
-      //  TODO: a user already in the db is currently hardcoded to test if this works.
-              //  find out how to replace it with the current user
-			const response = await axios({
-			  method: 'post',
-			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
-        headers: {
-          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-        },
-			  data:workoutData
-			});
+   try 
+   {
+      const response = await addWorkout(userId, workoutData);
       alert('Workout Saved');
       //scheduleWorkoutNotif();
       navigation.navigate('Calendar');
-		  } catch (error) {
-			console.error('Error adding workout:', error.response.data);
-		  }
-
+    } 
+   catch (error) 
+   {
+      console.error('Error adding workout:', error.response.data);
+   }
     //////////////////////////////////////////////////
   };
 
@@ -182,22 +169,14 @@ const ListOfWorkouts = ({ route, navigation }) => {
       //   return;
       // }
     
-      try {
-        const userId = await AsyncStorage.getItem('userId');
-        const response = await axios({
-          method: 'delete',
-          url: `http://${currentIpAddress}/users/${userId}/workouts`,
-          params: {
-            name: workoutName
-          },
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-    
+      try 
+      {
+        const response = await deleteWorkout(userId, workoutName);  
         console.log('Response:', response.data);
         alert('Workout deleted successfully');
-      } catch (error) {
+      } 
+      catch (error) 
+      {
         console.error('Error deleting workout:', error.response ? error.response.data : error.message);
         alert('Failed to delete workout. Please try again.');
       }

@@ -34,7 +34,7 @@ export const COLOR: Colors  = {
 
 	primaryText: '#FFFFFF',
 	secondaryText: '#FFC107',
-	thirdText: '#CCCCCC',
+	thirdText: '#cccccc',
 
 	primaryButtonBackground: '#5C6BC0',
 	secondaryButtonBackground: '#FFC107',

@@ -6,7 +6,8 @@ import exampleData from './examples.json';
 import dataArray from './dataArray';
 import * as Notif from 'expo-notifications';
 import { useSelector } from 'react-redux';
-
+import addWorkout from '../api/addWorkout';
+import { initialWorkout, initialExercise } from '../Models/workoutModel';
 
 const CreateWorkoutScreen = ({ route, navigation }) => {
 
@@ -26,12 +27,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
    
     //Stores the workout object when Save Workout button is pressed
-    const workoutObj = {
-      name: "",
-      exercises: [],
-      date: <route className="params"></route>,  //still need to figure out how to get date into here
-      time: route.params.time
-    };
+    const workoutObj = { ...initialWorkout};
 
     // Random time Notification
     const scheduleWorkoutNotif = () => {
@@ -98,12 +94,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     }
 
     // Stores temporary exercise objects each time Add Exercise button is pressed
-    const exerciseObj = {
-      name: "",
-      sets: 0,
-      reps: 0,
-      weight: 0
-    };
+    const exerciseObj = { ...initialExercise };
 
     if (selectedExercise) {
         // workoutObj.name = workoutName;
@@ -128,7 +119,6 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
   const saveWorkout = async () => {
 
     const userId = userData._id;
-
 
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
@@ -167,24 +157,14 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
     //  Try to add a workout after the button is clicked here - send to db
     try {
-	  
-      //  TODO: a user already in the db is currently hardcoded to test if this works.
-              //  find out how to replace it with the current user
-			const response = await axios({
-			  method: 'post',
-			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
-        headers: {
-          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-        },
-			  data:workoutData
-			});
-	  
-			console.log('Response:', response.data);
-      console.log('Workout saved:', { workoutData, selectedExercises });
+
+			const response = await addWorkout(userId, workoutData);
       alert('Workout Saved');
       //scheduleWorkoutNotif();
       navigation.navigate('Calendar');
-		  } catch (error) {
+		  } 
+      catch (error) 
+      {
 			console.error('Error adding workout:', error.response.data);
 		  }
   };

@@ -73,7 +73,7 @@ const SignUpStyle = StyleSheet.create({
 	datePickerView:
 	{
 		flex: 0.4,
-		backgroundColor: COLOR.opaqueColor(COLOR.secondaryText,0.6),
+		backgroundColor: COLOR.opaqueColor('#cccccc',0.6),
 	},
 	dateTimePicker:
 	{
@@ -119,14 +119,14 @@ const SignUpStyle = StyleSheet.create({
     	paddingVertical: 15,
     	paddingHorizontal: 45,
     	borderRadius: 5,
-    	borderWidth: 1,
+    	borderWidth: 1.5,
     	backgroundColor: COLOR.primaryButtonBackground, // Adjust background color as needed
     	borderColor: COLOR.primaryText,
   	},
 	selectedGenderButton: 
 	{
-		backgroundColor: COLOR.secondaryButtonBackground, // Adjust background color for selected state
-		//borderColor: COLOR.secondaryButtonBackground,
+		backgroundColor: COLOR.primaryText, // Adjust background color for selected state
+		//borderColor: COLOR.primaryButtonBackground,
 	},
 	genderText: 
 	{
@@ -160,7 +160,7 @@ const SignUpStyle = StyleSheet.create({
   	},
 	selectedGoalButton: 
 	{
-		backgroundColor: COLOR.secondaryButtonBackground, // Adjust background color for selected state
+		backgroundColor: COLOR.primaryText, // Adjust background color for selected state
 		//borderColor: COLOR.secondaryButtonBackground,
 	},
 	goalText: 

@@ -76,7 +76,7 @@ const AuthLoginScreen = () =>
 						<TouchableOpacity onPress={attemptLogin} style={AuthStyles.loginButton}>
 							<Text style={AuthStyles.loginButtonText}>Login</Text>				
 						</TouchableOpacity>
-						<Button title="Forgot Password?" onPress={forgotPass}/>
+						{/*<Button title="Forgot Password?" onPress={forgotPass}/>*/}
 					</View>
 					<View style={AuthStyles.createAccountContainer}>
 						<TouchableOpacity onPress={sendToSignUp} style={AuthStyles.createAccountButton}>

@@ -7,15 +7,13 @@ import { useSelector } from 'react-redux';
 
 import exercisesData from './exercises.json';
 import dataArray from './dataArray';
-import getterUserWorkouts from '../Backend/backendFunctions';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-let currentIpAddress = '172.20.10.11:5000';
+import * as Component from '../Components/Components';
 
 const CalendarPage = ({ navigation }) => {
 
   //  ADDED
+  // Redux user data
+  const userData = useSelector((state) => state.userData);
 
   const workoutsArray = dataArray();
   const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
@@ -72,6 +70,7 @@ const CalendarPage = ({ navigation }) => {
     };
 
   return (
+    <Component.PrimaryBackground>
     <SafeAreaView>
       <ScrollView>
       <Calendar
@@ -102,6 +101,7 @@ const CalendarPage = ({ navigation }) => {
       </View>
       </ScrollView>
     </SafeAreaView>
+    </Component.PrimaryBackground>
   );
 };
 
