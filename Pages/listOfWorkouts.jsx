@@ -4,8 +4,15 @@ import dataArray from './dataArray';
 import * as Notif from 'expo-notifications';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from 'react-native-gesture-handler';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//  Put your id address:
+let currentIpAddress = '172.20.10.11:5000';
 
 const ListOfWorkouts = ({ route, navigation }) => {
+
+  const workoutsArray = dataArray();
 
   const workoutObj = {
     name: "",
@@ -45,7 +52,10 @@ const ListOfWorkouts = ({ route, navigation }) => {
   };
 
   // Handles the continue button
-  const handleContinuePress = (workout) => {
+  const handleContinuePress = async (workout) => {
+    // Database
+    const userId = await AsyncStorage.getItem('userId');
+
     console.log('Continue Pressed');
 
     // Logic to handle the "Continue" button press
@@ -55,16 +65,33 @@ const ListOfWorkouts = ({ route, navigation }) => {
     workoutObj.color = workout.color;
     workoutObj.date = selectedDay;
     workoutObj.time = theBigOne;
-    console.log('\n\nWorkoutObj:',workoutObj);
 
     // Add to local storage
-    dataArray.push(workoutObj);
+    //dataArray().push(workoutObj);
 
     // Add to database
+    const workoutData = workoutObj;
+    //  Try to add a workout after the button is clicked here - send to db
+    try {
+	  
+      //  TODO: a user already in the db is currently hardcoded to test if this works.
+              //  find out how to replace it with the current user
+			const response = await axios({
+			  method: 'post',
+			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
+        headers: {
+          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+        },
+			  data:workoutData
+			});
+      alert('Workout Saved');
+      //scheduleWorkoutNotif();
+      navigation.navigate('Calendar');
+		  } catch (error) {
+			console.error('Error adding workout:', error.response.data);
+		  }
 
-
-    scheduleWorkoutNotif(workout);
-    navigation.navigate('Calendar');
+    //////////////////////////////////////////////////
   };
 
   // Alert function
@@ -135,12 +162,51 @@ const ListOfWorkouts = ({ route, navigation }) => {
     showAlert(workout);
   };
 
-  const deleteWorkout = (index) => {
-    console.log(dataArray);
-    //delete index from dataArray
-    dataArray.splice(index, 1);
-    console.log(dataArray);
-  };
+  // const deleteWorkout = (index) => {
+  //   //delete index from dataArray
+  //   dataArray().splice(index, 1);
+  //   console.log(dataArray);
+
+  //   // Database workout delete function below
+  // };
+
+    //  Delete the workout
+    const deleteWorkout = async ( workout ) => {
+
+      //const workoutName = "April 8";
+      const workoutName = workout.name;
+    
+      // // Check if the workout name is provided
+      // if (!workoutName.trim()) {
+      //   alert('Must enter a workout name to delete.');
+      //   return;
+      // }
+    
+      try {
+        const userId = await AsyncStorage.getItem('userId');
+        const response = await axios({
+          method: 'delete',
+          url: `http://${currentIpAddress}/users/${userId}/workouts`,
+          params: {
+            name: workoutName
+          },
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+    
+        console.log('Response:', response.data);
+        alert('Workout deleted successfully');
+      } catch (error) {
+        console.error('Error deleting workout:', error.response ? error.response.data : error.message);
+        alert('Failed to delete workout. Please try again.');
+      }
+    };
+    
+    //deleteWorkout("Workout-edit");
+
+
+  /////////////////////////////////////////////////////////
 
   // Alert function
   const deleteAlert = ( workout, index ) => {
@@ -161,7 +227,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Continue', onPress: () => deleteWorkout(index) },
+        { text: 'Continue', onPress: () => deleteWorkout(workout) },
       ],
       { cancelable: false }
     );
@@ -169,7 +235,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
 
   const goToDeleteWorkout = ( workout, index ) => {
     console.log("goToDeleteWorkout");
-    deleteAlert(workout, index);
+    deleteAlert(workout);
   };
 
   return (
@@ -186,7 +252,7 @@ const ListOfWorkouts = ({ route, navigation }) => {
     <Text style={styles.heading}>Select a workout for {route.params.selectedDay}:</Text>
     <ScrollView>
       {/* Render the list of previously created workouts */}
-      {dataArray.map((workout, index) => (
+      {dataArray().map((workout, index) => (
         <TouchableOpacity
           key={index}
           style={styles.workoutItem}

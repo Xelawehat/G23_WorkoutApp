@@ -23,7 +23,7 @@ const EditWorkoutScreen = ({ route, navigation }) => {
   const [reps, setReps] = useState(''); // State variable for reps
   const [weight, setWeight] = useState(''); // State variable for weight
   const [selectedColor, setSelectedColor] = useState(workout.color);
-  const [selectedTime, setSelectedTime] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState('');
   const theBigOne = new Date(selectedTime);
 
   // Array of color options
@@ -106,7 +106,6 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     workout.color = selectedColor;
     workout.date = workout.date;
     workout.time = theBigOne;
-    console.log('\n\n\ntime:', workout.time);
     console.log("TYPE OF TIME: ", typeof workout.time);
     console.log("THE ACTUAL TIME: ", workout.time);
     console.log('\n\nWorkout:',workout);
@@ -133,12 +132,13 @@ try {
   });
 
   console.log('Response:', response.data);
-  //scheduleWorkoutNotif();
+  } catch (error) {
+  console.error('Error adding workout:', error.response.data);
+  }
+
+//scheduleWorkoutNotif();
   alert('Workout Saved');
   navigation.navigate('WorkoutDetails', {workout});
-  } catch (error) {
-  console.error('Error editing workout:', error.response.data);
-  }
   };
 
   const handleTimeChange = (event, selected) => {

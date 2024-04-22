@@ -14,14 +14,13 @@ let currentIpAddress = '172.20.10.11:5000';
 const CalendarPage = ({ navigation }) => {
 
   //  ADDED
-  console.log('dataArray boiii', dataArray);
-  const workoutsArray = dataArray;
+
+  const workoutsArray = dataArray();
   const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
   const [exercises, setExercises] = useState([]); // For json/flatlist
   const [selectedWorkouts, setSelectedWorkouts] = useState([]); // for workouts scheduled
 
   useEffect(() => {
-   console.log('the big payload', workoutsArray);
     setExercises(exercisesData); // Set the exercises data from the imported JSON file
   }, []);
 
@@ -45,7 +44,6 @@ const CalendarPage = ({ navigation }) => {
     
       // checks for workouts scheduled on selected day
       const filteredWorkouts = workoutsArray.filter(workout => workout.date === day.dateString);
-      console.log('Selected Workouts', filteredWorkouts); // Add this line for debugging
       setSelectedWorkouts(filteredWorkouts);
     };
     

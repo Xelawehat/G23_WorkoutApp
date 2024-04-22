@@ -127,8 +127,8 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
   // Function to handle saving the workout
   const saveWorkout = async () => {
 
-    // Database
-    const userId = await AsyncStorage.getItem('userId');
+        // Database
+        const userId = await AsyncStorage.getItem('userId');
 
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
@@ -163,7 +163,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     //Dummy Data
     const workoutData = workoutObj;
     // update locally stored dataArray[]
-    dataArray.push(workoutObj);
+    //dataArray.push(workoutObj);
 
     //  Try to add a workout after the button is clicked here - send to db
     try {
@@ -182,7 +182,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 			console.log('Response:', response.data);
       console.log('Workout saved:', { workoutData, selectedExercises });
       alert('Workout Saved');
-      //scheduleWorkoutNotif(); commented out for now
+      //scheduleWorkoutNotif();
       navigation.navigate('Calendar');
 		  } catch (error) {
 			console.error('Error adding workout:', error.response.data);
