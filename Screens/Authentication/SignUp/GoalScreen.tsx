@@ -45,13 +45,18 @@ const GoalScreen = ({ navigation }) =>
 			{
 				const signUpresponse = await signup(signUpData);
 
-				if (signUpresponse)
-				{
+				if (signUpresponse.sucess)
+				{	
+					// after successful account creation attempts a login
 					const loginResponse = await login({usernameOrEmail: signUpData.username, password: signUpData.password});
 					console.log(loginResponse);
 					if (loginResponse.success)
 					{
-						// implement navigation and redux logic 
+						navigation.navigate('HomeTabNavigator');
+					}
+					else 
+					{
+						// on failed login send to login screen with Alert of account creation successful but failed login try again
 					}
 				}
 			}

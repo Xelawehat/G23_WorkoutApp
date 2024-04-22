@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { apiURL } from './APIConfig';
+import { setUserData } from '../StateManagement/actions';
 
 const apiClient = axios.create({
 	baseURL: apiURL,
@@ -22,6 +23,7 @@ export const signup = async (signUpData) => {
 };
 
 export const login = async (loginData) => {
+
 	try {
 		const response = await apiClient.post('/login', loginData);
 		console.log(response.data);

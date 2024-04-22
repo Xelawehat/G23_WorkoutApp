@@ -6,10 +6,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 //  Added
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
+
 
 let currentIpAddress = '172.20.10.14:5000';
 
 export default function Profile({ navigation }) {
+
   const [selectedAge, setSelectedAge] = useState(null);
   const [selectedHeight, setSelectedHeight] = useState(null);
   const [selectedWeight, setSelectedWeight] = useState(null);
@@ -86,7 +89,6 @@ export default function Profile({ navigation }) {
   const genders = [
     {label: 'Male', value: 'Male'},
     {label: 'Female', value: 'Female'},
-    {label: 'Other', value: 'Other'},
   ];
   const goals = [
     {label: 'Bulk (Gain weight)', value: 'Bulk (Gain weight)'},

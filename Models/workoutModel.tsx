@@ -42,39 +42,3 @@ export interface user {
     goal: string;
     allowNotifs: boolean;
 }
-
-// Example usage:
-const workout: Workout = {
-    name: "Chest Day",
-    time: "60 minutes",
-    difficulty: 3,
-    favorite: true,
-    color: "red",
-    timesCompleted: 0,
-    date: "2024-04-10",
-    exercises: [
-        {
-            name: "Bench Press",
-            favorite: false,
-            muscleGroup: ["Chest", "Triceps"],
-            bodyweight: false,
-            sets: [
-                { reps: 10, weight: 225 },
-                { reps: 10, weight: 225 },
-                // Add more sets if needed
-            ]
-        },
-        {
-            name: "Incline Bench Press",
-            favorite: false,
-            muscleGroup: ["Chest", "Triceps"],
-            bodyweight: false,
-            sets: [
-                { reps: 10, weight: 185 },
-                { reps: 10, weight: 185 },
-                // Add more sets if needed
-            ]
-        },
-        // Add more exercises if needed
-    ]
-};

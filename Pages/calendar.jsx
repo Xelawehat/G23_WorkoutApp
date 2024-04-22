@@ -3,78 +3,46 @@ import { FlatList, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Scrol
 import { NavigationContainer } from '@react-navigation/native';
 import { Calendar } from 'react-native-calendars';
 import { FontAwesome } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+
 import exercisesData from './exercises.json';
 import { Workout, Exercise, Sets } from '../Models/workoutModel';
-
-//ADDED
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-let currentIpAddress = `172.20.10.14:5000`;
-
+import retrieveWorkouts from '../api/retrieveWorkouts';
 
 //import createdWorkout from './Pages/createWorkoutScreen'
 
 const CalendarPage = ({ navigation }) => {
 
-  // const workoutsArray = getUserWorkouts();
-  // console.log(workoutsArray);
-
-
-
-
-  // const workoutsArray = [
-  //   {
-  //     name: "Leg Day",
-  //     color: "blue",
-  //     date: "2024-04-15",
-  //     time: "example",
-  //     timesCompleted: 0,
-  //     exercises: [
-  //       {
-  //         name: "Deadlifts",
-  //         sets: 3,
-  //         reps: 5,
-  //         weight: 315
-  //       },
-  //       {
-  //         name: "Squats",
-  //         sets: 3,
-  //         reps: 5,
-  //         weight: 50
-  //       },
-  //       // Add more exercises if needed
-  //     ]
-  //   },
-  //   // Add more workout objects here
-  // ];
-
-
-  //  ADDED
   const [workoutsArray, setWorkoutsArray] = useState([]); //  State to store workouts
   const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
   const [exercises, setExercises] = useState([]); // For json/flatlist
   const [selectedWorkouts, setSelectedWorkouts] = useState([]); // for workouts scheduled
   console.log(selectedWorkouts);
+  const userData = useSelector((state) => state.userData);
 
   useEffect(() => {
 
-      //  ADDED
-  const getUserWorkouts = async () => {
-    try {
-        const userId = await AsyncStorage.getItem('userId'); // Assuming the userId is stored in AsyncStorage
+    const getUserWorkouts = async () => {
+      try
+      {
+        const userId = userData._id;
+        
         console.log(userId);
         if (!userId) {
-            console.log('User ID is null, check AsyncStorage setup');
+            console.log('User ID is null, check Redux errors');
             return;
         }
 
-        const response = await axios.get(`http://${currentIpAddress}/users/${userId}/workouts`);
-        console.log('Fetched Workouts:', response.data);
-        setWorkoutsArray(response.data);
-    } catch (error) {
+        const response = await retrieveWorkouts(userId);
+        console.log('Fetched Workouts:', response.workouts);
+        setWorkoutsArray(response.workouts);
+
+      } 
+      catch (error) 
+      {
         console.error('Error fetching workouts:', error);
-    }
-};
+      }
+    };
 
     getUserWorkouts();
     // setExercises(exercisesData); // Set the exercises data from the imported JSON file

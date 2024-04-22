@@ -5,10 +5,7 @@ import exercisesData from './exercises.json';
 import exampleData from './examples.json';
 import * as Notif from 'expo-notifications';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-//  Put your id address:
-let currentIpAddress = '172.20.10.14:5000';
+import { useSelector } from 'react-redux';
 
 const CreateWorkoutScreen = ({ route, navigation }) => {
 
@@ -22,6 +19,9 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     date: <route className="params"></route>,
     exercises: []
   });
+
+  // Redux user data
+  const userData = useSelector((state) => state.userData);
 
    
 
@@ -127,7 +127,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
   // Function to handle saving the workout
   const saveWorkout = async () => {
 
-    const userId = await AsyncStorage.getItem('userId');
+    const userId = userData._id;
 
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {

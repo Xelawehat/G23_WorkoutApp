@@ -1,33 +1,43 @@
 import React, { useState, useRef, forwardRef} from 'react';
 import { View, Text, TouchableOpacity, TextInput, Button, Alert, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import AuthStyles from '../../Styles/AuthStyles';
 import * as Component from '../../Components/Components';
 import { login } from '../../api/Authentication';
+import { RootState } from '../../StateManagement/store';
+import { setUserData } from '../../StateManagement/actions';
 
 const AuthLoginScreen = () =>
 {
 	const navigation = useNavigation();
+	const dispatch = useDispatch();
 
 	const [userOrEmail, setUserOrEmail] = useState('');
 	const [pass, setPass] = useState('');
 
 	const attemptLogin = async () =>
 	{
-		const loginResponse = await login({usernameOrEmail: userOrEmail, password: pass});
-		const user = (loginResponse.user);
-		console.log(loginResponse);
-		if (loginResponse.success)
+		try
 		{
-			// Implement successful login actions
+			const loginResponse = await login({usernameOrEmail: userOrEmail, password: pass});
+			const user = (loginResponse.user);
+			if (loginResponse.success)
+			{
+				dispatch(setUserData(loginResponse.user));
+				navigation.navigate('HomeTabNavigator'); // Implement successful login actions
+			}
+			else
+			{
+				Alert.alert('Login Failed');
+			}
+
 		}
-		else
+		catch (error)
 		{
-
-			Alert.alert('Login Failed');
+			console.error(error);
 		}
-
 	};
 
 	const sendToSignUp = () => 
@@ -62,7 +72,6 @@ const AuthLoginScreen = () =>
 							secureTextEntry={true}
 							selectionColor={'#FFF'}
 							returnKeyType="done"
-							onSubmitEditing={attemptLogin}
 						/>
 						<TouchableOpacity onPress={attemptLogin} style={AuthStyles.loginButton}>
 							<Text style={AuthStyles.loginButtonText}>Login</Text>				
