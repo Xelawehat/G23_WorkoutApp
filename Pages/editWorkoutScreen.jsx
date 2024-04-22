@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker'
 import exampleData from './examples.json';
 
 //  Added
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let currentIpAddress = '172.20.10.14:5000';
+let currentIpAddress = '172.20.10.11:5000';
 
 const EditWorkoutScreen = ({ route, navigation }) => {
 
     const { workout } = route.params;
-
-    //Stores temporary exercise objects each time Add Exercise button is pressed
-    // const exerciseObj = {
-    //   name: "",
-    //   sets: 0,
-    //   reps: 0,
-    //   weight: 0
-    // };
 
   // State variables
   const [workoutName, setWorkoutName] = useState(workout.name);
@@ -30,6 +23,8 @@ const EditWorkoutScreen = ({ route, navigation }) => {
   const [reps, setReps] = useState(''); // State variable for reps
   const [weight, setWeight] = useState(''); // State variable for weight
   const [selectedColor, setSelectedColor] = useState(workout.color);
+  const [selectedTime, setSelectedTime] = useState('');
+  const theBigOne = new Date(selectedTime);
 
   // Array of color options
   const colorOptions = ['red', 'blue', 'green', 'yellow'];
@@ -66,7 +61,7 @@ const EditWorkoutScreen = ({ route, navigation }) => {
       reps: 0,
       weight: 0
     };
-
+    
     if (selectedExercise) {
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
         exerciseObj.name = exerciseToAdd.name;
@@ -87,7 +82,6 @@ const EditWorkoutScreen = ({ route, navigation }) => {
 
   // Function to handle saving the workout
   const saveWorkout = async () => {
-
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
         alert('Must enter a workout name.');
@@ -100,6 +94,10 @@ const EditWorkoutScreen = ({ route, navigation }) => {
         return;
     }
 
+    const hour = theBigOne.getHours().toString();
+    const min = theBigOne.getMinutes().toString();
+    const together = hour.concat(':',min);
+
     // update workout Object
     const oldName = workout.name;
     console.log("Old name: ", oldName);
@@ -107,36 +105,44 @@ const EditWorkoutScreen = ({ route, navigation }) => {
     workout.exercises = selectedExercises;
     workout.color = selectedColor;
     workout.date = workout.date;
+    workout.time = theBigOne;
+    console.log("TYPE OF TIME: ", typeof workout.time);
+    console.log("THE ACTUAL TIME: ", workout.time);
     console.log('\n\nWorkout:',workout);
 
-    //  Edit the workout in the database
-    try {
+//  Edit the workout in the database
+try {
 
-      const userId = await AsyncStorage.getItem('userId');
-	  
-      const workoutData = {
-        newName: oldName,
-        workoutUpdate: workout
-      };
+  const userId = await AsyncStorage.getItem('userId');
+  console.log("OLD NAME BEING PASSED: ", oldName);
 
-			const response = await axios({
-			  method: 'patch',
-			  url: `http://${currentIpAddress}/users/${userId}/workouts`, workoutData,
-        headers: {
-          'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
-        }
-			});
-	  
-			console.log('Response:', response.data);
-      // console.log('Workout saved:', { workoutData, selectedExercises });
-      alert('Workout Saved');
-		  } catch (error) {
-			console.error('Error adding workout:', error.response.data);
-		  }
+  const workoutData = {
+    // workoutId: workout._id,
+    oldName: oldName,
+    workoutUpdate: workout
+  };
 
-    //scheduleWorkoutNotif();
-      alert('Edit Saved');
-      navigation.navigate('WorkoutDetails', {workout});
+  const response = await axios({
+    method: 'patch',
+    url: `http://${currentIpAddress}/users/${userId}/workouts`,
+    data:workoutData,
+    headers: {
+      'Content-Type': 'application/json'  //  tells the server to expect JSON content so it can be parsed
+    }
+  });
+
+  console.log('Response:', response.data);
+  } catch (error) {
+  console.error('Error adding workout:', error.response.data);
+  }
+
+//scheduleWorkoutNotif();
+  alert('Workout Saved');
+  navigation.navigate('WorkoutDetails', {workout});
+  };
+
+  const handleTimeChange = (event, selected) => {
+    setSelectedTime(selected);
   };
 
   return (
@@ -151,6 +157,16 @@ const EditWorkoutScreen = ({ route, navigation }) => {
         //onChangeText={text => setWorkout({...workout, name: text})}
       />
 
+      <Text style={styles.subheading}>Edit Workout Time</Text>
+      {/* Add time scroll here */}
+      <DateTimePicker
+        value={selectedTime || new Date()}
+        mode="time"
+        is24Hour={false}
+        display="spinner"
+        onChange={handleTimeChange}
+      />
+      
       {/* Render color dots for color selection */}
         <View style={styles.colorSelector}>
           {colorOptions.map((color, index) => (
@@ -162,6 +178,7 @@ const EditWorkoutScreen = ({ route, navigation }) => {
           ))}
         </View>
 
+      <Text style={styles.subheading}>Add Exercises to Workout</Text>
       <Picker
         selectedValue={selectedExercise}
         style={styles.picker}
@@ -256,12 +273,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
+  subheading: {
+    fontSize: 20,
+    paddingLeft: '5%'
+  },
   colorDot: {
     width: 30,
     height: 30,
     borderRadius: 15,
     borderWidth: 2,
     marginHorizontal: 5,
+    marginBottom: 10
   },
   picker: {
     height: 40,
@@ -273,8 +295,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 50,
+    marginBottom: 10,
   },
   buttonText: {
     color: 'white',

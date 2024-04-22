@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { LogBox } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator} from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,6 +14,8 @@ import WorkoutDetailsPage from '../Pages/workoutDetails'
 import EditWorkoutScreen from '../Pages/editWorkoutScreen'
 import ProfilePage from '../Pages/profile'
 import ListOfWorkouts from '../Pages/listOfWorkouts';
+
+LogBox.ignoreAllLogs(); //Ignores all yellowBox warnings (warnings still appear in the logs but not on screen)
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -67,7 +70,7 @@ export default function HomeTabNavigator() {
       <Tab.Screen name="Settings" component={SettingsNavigator}      // Settings Screen
       options={{
         tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="settings" color={"black"} size={26}/>
+            <MaterialIcons name="settings" color={"black"} size={26}/>
         ),
     }}/>
     </Tab.Navigator>

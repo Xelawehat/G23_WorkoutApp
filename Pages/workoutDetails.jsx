@@ -12,7 +12,7 @@ const WorkoutDetailsPage = ({ route }) => {
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
-    if (offsetY <= -50) { // Arbitrary threshold for detecting pull-down
+    if (offsetY <= -58) { // Arbitrary threshold for detecting pull-down
       console.log('pulled up')
       navigation.navigate('EditWorkoutScreen', { workout }); // Navigate to EditWorkoutScreen
     }
@@ -27,12 +27,13 @@ const WorkoutDetailsPage = ({ route }) => {
       >
         <View style={styles.header}>
           <Text style={styles.workoutName}>{workout.name}</Text>
+          <Text style={styles.workoutTime}>Time: {new Date(workout.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
           <Text style={styles.workoutDate}>Date: {workout.date}</Text>
         </View>
 
         {/*Notifications Info*/}
         <View>
-          <Text>Reminder: 15 min before</Text>
+          <Text>Reminder: 30 min before</Text>
         </View>
 
         <View>
@@ -73,8 +74,12 @@ const styles = StyleSheet.create({
   },
   workoutDate: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: '1',
     paddingLeft: '5%'
+  },
+  reminder: {
+    paddingLeft: '2.5%', 
+    paddingBottom: '2.5%'
   },
   sectionHeading: {
     fontSize: 20,
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     paddingTop: '25%',
-    paddingLeft: '25%'
+    paddingLeft: '30%'
   },
 });
 

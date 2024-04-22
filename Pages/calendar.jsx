@@ -6,46 +6,24 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 
 import exercisesData from './exercises.json';
-import { Workout, Exercise, Sets } from '../Models/workoutModel';
-import retrieveWorkouts from '../api/retrieveWorkouts';
+import dataArray from './dataArray';
+import getterUserWorkouts from '../Backend/backendFunctions';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//import createdWorkout from './Pages/createWorkoutScreen'
+let currentIpAddress = '172.20.10.11:5000';
 
 const CalendarPage = ({ navigation }) => {
 
-  const [workoutsArray, setWorkoutsArray] = useState([]); //  State to store workouts
+  //  ADDED
+
+  const workoutsArray = dataArray();
   const [selected, setSelected] = useState(new Date().toISOString().split('T')[0]); // For selected day in calendar, also initializes to today
   const [exercises, setExercises] = useState([]); // For json/flatlist
   const [selectedWorkouts, setSelectedWorkouts] = useState([]); // for workouts scheduled
-  console.log(selectedWorkouts);
-  const userData = useSelector((state) => state.userData);
 
   useEffect(() => {
-
-    const getUserWorkouts = async () => {
-      try
-      {
-        const userId = userData._id;
-        
-        console.log(userId);
-        if (!userId) {
-            console.log('User ID is null, check Redux errors');
-            return;
-        }
-
-        const response = await retrieveWorkouts(userId);
-        console.log('Fetched Workouts:', response.workouts);
-        setWorkoutsArray(response.workouts);
-
-      } 
-      catch (error) 
-      {
-        console.error('Error fetching workouts:', error);
-      }
-    };
-
-    getUserWorkouts();
-    // setExercises(exercisesData); // Set the exercises data from the imported JSON file
+    setExercises(exercisesData); // Set the exercises data from the imported JSON file
   }, []);
 
     // Marked Dates oject creation
@@ -53,26 +31,21 @@ const CalendarPage = ({ navigation }) => {
 
     // Loop to get each Dot on calendar
     workoutsArray.forEach(workout => {
-      workout.date = workout.date.split('T')[0]; // removes time
+      //workout.date = workout.date.split('T')[0]; // removes time from date
       const { date, color } = workout;
-      console.log('Date:', date, 'Color:', color);
       if (!markedDates[date]) {
         markedDates[date] = { marked: true, dots: [{ color: color }] };
       } else {
         markedDates[date].dots.push({ color: color });
       }
     });
-    
-    console.log('Marked Dates:', markedDates);
 
     const handleDayPress = day => {
       setSelected(day.dateString);
       console.log('Day Selected', day);
-      console.log('Selectedwokrouts1', selectedWorkouts);
     
       // checks for workouts scheduled on selected day
       const filteredWorkouts = workoutsArray.filter(workout => workout.date === day.dateString);
-      console.log('Selected Workouts', filteredWorkouts); // Add this line for debugging
       setSelectedWorkouts(filteredWorkouts);
     };
     
@@ -88,10 +61,10 @@ const CalendarPage = ({ navigation }) => {
         <View>
           {selectedWorkouts.map((workout, index) => (
             <TouchableOpacity key={index} style={styles.workoutItem}
-            //onPress={() => navigation.navigate('WorkoutDetails', { workout }, {selected})}>
             onPress={() => navigation.navigate('WorkoutDetails', { workout })}>
               <Text style={styles.workoutName}>{workout.name}</Text>
               <Text style={styles.workoutTime}>Date: {workout.date}</Text>
+              <Text style={styles.workoutTime}>Time: {new Date(workout.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -123,7 +96,7 @@ const CalendarPage = ({ navigation }) => {
 
       <View style={styles.workoutInfoContainer}>
         {renderWorkoutInfo()}
-        <TouchableOpacity onPress={() => navigation.navigate('CreateWorkout', { selectedDay: selected })}>
+        <TouchableOpacity onPress={() => navigation.navigate('ListOfWorkouts', { selectedDay: selected })}>
           <FontAwesome name="plus-circle" size={36} color="blue" style={styles.addWorkoutIcon} />
         </TouchableOpacity>
       </View>

@@ -3,9 +3,10 @@ import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, Scro
 import { Picker } from '@react-native-picker/picker';
 import exercisesData from './exercises.json';
 import exampleData from './examples.json';
+import dataArray from './dataArray';
 import * as Notif from 'expo-notifications';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
+
 
 const CreateWorkoutScreen = ({ route, navigation }) => {
 
@@ -24,23 +25,23 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
   const userData = useSelector((state) => state.userData);
 
    
-
     //Stores the workout object when Save Workout button is pressed
     const workoutObj = {
       name: "",
       exercises: [],
-      date: <route className="params"></route>  //still need to figure out how to get date into here
+      date: <route className="params"></route>,  //still need to figure out how to get date into here
+      time: route.params.time
     };
 
     // Random time Notification
     const scheduleWorkoutNotif = () => {
       //const notifbody = RandomNotifText[Math.floor(Math.random() * 3)];
   
-      if (user.allowNotiifs == false)
+      if (user.allowNotifs == false)
       {
         return;
       }
-      const trigger = new Date(Date.parse(workoutObj.date));
+      const trigger = new Date(Date.parse(workoutObj.time));
       trigger.setHours(6);
       trigger.setMinutes(0);
       trigger.setSeconds(0);
@@ -52,7 +53,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
         },
         trigger,
       });
-    }
+    };
 
   // State variables
   const [sets, setSets] = useState('');
@@ -74,8 +75,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     // Set the available exercises from the imported JSON file
-    //setAvailableExercises(exercisesData); old json data file
-    setAvailableExercises(exampleData);
+    setAvailableExercises(exercisesData); 
   }, []);
 
   // Function to add exercise to the selected exercises list
@@ -97,7 +97,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
       return;
     }
 
-    // //Stores temporary exercise objects each time Add Exercise button is pressed
+    // Stores temporary exercise objects each time Add Exercise button is pressed
     const exerciseObj = {
       name: "",
       sets: 0,
@@ -106,7 +106,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     };
 
     if (selectedExercise) {
-        workoutObj.name = workoutName;
+        // workoutObj.name = workoutName;
         const exerciseToAdd = availableExercises.find(exercise => exercise.name === selectedExercise);
         exerciseObj.name = exerciseToAdd.name;
         exerciseObj.weight = weight;
@@ -129,6 +129,7 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
     const userId = userData._id;
 
+
     // Check if workout name is provided and at least one exercise is added
     if (!workoutName.trim()) {
         alert('Must enter a workout name.');
@@ -149,7 +150,8 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
     workoutObj.name = workoutName;
     workoutObj.exercises = selectedExercises;
     workoutObj.color = selectedColor;
-    workoutObj.date = route.params.selectedDay;
+    workoutObj.date = route.params.day;
+    workoutObj.time = route.params.time
     console.log('\n\nWorkoutObj:',workoutObj);
     
     //  TODO: Uncomment this when icons are scrollable
@@ -160,47 +162,14 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 
     //Dummy Data
     const workoutData = workoutObj;
-    // const workoutData = {
-    //   name: "Chest Day",
-    //   time: "60 minutes",
-    //   difficulty: 3,
-    //   favorite: true,
-    //   color: "red",
-    //   timesCompleted: 0,
-    //   date: "2024-04-10",
-    //   exercises: [
-    //       {
-    //           name: "Bench Press",
-    //           favorite: false,
-    //           muscleGroup: ["Chest", "Triceps"],
-    //           bodyweight: false,
-    //           sets: [
-    //               { reps: 10, weight: 225 },
-    //               { reps: 10, weight: 225 },
-    //               // Add more sets if needed
-    //           ]
-    //       },
-    //       {
-    //           name: "Incline Bench Press",
-    //           favorite: false,
-    //           muscleGroup: ["Chest", "Triceps"],
-    //           bodyweight: false,
-    //           sets: [
-    //               { reps: 10, weight: 185 },
-    //               { reps: 10, weight: 185 },
-    //               // Add more sets if needed
-    //           ]
-    //       },
-    //       // Add more exercises if needed
-    //   ]
-  //};
-  
-    
+    // update locally stored dataArray[]
+    //dataArray.push(workoutObj);
 
     //  Try to add a workout after the button is clicked here - send to db
     try {
 	  
-              // alert('Second');
+      //  TODO: a user already in the db is currently hardcoded to test if this works.
+              //  find out how to replace it with the current user
 			const response = await axios({
 			  method: 'post',
 			  url: `http://${currentIpAddress}/users/${userId}/workouts`,
@@ -211,15 +180,13 @@ const CreateWorkoutScreen = ({ route, navigation }) => {
 			});
 	  
 			console.log('Response:', response.data);
-      // console.log('Workout saved:', { workoutData, selectedExercises });
+      console.log('Workout saved:', { workoutData, selectedExercises });
       alert('Workout Saved');
+      //scheduleWorkoutNotif();
+      navigation.navigate('Calendar');
 		  } catch (error) {
 			console.error('Error adding workout:', error.response.data);
 		  }
-
-    //scheduleWorkoutNotif();
-      // alert('Workout Saved');
-      navigation.navigate('Calendar');
   };
 
   return (

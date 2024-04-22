@@ -10,7 +10,8 @@ const HomePage = ( { navigation }) => {
         <View style={ styles.button }>
         <TouchableOpacity
             onPress={() => {
-              navigation.navigate('CreateWorkout')
+              const theBigOne = new Date();
+              navigation.navigate('CreateWorkout', {day: theBigOne.toISOString().split('T')[0].toString(), time: theBigOne})
             }}
             style={styles.logButton}>
             <Text style={styles.buttonTitle}>Log a Workout</Text>
@@ -58,8 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderWidth: 2,
-    paddingTop: '2.5%', 
-    paddingBottom: '2.5%'
+    justifyContent: 'center'
   },
   viewButton: {
     height: 50,
@@ -68,8 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderWidth: 2,
-    paddingTop: '2.5%', 
-    paddingBottom: '2.5%'
+    justifyContent: 'center'
   },
   welcome: {
     paddingTop: '2.5%', 

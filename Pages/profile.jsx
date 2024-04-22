@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
 
 
-let currentIpAddress = '172.20.10.14:5000';
+let currentIpAddress = '172.20.10.11:5000';
 
 export default function Profile({ navigation }) {
 
@@ -263,8 +263,7 @@ const styles = StyleSheet.create({
       borderColor: 'green',
       backgroundColor: 'white',
       alignItems: 'center',
-      paddingTop: '2.5%',
-      paddingBottom: '2.5%'
+      justifyContent: 'center'
     },
     buttonText: {
       fontSize: 20,
